@@ -1,0 +1,171 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title = 'Jamal & Gabriela', description = "We're getting married — December 18, 2026" } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content={description} />
+  <title>{title} | J &amp; G Wedding</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Italianno&family=Jost:wght@300;400;500&family=Pinyon+Script&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- ── Sticky Nav ── -->
+  <div class="site-nav-wrap">
+    <div class="nav-inner">
+      <span class="nav-brand" id="navBrand">The Bustos</span>
+
+      <ul class="nav-links" role="list">
+        <li><a class="nav-link" href={`${base}/`}>Home</a></li>
+        <li><a class="nav-link" href={`${base}/#venues`}>Ceremony &amp; Reception</a></li>
+        <li><a class="nav-link" href={`${base}/#wedding-party`}>Wedding Party</a></li>
+        <li><a class="nav-link" href={`${base}/#dress-code`}>Dress Code</a></li>
+        <li><a class="nav-link" href={`${base}/#where-to-stay`}>Travel</a></li>
+        <li><a class="nav-link" href={`${base}/#gallery`}>Gallery</a></li>
+        <li><a class="nav-link" href={`${base}/#rsvp`}>RSVP</a></li>
+        <li><a class="nav-link" href={`${base}/#faq`}>FAQ</a></li>
+        <li><a class="nav-link" href={`${base}/#gifts`}>Gifts</a></li>
+      </ul>
+
+      <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+
+    <!-- Mobile dropdown -->
+    <nav id="mobileMenu" class="nav-mobile-menu" aria-label="Mobile navigation">
+      <a href={`${base}/`}>Home</a>
+      <a href={`${base}/#venues`}>Ceremony &amp; Reception</a>
+      <a href={`${base}/#wedding-party`}>Wedding Party</a>
+      <a href={`${base}/#dress-code`}>Dress Code</a>
+      <a href={`${base}/#where-to-stay`}>Travel</a>
+      <a href={`${base}/#gallery`}>Gallery</a>
+      <a href={`${base}/#rsvp`}>RSVP</a>
+      <a href={`${base}/#faq`}>FAQ</a>
+      <a href={`${base}/#gifts`}>Gifts</a>
+    </nav>
+  </div>
+
+  <main>
+    <slot />
+  </main>
+
+  <footer class="site-footer">
+    <p class="footer-names">Jamal &amp; Gabriela</p>
+    <p class="footer-date">December 18, 2026 · McAllen, TX</p>
+  </footer>
+
+  <!-- ── Lightbox (shared, populated by gallery JS) ── -->
+  <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
+    <button class="lb-close" id="lbClose" aria-label="Close lightbox">&#215;</button>
+    <img class="lb-img" id="lbImg" src="" alt="" />
+  </div>
+
+  <script>
+    // ── Nav Brand reveal via IntersectionObserver ──
+    const brand = document.getElementById('navBrand');
+    const hero  = document.querySelector('.hero');
+    if (brand && hero) {
+      const obs = new IntersectionObserver(
+        ([entry]) => {
+          brand.classList.toggle('visible', !entry.isIntersecting);
+        },
+        { threshold: 0.05 }
+      );
+      obs.observe(hero);
+    }
+
+    // ── Active nav link via IntersectionObserver ──
+    const sections = document.querySelectorAll('section[id], div[id].hero');
+    const navLinks  = document.querySelectorAll('.nav-link');
+
+    const sectionIds = ['venues','wedding-party','dress-code','where-to-stay','gallery','rsvp','faq','gifts'];
+    const sectionMap = new Map();
+    sectionIds.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) sectionMap.set(el, id);
+    });
+
+    const linkMap = new Map();
+    navLinks.forEach(link => {
+      const hash = new URL(link.href, location.href).hash.slice(1);
+      if (hash) linkMap.set(hash, link);
+    });
+
+    const sectionObs = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          const id = sectionMap.get(entry.target);
+          const link = id && linkMap.get(id);
+          if (link) link.classList.toggle('active', entry.isIntersecting);
+        });
+      },
+      { rootMargin: '-40% 0px -55% 0px' }
+    );
+    sectionMap.forEach((id, el) => sectionObs.observe(el));
+
+    // ── Mobile hamburger ──
+    const toggle = document.querySelector('.nav-toggle');
+    const menu   = document.getElementById('mobileMenu');
+    if (toggle && menu) {
+      toggle.addEventListener('click', () => {
+        const open = menu.classList.toggle('open');
+        toggle.setAttribute('aria-expanded', String(open));
+        toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      });
+      // close on link click
+      menu.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', () => {
+          menu.classList.remove('open');
+          toggle.setAttribute('aria-expanded', 'false');
+          toggle.setAttribute('aria-label', 'Open menu');
+        });
+      });
+    }
+
+    // ── Lightbox ──
+    const lb    = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lbImg') as HTMLImageElement | null;
+    const lbClose = document.getElementById('lbClose');
+
+    function openLightbox(src: string, alt: string) {
+      if (!lb || !lbImg) return;
+      lbImg.src = src;
+      lbImg.alt = alt;
+      lb.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox() {
+      if (!lb || !lbImg) return;
+      lb.classList.remove('open');
+      lbImg.src = '';
+      document.body.style.overflow = '';
+    }
+
+    if (lbClose) lbClose.addEventListener('click', closeLightbox);
+    if (lb) {
+      lb.addEventListener('click', e => { if (e.target === lb) closeLightbox(); });
+      document.addEventListener('keydown', e => {
+        if (e.key === 'Escape' && lb.classList.contains('open')) closeLightbox();
+      });
+    }
+
+    // Expose globally for gallery items
+    (window as any).__openLightbox = openLightbox;
+  </script>
+
+</body>
+</html>

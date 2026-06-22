@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm --version)",
+      "PowerShell($env:PATH -split ';' | Where-Object { $_ -match 'node|nvm|npm' })",
+      "Bash(npm run *)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" \"http://localhost:4321/wedding-site/styles/global.css\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" \"http://localhost:4321/styles/global.css\")",
+      "Bash(curl -s \"http://localhost:4321/wedding-site/\")",
+      "Bash(curl -s \"http://localhost:4321/wedding-site/styles/global.css\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" \"http://localhost:4321/wedding-site/\")",
+      "PowerShell(Get-NetTCPConnection *)",
+      "Bash(npx astro *)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:4321/wedding-site/)",
+      "PowerShell(Start-Process -FilePath \"npm\" -ArgumentList \"run\",\"dev\",\"--\",\"--host\" -WorkingDirectory \"C:\\\\Users\\\\jkinard\\\\Desktop\\\\wedding-site\" -WindowStyle Hidden; Start-Sleep -Seconds 6; $result = Invoke-WebRequest -Uri \"http://localhost:4321/wedding-site\" -UseBasicParsing -TimeoutSec 5 -ErrorAction SilentlyContinue; if \\($result\\) { \"OK: $\\($result.StatusCode\\)\" } else { \"Checking 4322...\"; $r2 = Invoke-WebRequest -Uri \"http://localhost:4322/wedding-site\" -UseBasicParsing -TimeoutSec 5 -ErrorAction SilentlyContinue; if \\($r2\\) { \"OK: $\\($r2.StatusCode\\) on 4322\" } else { \"Server still starting\" } })",
+      "PowerShell($r = Invoke-WebRequest -Uri \"http://localhost:4321/wedding-site\" -UseBasicParsing -TimeoutSec 5; $body = $r.Content; $checks = @{ \"Pinyon Script font\" = $body -match \"Pinyon\\\\+Script\"; \"No Herr Von\" = -not \\($body -match \"Herr\\\\+Von\"\\); \"end-photo-section\" = $body -match \"end-photo-section\"; \"christmas-divider-img\" = $body -match \"christmas-divider-img\"; \"no pine SVG\" = -not \\($body -match \"x1=`\"6`\" y1=`\"18`\"\"\\) }; $checks.GetEnumerator\\(\\) | ForEach-Object { \"$\\($_.Key\\): $\\($_.Value\\)\" })",
+      "PowerShell(Start-Sleep -Seconds 2; $r = Invoke-WebRequest -Uri \"http://localhost:4321/wedding-site\" -UseBasicParsing -TimeoutSec 8 -ErrorAction SilentlyContinue; if \\($r\\) { $b = $r.Content; $checks = [ordered]@{ \"Italianno font\" = $b -match \"Italianno\"; \"site-title\" = $b -match \"site-title\"; \"header-top-bar\" = $b -match \"header-top-bar\"; \"header-monogram\" = $b -match \"header-monogram\"; \"Ceremony nav link\" = $b -match '/#ceremony'; \"Reception nav link\" = $b -match '/#reception'; \"Travel nav link\" = $b -match '/#where-to-stay'; \"id=ceremony anchor\" = $b -match 'id=\"ceremony\"'; \"id=reception anchor\" = $b -match 'id=\"reception\"'; \"No hero-monogram img\" = -not \\($b -match 'class=\"hero-monogram\"'\\) }; $checks.GetEnumerator\\(\\) | % { \"$\\($_.Key\\): $\\($_.Value\\)\" } } else { \"Server not responding\" })",
+      "PowerShell($html = \\(Invoke-WebRequest -Uri \"http://localhost:4321/wedding-site/\" -UseBasicParsing\\).Content; @\\(\"hero-slide\", \"nav-brand\", \"section-divider\", \"dress-code\", \"gallery-grid\", \"rsvp-iframe\", \"end-photo-img\", \"Lizeth Reyna\"\\) | ForEach-Object { if \\($html -match $_\\) { \"FOUND: $_\" } else { \"MISSING: $_\" } })",
+      "PowerShell($html = \\(Invoke-WebRequest -Uri \"http://localhost:4321/wedding-site/\" -UseBasicParsing\\).Content; $reynaPos = $html.IndexOf\\(\"Lizeth Reyna\"\\); $sanchezPos = $html.IndexOf\\(\"Alexiz Sanchez\"\\); $trevinoPos = $html.IndexOf\\(\"Claryssa Trevino\"\\); $vasquezPos = $html.IndexOf\\(\"Sarah Vasquez\"\\); \"Reyna:$reynaPos Sanchez:$sanchezPos Trevino:$trevinoPos Vasquez:$vasquezPos \\(ascending = correct\\)\"; $lbPos = $html.IndexOf\\(\"lightbox\"\\); \"Lightbox found: $\\($lbPos -gt 0\\)\")",
+      "PowerShell($html = \\(Invoke-WebRequest -Uri \"http://localhost:4321/wedding-site/\" -UseBasicParsing -TimeoutSec 10\\).Content; @\\(\"min-width: 250px\", \"250px\", \"#1a2e1a\"\\) | ForEach-Object { if \\($html -match [regex]::Escape\\($_\\)\\) { \"FOUND in HTML: $_\" } else { \"NOT IN HTML: $_\" } })",
+      "PowerShell(Get-NetIPAddress -AddressFamily IPv4 | Where-Object { $_.InterfaceAlias -notmatch \"Loopback\" -and $_.IPAddress -notmatch \"^169\" } | Select-Object IPAddress, InterfaceAlias | Format-Table -AutoSize)",
+      "PowerShell(Get-Process *)",
+      "PowerShell(Get-NetIPAddress -AddressFamily IPv4 | Where-Object { $_.InterfaceAlias -match \"Wi-Fi\" } | Select-Object -ExpandProperty IPAddress)"
+    ]
+  }
+}

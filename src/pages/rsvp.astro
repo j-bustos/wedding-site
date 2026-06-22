@@ -1,0 +1,48 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+---
+<PageLayout title="RSVP" description="Kindly respond by November 1, 2026">
+  <p>Please reply by <strong>November 1, 2026</strong> so we can finalize seating and catering arrangements. We can't wait to celebrate with you.</p>
+
+  <form class="rsvp-form" name="rsvp" method="POST" action="#">
+    <div class="form-group">
+      <label for="name">Full Name</label>
+      <input type="text" id="name" name="name" placeholder="Your full name" required />
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" placeholder="your@email.com" required />
+    </div>
+
+    <div class="form-group">
+      <label for="guests">Number of Guests</label>
+      <select id="guests" name="guests">
+        <option value="1">1 – Just me</option>
+        <option value="2">2 – Me and my plus-one</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="attending">Will you be attending?</label>
+      <select id="attending" name="attending">
+        <option value="yes">Joyfully accepts</option>
+        <option value="no">Regretfully declines</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="dietary">Dietary Restrictions</label>
+      <textarea id="dietary" name="dietary" rows="3" placeholder="Allergies, preferences, etc."></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="song">Song Request</label>
+      <input type="text" id="song" name="song" placeholder="What song gets you on the dance floor?" />
+    </div>
+
+    <button type="submit" class="btn-primary">Send Reply</button>
+  </form>
+</PageLayout>
