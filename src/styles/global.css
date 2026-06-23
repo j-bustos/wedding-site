@@ -342,7 +342,33 @@ input, select, textarea { text-align: left; }
 .section-ornament span { font-size: 0.5rem; flex-shrink: 0; }
 
 /* ════════════════════════════════════════
-   SECTION DIVIDER (monogram + rule)
+   SECTION RULE (plain thin line)
+   ════════════════════════════════════════ */
+.section-rule {
+  border: none;
+  border-top: 1px solid rgba(26, 46, 26, 0.18);
+  margin: 0;
+}
+
+/* ════════════════════════════════════════
+   WELCOME STRIP
+   ════════════════════════════════════════ */
+.welcome-strip {
+  padding: 4rem 2rem;
+  text-align: center;
+}
+.welcome-text {
+  font-family: var(--font-accent);
+  font-style: italic;
+  font-size: clamp(1.1rem, 2.2vw, 1.5rem);
+  color: var(--green-deep);
+  max-width: 580px;
+  margin: 0 auto;
+  line-height: 1.75;
+}
+
+/* ════════════════════════════════════════
+   SECTION DIVIDER (monogram + rule) — legacy, kept for hero use
    ════════════════════════════════════════ */
 .section-divider {
   position: relative;
