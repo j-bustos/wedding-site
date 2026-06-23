@@ -2,10 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
-// Hero carousel photos (all 3 available in /public/photos/hero/)
-// Note: 3_251220-gj-66.jpeg lives in /public/photos/Gallery/ — using 7_251220-gj-74.jpg as slide 2 instead.
 const heroSlides = [
-  `${base}/photos/hero/1_251220-gj-50.jpg`,
   `${base}/photos/hero/7_251220-gj-74.jpg`,
   `${base}/photos/hero/4_251220-gj-92.jpeg`,
 ];
@@ -160,16 +157,13 @@ const galleryImages = [
       <div class="section-ornament"><span>✦</span></div>
       <div class="party-layout">
 
-        <!-- Couple -->
-        <div class="party-couple">
-          <div class="party-couple-half">
-            <p class="party-role-label">Groom</p>
-            <p class="party-couple-name">Jamal Bustos</p>
-          </div>
-          <div class="party-couple-half">
-            <p class="party-role-label">Bride</p>
-            <p class="party-couple-name">Gabriela Pedraza</p>
-          </div>
+        <!-- Bride & Groom -->
+        <div class="party-group">
+          <p class="party-role-label">Bride &amp; Groom</p>
+          <ul class="party-name-list">
+            <li>Jamal Bustos</li>
+            <li>Gabriela Pedraza</li>
+          </ul>
         </div>
 
         <!-- Parents -->
@@ -264,11 +258,6 @@ const galleryImages = [
       </div>
     </div>
   </section>
-
-  <!-- Christmas accent #1 (between Wedding Party & Dress Code) -->
-  <div class="christmas-accent" role="separator" aria-hidden="true">
-    <img src={`${base}/photos/Christmas Detail/Untitled design (2).png`} alt="" />
-  </div>
 
   <!-- ════════════════════════════════
        3. DRESS CODE (cream)
@@ -387,11 +376,11 @@ const galleryImages = [
         </div>
 
         <div class="hotel-card">
-          <p class="hotel-name">Tru by Hilton<br />Edinburg</p>
-          <p class="hotel-location">Edinburg, TX</p>
+          <p class="hotel-name">Home2 Suites by Hilton<br />McAllen</p>
+          <p class="hotel-location">McAllen, TX</p>
           <a
             class="btn-hotel"
-            href="https://www.hilton.com/en/hotels/mfeebru-tru-edinburg/?SEO_id=GMB-AMER-RU-MFEEBRU&y_source=1_MTQ5MzAzOTktNzE1LWxvY2F0aW9uLndlYnNpdGU%3D"
+            href="https://www.hilton.com/en/hotels/mfemahu-home2-suites-mcallen/"
             target="_blank" rel="noopener noreferrer"
           >Check Availability</a>
         </div>
@@ -399,11 +388,6 @@ const galleryImages = [
       </div>
     </div>
   </section>
-
-  <!-- Christmas accent #2 (between Where to Stay & Gallery) -->
-  <div class="christmas-accent" role="separator" aria-hidden="true">
-    <img src={`${base}/photos/Christmas Detail/Untitled design (2).png`} alt="" />
-  </div>
 
   <!-- ════════════════════════════════
        6. GALLERY (white)
@@ -434,17 +418,13 @@ const galleryImages = [
       <h2 class="section-heading">RSVP</h2>
       <div class="section-ornament"><span>✦</span></div>
       <p class="rsvp-sub">Kindly reply by November 1, 2026</p>
-      <div class="rsvp-embed">
-        <!-- PASTE GOOGLE FORM EMBED SRC HERE -->
-        <iframe
-          src=""
-          frameborder="0"
-          class="rsvp-iframe"
-          title="RSVP Form"
-          marginheight="0"
-          marginwidth="0"
-        >Loading…</iframe>
-      </div>
+      <!-- Replace href below with your Google Form URL when ready -->
+      <a
+        class="cashapp-btn"
+        href="#"
+        target="_blank"
+        rel="noopener noreferrer"
+      >RSVP Now</a>
     </div>
   </section>
 
@@ -455,7 +435,7 @@ const galleryImages = [
 
   <section id="faq" class="section section-white">
     <div class="section-inner">
-      <h2 class="section-heading">Questions</h2>
+      <h2 class="section-heading">FAQ</h2>
       <div class="section-ornament"><span>✦</span></div>
       <div class="faq-list">
 
