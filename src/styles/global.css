@@ -215,7 +215,7 @@ input, select, textarea { text-align: left; }
 }
 
 .hero-title {
-  font-family: var(--font-handwriting);
+  font-family: 'Mrs Saint Delafield', cursive;
   font-size: clamp(5rem, 13vw, 10.5rem);
   color: var(--cream);
   line-height: 0.9;
