@@ -80,14 +80,30 @@ const galleryImages = [
   </div>
 
   <!-- ── Welcome strip ── -->
-  <div class="welcome-strip section-cream">
+  <div class="welcome-strip section-dark">
     <p class="welcome-text">We can't wait to celebrate with you. Here's everything you need to know.</p>
   </div>
 
+  <!-- ── Quote section ── -->
+  <div class="quote-section">
+    <div class="quote-inner">
+      <blockquote class="quote-text-block">
+        <p>"A dream wedding, close to home and close to the heart."</p>
+      </blockquote>
+      <div class="quote-polaroids">
+        <div class="quote-polaroid quote-polaroid--a">
+          <img src={`${base}/photos/Gallery/3_251220-gj-66.jpeg`} alt="Jamal and Gabriela" loading="lazy" />
+        </div>
+        <div class="quote-polaroid quote-polaroid--b">
+          <img src={`${base}/photos/Gallery/5_251220-gj-73.jpg`} alt="Jamal and Gabriela" loading="lazy" />
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- ════════════════════════════════
-       1. CEREMONY & RECEPTION (cream)
+       1. CEREMONY & RECEPTION (light linen)
        ════════════════════════════════ -->
-  <hr class="section-rule" aria-hidden="true" />
 
   <section id="venues" class="section section-cream">
     <div class="section-inner-wide">
@@ -147,9 +163,8 @@ const galleryImages = [
   </section>
 
   <!-- ════════════════════════════════
-       2. WEDDING PARTY (white)
+       2. WEDDING PARTY (light linen)
        ════════════════════════════════ -->
-  <hr class="section-rule" aria-hidden="true" />
 
   <section id="wedding-party" class="section section-white">
     <div class="section-inner-wide">
@@ -260,9 +275,8 @@ const galleryImages = [
   </section>
 
   <!-- ════════════════════════════════
-       3. DRESS CODE (cream)
+       3. DRESS CODE (light linen)
        ════════════════════════════════ -->
-  <hr class="section-rule" aria-hidden="true" />
 
   <section id="dress-code" class="section section-cream">
     <div class="section-inner">
@@ -276,9 +290,8 @@ const galleryImages = [
   </section>
 
   <!-- ════════════════════════════════
-       4. TIMELINE (white)
+       4. TIMELINE (light linen)
        ════════════════════════════════ -->
-  <hr class="section-rule" aria-hidden="true" />
 
   <section id="timeline" class="section section-white">
     <div class="section-inner">
@@ -335,9 +348,8 @@ const galleryImages = [
   </section>
 
   <!-- ════════════════════════════════
-       5. WHERE TO STAY (cream)
+       5. WHERE TO STAY (light linen)
        ════════════════════════════════ -->
-  <hr class="section-rule" aria-hidden="true" />
 
   <section id="where-to-stay" class="section section-cream">
     <div class="section-inner-wide">
@@ -390,9 +402,8 @@ const galleryImages = [
   </section>
 
   <!-- ════════════════════════════════
-       6. GALLERY (white)
+       6. GALLERY (light linen)
        ════════════════════════════════ -->
-  <hr class="section-rule" aria-hidden="true" />
 
   <section id="gallery" class="section section-white">
     <div class="section-inner-wide">
@@ -409,9 +420,8 @@ const galleryImages = [
   </section>
 
   <!-- ════════════════════════════════
-       7. RSVP (cream)
+       7. RSVP (light linen)
        ════════════════════════════════ -->
-  <hr class="section-rule" aria-hidden="true" />
 
   <section id="rsvp" class="section section-cream">
     <div class="section-inner">
@@ -429,11 +439,10 @@ const galleryImages = [
   </section>
 
   <!-- ════════════════════════════════
-       8. FAQ (white)
+       8. FAQ (dark green)
        ════════════════════════════════ -->
-  <hr class="section-rule" aria-hidden="true" />
 
-  <section id="faq" class="section section-white">
+  <section id="faq" class="section section-dark">
     <div class="section-inner">
       <h2 class="section-heading">FAQ</h2>
       <div class="section-ornament"><span>✦</span></div>
@@ -476,9 +485,8 @@ const galleryImages = [
   </section>
 
   <!-- ════════════════════════════════
-       9. GIFTS (cream)
+       9. GIFTS (light linen)
        ════════════════════════════════ -->
-  <hr class="section-rule" aria-hidden="true" />
 
   <section id="gifts" class="section section-cream">
     <div class="gifts-inner">
@@ -502,6 +510,28 @@ const galleryImages = [
       <span class="cashapp-handle">$JamalAndGabbie</span>
     </div>
   </section>
+
+  <!-- ── Botanical Accent ── -->
+  <div class="botanical-accent" aria-hidden="true">
+    <svg width="80" height="120" viewBox="0 0 80 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M40 118 C39 100 38 85 40 68 C42 52 41 38 40 20" stroke="#8B6B3D" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+      <path d="M40 80 Q24 72 20 60 Q28 62 40 72" fill="#6b8f71" opacity="0.65"/>
+      <path d="M40 65 Q56 57 60 45 Q52 48 40 58" fill="#6b8f71" opacity="0.65"/>
+      <path d="M40 88 Q30 84 26 78" stroke="#8B6B3D" stroke-width="0.9" fill="none" stroke-linecap="round"/>
+      <path d="M40 73 Q50 67 54 60" stroke="#8B6B3D" stroke-width="0.9" fill="none" stroke-linecap="round"/>
+      <circle cx="40" cy="20" r="6" fill="#c4a060"/>
+      <ellipse cx="40" cy="8" rx="4.5" ry="8" fill="#b8705a" opacity="0.8"/>
+      <ellipse cx="40" cy="32" rx="4.5" ry="8" fill="#b8705a" opacity="0.8"/>
+      <ellipse cx="29" cy="14" rx="8" ry="4.5" fill="#b8705a" opacity="0.8"/>
+      <ellipse cx="51" cy="14" rx="8" ry="4.5" fill="#b8705a" opacity="0.8"/>
+      <ellipse cx="31.5" cy="27.5" rx="7" ry="4" fill="#c4a060" opacity="0.7" transform="rotate(-45 31.5 27.5)"/>
+      <ellipse cx="48.5" cy="27.5" rx="7" ry="4" fill="#c4a060" opacity="0.7" transform="rotate(45 48.5 27.5)"/>
+      <ellipse cx="32" cy="12" rx="7" ry="4" fill="#c4a060" opacity="0.7" transform="rotate(45 32 12)"/>
+      <ellipse cx="48" cy="12" rx="7" ry="4" fill="#c4a060" opacity="0.7" transform="rotate(-45 48 12)"/>
+      <circle cx="26" cy="78" r="3" fill="#b8705a" opacity="0.7"/>
+      <circle cx="54" cy="60" r="3" fill="#b8705a" opacity="0.7"/>
+    </svg>
+  </div>
 
   <!-- ════════════════════════════════
        END PHOTO — full image, no crop
