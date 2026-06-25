@@ -68,12 +68,11 @@ input, select, textarea { text-align: left; }
   position: relative;
 }
 
-/* "The Bustos" — hidden until past hero */
+/* Monogram + "J & G" — hidden until past hero */
 .nav-brand {
-  font-family: var(--font-accent);
-  font-style: italic;
-  font-size: 20px;
-  color: var(--green-deep);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   white-space: nowrap;
   flex-shrink: 0;
   opacity: 0;
@@ -85,6 +84,18 @@ input, select, textarea { text-align: left; }
   opacity: 1;
   pointer-events: auto;
   transform: translateY(0);
+}
+.nav-mono {
+  height: 30px;
+  width: auto;
+  display: block;
+  filter: brightness(0) sepia(1) hue-rotate(80deg) saturate(2) brightness(0.45);
+}
+.nav-brand-text {
+  font-family: var(--font-accent);
+  font-style: italic;
+  font-size: 20px;
+  color: var(--green-deep);
 }
 
 /* Desktop links */
@@ -290,6 +301,24 @@ input, select, textarea { text-align: left; }
   text-transform: uppercase;
   color: rgba(240, 230, 200, 0.55);
 }
+
+.hero-rsvp-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
+  padding: 14px 40px;
+  background: var(--green-deep);
+  color: var(--cream);
+  font-family: var(--font-sans);
+  font-variant-caps: small-caps;
+  letter-spacing: 0.1em;
+  font-size: 0.82rem;
+  border-radius: 6px;
+  min-height: 44px;
+  transition: filter 0.2s var(--ease);
+}
+.hero-rsvp-btn:hover { filter: brightness(1.25); }
 
 /* Scroll indicator */
 .hero-scroll {
@@ -522,7 +551,7 @@ input, select, textarea { text-align: left; }
 }
 
 /* ════════════════════════════════════════
-   VENUE / CEREMONY & RECEPTION — POLAROID
+   VENUE / CEREMONY & RECEPTION — CARDS
    ════════════════════════════════════════ */
 .venues-grid {
   display: grid;
@@ -534,93 +563,103 @@ input, select, textarea { text-align: left; }
 .venue-card {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  background-color: #e8e0d0;
+  background-image: var(--linen-texture);
+  background-size: 300px 300px;
+  box-shadow: 0 4px 24px rgba(30, 58, 47, 0.12), 0 1px 4px rgba(30, 58, 47, 0.06);
+  border-radius: 8px;
+  overflow: hidden;
   text-align: center;
   scroll-margin-top: var(--nav-h);
 }
 
-/* Polaroid frame */
-.venue-photo-frame {
-  position: relative;
-  background: #fff;
-  padding: 10px 10px 35px;
-  box-shadow:
-    0 6px 20px rgba(0, 0, 0, 0.18),
-    0 2px 6px rgba(0, 0, 0, 0.08);
-  width: 100%;
-  margin-bottom: 2rem;
-  display: block;
+.venue-card-body {
+  padding: 2rem 1.75rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.45rem;
+  flex: 1;
 }
 
-/* Washi tape strip */
-.venue-photo-frame::before {
-  content: '';
-  position: absolute;
-  top: -9px;
-  left: 50%;
-  width: 60px;
-  height: 14px;
-  background: rgba(138, 158, 138, 0.85);
-  z-index: 3;
+.venue-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
 }
 
-/* Polaroid rotations + per-venue washi tape angle */
-#ceremony .venue-photo-frame              { transform: rotate(-1.5deg); }
-#ceremony .venue-photo-frame::before      { transform: translateX(-50%) rotate(-3deg); }
-#reception .venue-photo-frame             { transform: rotate(1.5deg); }
-#reception .venue-photo-frame::before     { transform: translateX(-50%) rotate(2deg); }
-
-.venue-photo-img {
-  width: 100%;
-  aspect-ratio: 4/3;
-  object-fit: contain;
-  display: block;
-  mix-blend-mode: multiply;
-}
+.venue-icon { flex-shrink: 0; }
 
 .venue-label {
   font-family: var(--font-sans);
-  font-size: 0.62rem;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
+  font-size: 0.7rem;
+  font-variant-caps: small-caps;
+  letter-spacing: 0.22em;
   color: var(--green-deep);
-  opacity: 0.7;
-  margin-bottom: 0.4rem;
+  opacity: 0.8;
 }
 
-.venue-name {
+.venue-time {
   font-family: var(--font-accent);
   font-style: italic;
-  font-size: clamp(1.4rem, 5vw, 2rem);
+  font-size: 1rem;
   color: var(--green-deep);
-  line-height: 1.05;
-  margin-bottom: 0.75rem;
+  opacity: 0.7;
+}
+
+.venue-name-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+}
+
+.venue-pin { flex-shrink: 0; margin-top: 1px; }
+
+.venue-name {
+  font-family: var(--font-serif);
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  color: var(--green-deep);
+  line-height: 1.1;
 }
 
 .venue-address {
-  font-family: var(--font-accent);
-  font-size: 1rem;
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
   color: var(--ink-soft);
-  line-height: 1.7;
-  margin-bottom: 1.25rem;
+  line-height: 1.65;
+  margin-top: 0.2rem;
+  margin-bottom: 0.5rem;
 }
 
 .btn-directions {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
   padding: 0.65rem 1.75rem;
   border: 1.5px solid var(--green-deep);
   color: var(--green-deep);
-  background: transparent;
+  background: var(--cream);
   font-family: var(--font-sans);
   font-size: 0.67rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
+  border-radius: 3px;
   min-height: 44px;
-  display: inline-flex;
-  align-items: center;
   transition: background 0.2s var(--ease), color 0.2s var(--ease);
 }
 .btn-directions:hover { background: var(--green-deep); color: var(--cream); }
+
+.venue-card-img-wrap { margin-top: auto; }
+
+.venue-photo-img {
+  width: 100%;
+  height: 220px;
+  object-fit: contain;
+  background: rgba(255, 255, 255, 0.75);
+  display: block;
+}
 
 /* ════════════════════════════════════════
    WEDDING PARTY
@@ -799,6 +838,26 @@ input, select, textarea { text-align: left; }
   opacity: 0.55;
 }
 
+.dress-card {
+  background-color: #e8e0d0;
+  background-image: var(--linen-texture);
+  background-size: 300px 300px;
+  box-shadow: 0 4px 24px rgba(30, 58, 47, 0.1), 0 1px 4px rgba(30, 58, 47, 0.06);
+  border-radius: 8px;
+  padding: 2.5rem 2.5rem 2rem;
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}
+.dress-subtitle {
+  font-family: var(--font-accent);
+  font-style: italic;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  color: var(--green-deep);
+  margin-bottom: 1rem;
+  opacity: 0.85;
+}
+
 /* ════════════════════════════════════════
    TIMELINE
    ════════════════════════════════════════ */
@@ -868,60 +927,133 @@ input, select, textarea { text-align: left; }
 }
 
 /* ════════════════════════════════════════
-   TRAVEL / WHERE TO STAY
+   TRAVEL & ACCOMMODATIONS
    ════════════════════════════════════════ */
-.hotels-grid {
+.travel-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.5rem;
-  max-width: 860px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.75rem;
+  max-width: var(--max-w-wide);
   margin: 0 auto;
 }
-.hotel-card {
-  border: 1px solid rgba(30, 58, 47, 0.15);
-  padding: 1.75rem 1.5rem 1.5rem;
+
+.travel-card {
+  background-color: #e8e0d0;
+  background-image: var(--linen-texture);
+  background-size: 300px 300px;
+  box-shadow: 0 4px 20px rgba(30, 58, 47, 0.1), 0 1px 4px rgba(30, 58, 47, 0.05);
+  border-radius: 8px;
+  padding: 2rem 1.75rem;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
-  background: rgba(255, 255, 255, 0.82);
-  transition: border-color 0.2s var(--ease);
+  align-items: flex-start;
+  text-align: left;
 }
-.hotel-card:hover { border-color: rgba(30, 58, 47, 0.35); }
-.hotel-name {
-  font-family: var(--font-accent);
-  font-size: 1.05rem;
-  font-weight: 400;
-  font-style: italic;
-  color: var(--ink);
-  line-height: 1.45;
-  margin-bottom: 0.25rem;
-}
-.hotel-location {
+
+.travel-icon { margin-bottom: 1rem; flex-shrink: 0; }
+
+.travel-card-heading {
   font-family: var(--font-sans);
-  font-size: 0.7rem;
-  letter-spacing: 0.1em;
+  font-size: 0.72rem;
+  font-variant-caps: small-caps;
+  letter-spacing: 0.22em;
+  color: var(--green-deep);
+  margin-bottom: 1rem;
+}
+
+.travel-card-text {
+  font-family: var(--font-sans);
+  font-size: 0.92rem;
+  color: var(--ink-soft);
+  line-height: 1.75;
+}
+
+.travel-airports {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.travel-primary-airport {
+  font-family: var(--font-accent);
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--green-deep);
+  line-height: 1.4;
+}
+
+.travel-iata {
+  font-family: var(--font-sans);
+  font-style: normal;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
   color: var(--green-deep);
   opacity: 0.65;
-  margin-bottom: 0.25rem;
 }
-.btn-hotel {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 1rem;
-  padding: 0.65rem 1.4rem;
-  background: var(--green-deep);
-  color: var(--cream);
+
+.travel-alt {
   font-family: var(--font-sans);
-  font-size: 0.64rem;
-  letter-spacing: 0.18em;
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  min-height: 44px;
-  border: none;
-  transition: filter 0.2s var(--ease);
+  color: var(--green-deep);
+  opacity: 0.5;
+  margin-top: 0.75rem;
+  margin-bottom: 0.2rem;
 }
-.btn-hotel:hover { filter: brightness(1.25); }
+
+.travel-secondary-airport {
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+
+.hotel-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.hotel-list-item:not(:last-child) {
+  border-bottom: 1px solid rgba(30, 58, 47, 0.12);
+}
+
+.hotel-list-link {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  padding: 0.75rem 0;
+  color: var(--green-deep);
+  transition: opacity 0.15s;
+}
+.hotel-list-link:hover { opacity: 0.7; }
+
+.hotel-list-name {
+  font-family: var(--font-accent);
+  font-style: italic;
+  font-size: 0.97rem;
+  color: var(--green-deep);
+  line-height: 1.35;
+}
+
+.hotel-list-city {
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  color: var(--green-deep);
+  opacity: 0.5;
+  letter-spacing: 0.06em;
+}
+
+.hotel-list-book {
+  font-family: var(--font-sans);
+  font-size: 0.63rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #b5654a;
+  margin-top: 0.15rem;
+}
 
 /* ════════════════════════════════════════
    GALLERY + LIGHTBOX
@@ -1182,17 +1314,55 @@ input, select, textarea { text-align: left; }
    FOOTER
    ════════════════════════════════════════ */
 .site-footer {
-  background: var(--white);
-  border-top: 1px solid rgba(30, 58, 47, 0.12);
+  background: var(--green-deep);
+  border-top: none;
   text-align: center;
-  padding: 1.75rem 2rem;
+  padding: 3.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
 }
-.footer-copy {
+.footer-mono {
+  height: 50px;
+  width: auto;
+  filter: brightness(0) invert(1);
+  opacity: 0.85;
+  margin-bottom: 0.5rem;
+}
+.footer-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  color: var(--cream);
+  line-height: 1;
+}
+.footer-date {
+  font-family: var(--font-accent);
+  font-style: italic;
+  font-size: 1.1rem;
+  color: var(--cream);
+  opacity: 0.75;
+}
+.footer-tagline {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  color: var(--cream);
+  opacity: 0.6;
+  letter-spacing: 0.04em;
+  margin-top: 0.35rem;
+}
+.footer-contact {
   font-family: var(--font-sans);
   font-size: 0.7rem;
-  letter-spacing: 0.08em;
-  color: var(--green-deep);
-  opacity: 0.55;
+  color: var(--cream);
+  opacity: 0.45;
+  margin-top: 0.75rem;
+  letter-spacing: 0.02em;
+}
+.footer-contact a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 /* ════════════════════════════════════════
@@ -1202,13 +1372,13 @@ input, select, textarea { text-align: left; }
   /* Nav */
   .nav-links { display: none; }
   .nav-toggle { display: flex; }
-  .nav-brand  { font-size: 20px; }
+  .nav-brand-text { font-size: 20px; }
 
   /* Sections */
   .section { padding: 4.5rem 1.25rem; }
 
   /* Venues */
-  .venues-grid { grid-template-columns: 1fr; gap: 3rem; }
+  .venues-grid { grid-template-columns: 1fr; gap: 2rem; }
 
   /* Wedding party */
   .party-couple         { grid-template-columns: 1fr; }
@@ -1220,8 +1390,8 @@ input, select, textarea { text-align: left; }
   .timeline-item    { grid-template-columns: 90px 1fr; }
   .timeline-dot-wrap { left: 90px; }
 
-  /* Hotels */
-  .hotels-grid { grid-template-columns: 1fr; }
+  /* Travel */
+  .travel-grid { grid-template-columns: 1fr; }
 
   /* Gallery */
   .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 0.5rem; }
