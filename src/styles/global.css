@@ -415,7 +415,7 @@ input, select, textarea { text-align: left; }
 #gallery                  { padding-top: 40px;  padding-bottom: 60px; }
 #rsvp                     { padding-top: 60px;  padding-bottom: 60px; }
 #faq                      { padding-top: 80px;  padding-bottom: 80px; }
-#gifts                    { padding-top: 60px;  padding-bottom: 60px; }
+#gifts                    { padding-top: 60px;  padding-bottom: 100px; }
 
 /* Full-bleed photo divider */
 .party-photo-divider {
@@ -885,8 +885,9 @@ input, select, textarea { text-align: left; }
   .wp-name--rb      { font-size: 1.0625rem; } /* 17px */
   .wp-role,
   .wp-side-label    { font-size: 0.6875rem; } /* 11px */
-  .wp-padrinos-grid   { grid-template-columns: 1fr 1fr; gap: 1.25rem 1.5rem; }
-  .wp-padrinos-heading { font-size: 1.25rem; } /* 20px */
+  .wp-padrinos-grid     { grid-template-columns: 1fr 1fr; gap: 1.25rem 1.5rem; }
+  .wp-padrinos-heading  { font-size: 1.25rem; } /* 20px */
+  .wp-padrino .wp-name  { font-size: 2.125rem; } /* 34px — doubled from 17px, below section-heading min */
 }
 
 /* ════════════════════════════════════════
@@ -1008,6 +1009,21 @@ input, select, textarea { text-align: left; }
   color: var(--ink);
   text-align: left;
 }
+.timeline-col {
+  padding-left: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+.timeline-col .timeline-event { padding-left: 0; }
+.timeline-desc {
+  font-family: var(--font-accent);
+  font-style: italic;
+  font-size: 0.9375rem; /* 15px */
+  color: #5a5a5a;
+  line-height: 1.6;
+  margin-top: 0.15rem;
+}
 
 /* ════════════════════════════════════════
    TRAVEL & ACCOMMODATIONS
@@ -1021,33 +1037,38 @@ input, select, textarea { text-align: left; }
 }
 
 .travel-card {
-  background-color: #ffffff;
-  background-image: none;
-  border: 1px solid rgba(30, 58, 47, 0.15);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  background-color: var(--green-deep);
+  background-image: radial-gradient(ellipse at 50% 30%, #243f34 0%, transparent 70%);
+  border: none;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.22), 0 12px 32px rgba(0, 0, 0, 0.14);
   border-radius: 8px;
   padding: 2rem 1.75rem;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   text-align: left;
+  color: var(--cream);
 }
 
 .travel-icon { margin-bottom: 1rem; flex-shrink: 0; }
+.travel-card .travel-icon [fill="#1e3a2f"] { fill: var(--cream); }
+.travel-card .travel-icon [stroke="#1e3a2f"] { stroke: var(--cream); }
 
 .travel-card-heading {
   font-family: var(--font-sans);
   font-size: 0.72rem;
   font-variant-caps: small-caps;
   letter-spacing: 0.22em;
-  color: var(--green-deep);
+  color: var(--cream);
+  opacity: 0.9;
   margin-bottom: 1rem;
 }
 
 .travel-card-text {
   font-family: var(--font-sans);
   font-size: 0.9375rem;
-  color: var(--ink-soft);
+  color: var(--cream);
+  opacity: 0.88;
   line-height: 1.75;
 }
 
@@ -1061,7 +1082,7 @@ input, select, textarea { text-align: left; }
   font-family: var(--font-accent);
   font-style: italic;
   font-size: 1rem;
-  color: var(--green-deep);
+  color: var(--cream);
   line-height: 1.4;
 }
 
@@ -1070,7 +1091,7 @@ input, select, textarea { text-align: left; }
   font-style: normal;
   font-size: 0.78rem;
   letter-spacing: 0.08em;
-  color: var(--green-deep);
+  color: var(--cream);
   opacity: 0.65;
 }
 
@@ -1079,8 +1100,8 @@ input, select, textarea { text-align: left; }
   font-size: 0.6875rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--green-deep);
-  opacity: 0.5;
+  color: var(--cream);
+  opacity: 0.55;
   margin-top: 0.75rem;
   margin-bottom: 0.2rem;
 }
@@ -1088,7 +1109,8 @@ input, select, textarea { text-align: left; }
 .travel-secondary-airport {
   font-family: var(--font-sans);
   font-size: 0.9375rem;
-  color: var(--ink-soft);
+  color: var(--cream);
+  opacity: 0.82;
   line-height: 1.5;
 }
 
@@ -1100,7 +1122,7 @@ input, select, textarea { text-align: left; }
 }
 
 .hotel-list-item:not(:last-child) {
-  border-bottom: 1px solid rgba(30, 58, 47, 0.12);
+  border-bottom: 1px solid rgba(240, 230, 200, 0.15);
 }
 
 .hotel-list-link {
@@ -1108,7 +1130,7 @@ input, select, textarea { text-align: left; }
   flex-direction: column;
   gap: 0.1rem;
   padding: 0.75rem 0;
-  color: var(--green-deep);
+  color: var(--cream);
   transition: opacity 0.15s;
 }
 .hotel-list-link:hover { opacity: 0.7; }
@@ -1117,30 +1139,43 @@ input, select, textarea { text-align: left; }
   font-family: var(--font-accent);
   font-style: italic;
   font-size: 0.97rem;
-  color: var(--green-deep);
+  color: var(--cream);
   line-height: 1.35;
 }
 
 .hotel-list-city {
   font-family: var(--font-sans);
   font-size: 0.6875rem;
-  color: var(--green-deep);
-  opacity: 0.5;
+  color: var(--cream);
+  opacity: 0.6;
   letter-spacing: 0.06em;
 }
 
 .hotel-list-book {
+  display: inline-block;
   font-family: var(--font-sans);
-  font-size: 0.6875rem;
-  letter-spacing: 0.12em;
+  font-size: 0.8125rem; /* 13px */
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #b5654a;
-  margin-top: 0.15rem;
+  color: var(--cream);
+  border: 1px solid rgba(240, 230, 200, 0.4);
+  border-radius: 20px;
+  padding: 6px 14px;
+  margin-top: 0.4rem;
 }
 
 /* ════════════════════════════════════════
    GALLERY + LIGHTBOX
    ════════════════════════════════════════ */
+.gallery-intro {
+  font-family: var(--font-accent);
+  font-style: italic;
+  font-size: 1.125rem; /* 18px */
+  color: #1e3a2f;
+  text-align: center;
+  margin-bottom: 1.5rem; /* 24px */
+}
+
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -1761,7 +1796,7 @@ input, select, textarea { text-align: left; }
 .rsvp-days {
   font-family: var(--font-accent);
   font-style: italic;
-  font-size: 0.95rem;
+  font-size: 1.9rem; /* doubled from 0.95rem */
   color: var(--ink-soft);
   margin-top: 0.35rem;
   margin-bottom: 2rem;

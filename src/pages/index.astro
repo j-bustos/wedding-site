@@ -3,8 +3,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 const heroSlides = [
-  `${base}/photos/hero/7_251220-gj-74.jpg`,
   `${base}/photos/hero/4_251220-gj-92.jpeg`,
+  `${base}/photos/hero/9_251220-gj-97.jpg`,
+  `${base}/photos/hero/11_251220-gj-102.jpg`,
 ];
 
 const galleryImages = [
@@ -13,9 +14,7 @@ const galleryImages = [
   { src: `${base}/photos/Gallery/5_251220-gj-73.jpg`,   alt: 'Jamal and Gabriela' },
   { src: `${base}/photos/Gallery/6_251220-gj-3.jpg`,    alt: 'Jamal and Gabriela' },
   { src: `${base}/photos/Gallery/8_251220-gj-75.jpg`,   alt: 'Jamal and Gabriela' },
-  { src: `${base}/photos/Gallery/9_251220-gj-97.jpg`,   alt: 'Jamal and Gabriela' },
   { src: `${base}/photos/Gallery/10_251220-gj-6.jpg`,   alt: 'Jamal and Gabriela' },
-  { src: `${base}/photos/Gallery/11_251220-gj-102.jpg`, alt: 'Jamal and Gabriela' },
   { src: `${base}/photos/Gallery/14_251220-gj-100.jpg`, alt: 'Jamal and Gabriela' },
   { src: `${base}/photos/Gallery/15_251220-gj-47.jpg`,  alt: 'Jamal and Gabriela' },
 ];
@@ -277,6 +276,16 @@ const galleryImages = [
         <div class="wp-padrinos-ornament"><span>✦</span></div>
         <div class="wp-padrinos-grid">
           <div class="wp-padrino">
+            <p class="wp-role wp-role--center">Primeros Padrinos</p>
+            <p class="wp-name">Angie Pedraza</p>
+            <p class="wp-name">David Pedraza</p>
+          </div>
+          <div class="wp-padrino">
+            <p class="wp-role wp-role--center">De Biblia y Rosario</p>
+            <p class="wp-name">Ito Alvarado</p>
+            <p class="wp-name">Lilly Alvarado</p>
+          </div>
+          <div class="wp-padrino">
             <p class="wp-role wp-role--center">De Lazo</p>
             <p class="wp-name">Anthony Huerta</p>
             <p class="wp-name">Wendy Huerta</p>
@@ -295,16 +304,6 @@ const galleryImages = [
             <p class="wp-role wp-role--center">De Ramo</p>
             <p class="wp-name">Cristina Rosales</p>
             <p class="wp-name">Eddie Rosales</p>
-          </div>
-          <div class="wp-padrino">
-            <p class="wp-role wp-role--center">De Biblia y Rosario</p>
-            <p class="wp-name">Ito Alvarado</p>
-            <p class="wp-name">Lilly Alvarado</p>
-          </div>
-          <div class="wp-padrino">
-            <p class="wp-role wp-role--center">Primeros Padrinos</p>
-            <p class="wp-name">Angie Pedraza</p>
-            <p class="wp-name">David Pedraza</p>
           </div>
         </div>
       </div>
@@ -347,7 +346,10 @@ const galleryImages = [
         <div class="timeline-item">
           <span class="timeline-time">3:00 PM</span>
           <div class="timeline-dot-wrap"><div class="timeline-dot"></div></div>
-          <span class="timeline-event">Ceremony</span>
+          <div class="timeline-col">
+            <span class="timeline-event">Ceremony</span>
+            <p class="timeline-desc">Join us as we exchange our vows surrounded by those we love.</p>
+          </div>
         </div>
         <div class="timeline-item">
           <span class="timeline-time">4:00 PM</span>
@@ -372,7 +374,10 @@ const galleryImages = [
         <div class="timeline-item">
           <span class="timeline-time">7:00 PM</span>
           <div class="timeline-dot-wrap"><div class="timeline-dot"></div></div>
-          <span class="timeline-event">First Dance</span>
+          <div class="timeline-col">
+            <span class="timeline-event">First Dance</span>
+            <p class="timeline-desc">The moment we've been waiting for — our first dance as husband and wife.</p>
+          </div>
         </div>
         <div class="timeline-item">
           <span class="timeline-time">7:30 PM</span>
@@ -387,7 +392,10 @@ const galleryImages = [
         <div class="timeline-item">
           <span class="timeline-time">11:00 PM</span>
           <div class="timeline-dot-wrap"><div class="timeline-dot"></div></div>
-          <span class="timeline-event">Send-off</span>
+          <div class="timeline-col">
+            <span class="timeline-event">Send-off</span>
+            <p class="timeline-desc">Help us celebrate one last time as we head off into our new adventure.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -489,6 +497,7 @@ const galleryImages = [
     <div class="section-inner-wide">
       <h2 class="section-heading">Gallery</h2>
       <div class="section-ornament"><span>✦</span></div>
+      <p class="gallery-intro">A few moments from our engagement session.</p>
       <div class="gallery-grid" id="galleryGrid">
         {galleryImages.map((img) => (
           <div class="gallery-item" tabindex="0" role="button" aria-label={`View photo: ${img.alt}`}>
@@ -570,6 +579,28 @@ const galleryImages = [
           </button>
           <div class="faq-answer" aria-hidden="true">
             <p class="faq-a">Please RSVP by November 1, 2026 so we can finalize seating and catering.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-trigger" aria-expanded="false">
+            <span class="faq-number">5</span>
+            <span class="faq-q">What is the dress code?</span>
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-answer" aria-hidden="true">
+            <p class="faq-a">All black formal attire. We kindly ask all guests to dress in all black for our celebration.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-trigger" aria-expanded="false">
+            <span class="faq-number">6</span>
+            <span class="faq-q">Is transportation provided to the venue?</span>
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-answer" aria-hidden="true">
+            <p class="faq-a">Transportation is not provided. We recommend renting a car — the venue is approximately 20 minutes from McAllen. Rideshare services are also available in the area.</p>
           </div>
         </div>
 
