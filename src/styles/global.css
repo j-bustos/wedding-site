@@ -724,163 +724,165 @@ input, select, textarea { text-align: left; }
 }
 
 /* ════════════════════════════════════════
-   WEDDING PARTY
+   WEDDING PARTY — Option C Split Layout
    ════════════════════════════════════════ */
-.party-layout {
-  display: flex;
-  flex-direction: column;
-  gap: 3rem;
+
+/* Bride & Groom couple header */
+.wp-couple {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+.wp-couple-name {
+  font-family: var(--font-accent);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(1.6rem, 3vw, 2.125rem);
+  color: var(--ink);
+  line-height: 1.3;
+}
+.wp-couple-rule {
+  width: min(120px, 40%);
+  height: 1px;
+  background: rgba(30, 58, 47, 0.2);
+  margin: 0.75rem auto;
 }
 
-.party-role-label {
+/* Two-column split */
+.wp-split {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 0 2.5rem;
+  align-items: start;
+}
+.wp-divider {
+  width: 1px;
+  background: rgba(30, 58, 47, 0.2);
+  align-self: stretch;
+  min-height: 200px;
+}
+.wp-col {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding-bottom: 2rem;
+}
+.wp-col--groom { text-align: right; }
+.wp-col--bride { text-align: left; }
+
+/* Side headings */
+.wp-side-label {
   font-family: var(--font-sans);
-  font-size: 0.62rem;
-  letter-spacing: 0.28em;
+  font-size: 0.6rem;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--green-deep);
-  opacity: 0.65;
-  margin-bottom: 0.5rem;
+  opacity: 0.5;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(30, 58, 47, 0.12);
 }
 
-.party-couple {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+/* Role labels */
+.wp-role {
+  font-family: var(--font-sans);
+  font-size: 0.625rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #7a7060;
+  margin-bottom: 0.3rem;
 }
-.party-couple-half {
-  padding: 1.25rem 1.5rem;
-  text-align: center;
-}
-.party-couple-name {
+.wp-role--center { text-align: center; }
+
+/* Names */
+.wp-name {
   font-family: var(--font-accent);
   font-style: italic;
-  font-size: clamp(1.4rem, 3vw, 1.9rem);
   font-weight: 400;
-  color: var(--ink);
-}
-
-.party-two-col {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-}
-.party-group { text-align: center; }
-.party-name-list {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-  margin-top: 0.75rem;
-}
-.party-name-list li {
-  font-family: var(--font-accent);
-  font-size: clamp(1.1rem, 4vw, 1.4rem);
-  font-style: italic;
+  font-size: 1.0625rem;
   color: var(--ink-soft);
+  line-height: 1.55;
 }
-/* Bride & Groom names — noticeably larger than the rest */
-.party-couple-list li {
-  font-size: clamp(1.5rem, 4vw, 2rem);
+.wp-name--honor {
+  font-size: 1.25rem;
+  color: var(--ink);
+}
+.wp-name--rb {
+  font-size: 1.25rem;
   color: var(--ink);
 }
 
-.party-featured-pair {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-}
-.party-featured-card {
+/* Group containers */
+.wp-group { display: flex; flex-direction: column; }
+
+/* Ring Bearer */
+.wp-ring-bearer {
   text-align: center;
-  padding: 1.75rem 1rem 2.25rem;
-  position: relative;
-}
-.party-featured-card::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 48px;
-  height: 1px;
-  background: var(--green-deep);
-  opacity: 0.3;
-}
-.party-featured-name {
-  font-family: var(--font-accent);
-  font-size: clamp(1.4rem, 3vw, 1.9rem);
-  font-weight: 400;
-  font-style: italic;
-  color: var(--ink);
-}
-/* --fixed override removed: Best Man and Maid of Honor share identical type */
-
-.party-single { text-align: center; }
-.party-single-name {
-  font-family: var(--font-accent);
-  font-size: 1.4rem;
-  font-style: italic;
-  color: var(--ink-soft);
+  padding-top: 2rem;
   margin-top: 0.5rem;
+}
+.wp-rb-rule {
+  width: 100%;
+  height: 1px;
+  background: rgba(30, 58, 47, 0.12);
+  margin-bottom: 2rem;
 }
 
 /* Padrinos */
-.party-padrinos-label {
+.wp-padrinos {
+  background: #ddd5c0;
+  border-radius: 6px;
+  padding: 2.5rem 2rem;
+  margin-top: 2.5rem;
+  text-align: center;
+}
+.wp-padrinos-heading {
   font-family: var(--font-serif);
   font-size: clamp(1.8rem, 4vw, 2.5rem);
   font-weight: 400;
   color: var(--green-deep);
-  text-align: center;
   margin-bottom: 0.5rem;
 }
-.party-padrinos-rule {
+.wp-padrinos-ornament {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.75rem;
-  margin: 0.75rem auto 2rem;
+  margin: 0.5rem auto 1.5rem;
   width: min(160px, 55%);
   color: var(--green-deep);
   opacity: 0.4;
 }
-.party-padrinos-rule::before,
-.party-padrinos-rule::after {
+.wp-padrinos-ornament::before,
+.wp-padrinos-ornament::after {
   content: '';
   flex: 1;
   height: 1px;
   background: var(--green-deep);
 }
-.party-padrinos-rule span { font-size: 0.5rem; }
-.padrinos-grid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1.5rem 2.5rem;
+.wp-padrinos-ornament span { font-size: 0.5rem; }
+.wp-padrinos-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.75rem 2.5rem;
+  max-width: 560px;
+  margin: 0 auto;
 }
-.padrino-group { text-align: center; min-width: 160px; }
-.padrino-group:last-child {
-  flex-basis: 100%;
-  padding-top: 2.5rem;
-  margin-top: 0.5rem;
-  border-top: 1px solid rgba(30, 58, 47, 0.18);
+.wp-padrino { text-align: center; }
+
+/* Mobile collapse below 400px */
+@media (max-width: 400px) {
+  .wp-split { grid-template-columns: 1fr; gap: 2rem; }
+  .wp-divider { display: none; }
+  .wp-col--groom, .wp-col--bride { text-align: center; }
+  .wp-side-label { text-align: center; }
 }
-.padrino-role {
-  font-family: var(--font-sans);
-  font-size: 0.7rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--green-deep);
-  opacity: 0.75;
-  margin-bottom: 0.35rem;
+
+/* Tablet: tighten gap */
+@media (max-width: 600px) {
+  .wp-split { gap: 0 1.25rem; }
+  .wp-name { font-size: 0.95rem; }
+  .wp-name--honor, .wp-name--rb { font-size: 1.1rem; }
+  .wp-padrinos-grid { grid-template-columns: 1fr 1fr; gap: 1.25rem 1.5rem; }
 }
-.padrino-names {
-  font-family: var(--font-accent);
-  font-style: italic;
-  font-size: 1.15rem;
-  color: var(--green-deep);
-  line-height: 1.6;
-}
-.padrino-names a,
-.padrino-names a:visited,
-.padrino-names a:hover { color: var(--green-deep); text-decoration: none; }
 
 /* ════════════════════════════════════════
    DRESS CODE
@@ -1452,13 +1454,6 @@ input, select, textarea { text-align: left; }
   .timeline-time  { font-size: clamp(1.1rem, 4vw, 1.3rem); }
   .timeline-event { font-size: clamp(1.2rem, 4.5vw, 1.4rem); }
 
-  /* Wedding party */
-  .party-couple         { grid-template-columns: 1fr; }
-  .party-featured-pair  { grid-template-columns: 1fr; gap: 1.5rem; }
-  .party-two-col        { grid-template-columns: 1fr; gap: 1.5rem; }
-  .party-name-list li   { font-size: clamp(1.3rem, 5vw, 1.6rem); }
-  .party-featured-name  { font-size: clamp(1.3rem, 5vw, 1.6rem); }
-
   /* FAQ */
   .faq-q { font-size: clamp(1.2rem, 4.5vw, 1.4rem); }
   .faq-a { font-size: clamp(1.05rem, 4vw, 1.2rem); }
@@ -1477,12 +1472,6 @@ input, select, textarea { text-align: left; }
 
   /* Travel heading — long text, scale down */
   #where-to-stay .section-heading { font-size: clamp(2rem, 7.5vw, 3.2rem); }
-
-  /* Wedding party — couple names larger */
-  .party-couple-list li { font-size: clamp(1.6rem, 6vw, 2rem) !important; }
-
-  /* Groomsmen/Bridesmaids stay 2-col on mobile */
-  .party-names-grid { grid-template-columns: 1fr 1fr !important; gap: 0.75rem; }
 
   /* Venues */
   .venues-grid { grid-template-columns: 1fr; gap: 2rem; }
@@ -1517,11 +1506,6 @@ input, select, textarea { text-align: left; }
 }
 
 
-@media (max-width: 500px) {
-  .padrinos-grid { flex-direction: column; align-items: center; }
-  .padrino-role  { font-size: clamp(0.6rem, 2vw, 0.75rem); white-space: normal; }
-  .padrino-group:last-child { margin-top: 1rem; }
-}
 
 @media (max-width: 480px) {
   .hero-countdown { gap: 1.25rem; }

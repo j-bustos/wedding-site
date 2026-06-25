@@ -198,107 +198,114 @@ const galleryImages = [
     <div class="section-inner-wide">
       <h2 class="section-heading">Wedding Party</h2>
       <div class="section-ornament"><span>✦</span></div>
-      <div class="party-layout">
 
-        <!-- Bride & Groom -->
-        <div class="party-group">
-          <p class="party-role-label">Bride &amp; Groom</p>
-          <ul class="party-name-list party-couple-list">
-            <li>Jamal Bustos</li>
-            <li>Gabriela Pedraza</li>
-          </ul>
-        </div>
+      <!-- Bride & Groom centered header -->
+      <div class="wp-couple">
+        <p class="wp-couple-name">Jamal Bustos</p>
+        <div class="wp-couple-rule"></div>
+        <p class="wp-couple-name">Gabriela Pedraza</p>
+      </div>
 
-        <!-- Parents -->
-        <div class="party-two-col">
-          <div class="party-group">
-            <p class="party-role-label">Parents of the Groom</p>
-            <ul class="party-name-list">
-              <li>Issac Bustos</li>
-              <li>Laurie Bustos</li>
-            </ul>
-          </div>
-          <div class="party-group">
-            <p class="party-role-label">Parents of the Bride</p>
-            <ul class="party-name-list">
-              <li>Adriana Pedraza</li>
-              <li>Ray Pedraza</li>
-            </ul>
-          </div>
-        </div>
+      <!-- Two-column split: Groom's Side | Bride's Side -->
+      <div class="wp-split">
 
-        <!-- Honor attendants -->
-        <div class="party-featured-pair">
-          <div class="party-featured-card">
-            <p class="party-role-label">Best Man</p>
-            <p class="party-featured-name">Anthony Huerta</p>
+        <!-- Left: Groom's Side -->
+        <div class="wp-col wp-col--groom">
+          <p class="wp-side-label">Groom's Side</p>
+
+          <div class="wp-group">
+            <p class="wp-role">Best Man</p>
+            <p class="wp-name wp-name--honor">Anthony Huerta</p>
           </div>
-          <div class="party-featured-card">
-            <p class="party-role-label">Maid of Honor</p>
-            <p class="party-featured-name">Briana Pedraza</p>
+
+          <div class="wp-group">
+            <p class="wp-role">Parents of the Groom</p>
+            <p class="wp-name">Issac Bustos</p>
+            <p class="wp-name">Laurie Bustos</p>
+          </div>
+
+          <div class="wp-group">
+            <p class="wp-role">Groomsmen</p>
+            <p class="wp-name">Chris Buzzell</p>
+            <p class="wp-name">Caleb Philbrick</p>
+            <p class="wp-name">Logan Wright</p>
           </div>
         </div>
 
-        <!-- Groomsmen & Bridesmaids — sorted alphabetically by last name -->
-        <div class="party-two-col party-names-grid">
-          <div class="party-group">
-            <p class="party-role-label">Groomsmen</p>
-            <ul class="party-name-list">
-              <li>Chris Buzzell</li>
-              <li>Caleb Philbrick</li>
-              <li>Logan Wright</li>
-            </ul>
-          </div>
-          <div class="party-group">
-            <p class="party-role-label">Bridesmaids</p>
-            <ul class="party-name-list">
-              <li>Lizeth Reyna</li>
-              <li>Alexiz Sanchez</li>
-              <li>Claryssa Trevino</li>
-              <li>Sarah Vasquez</li>
-            </ul>
-          </div>
-        </div>
+        <!-- Vertical center line -->
+        <div class="wp-divider" aria-hidden="true"></div>
 
-        <!-- Ring Bearer -->
-        <div class="party-single">
-          <p class="party-role-label">Ring Bearer</p>
-          <p class="party-single-name">Kai Carter</p>
-        </div>
+        <!-- Right: Bride's Side -->
+        <div class="wp-col wp-col--bride">
+          <p class="wp-side-label">Bride's Side</p>
 
-        <!-- Padrinos -->
-        <div>
-          <p class="party-padrinos-label">Padrinos</p>
-          <div class="party-padrinos-rule"><span>✦</span></div>
-          <div class="padrinos-grid">
-            <div class="padrino-group">
-              <p class="padrino-role">Padrinos de Lazo</p>
-              <p class="padrino-names">Anthony Huerta<br />Wendy Huerta</p>
-            </div>
-            <div class="padrino-group">
-              <p class="padrino-role">Padrinos de Arras</p>
-              <p class="padrino-names">Adriana Guajardo<br />Elliot Guajardo</p>
-            </div>
-            <div class="padrino-group">
-              <p class="padrino-role">Padrinos de Cojines</p>
-              <p class="padrino-names">Billy Gonzalez<br />Amy Sojak</p>
-            </div>
-            <div class="padrino-group">
-              <p class="padrino-role">Padrinos de Ramo</p>
-              <p class="padrino-names">Cristina Rosales<br />Eddie Rosales</p>
-            </div>
-            <div class="padrino-group">
-              <p class="padrino-role">Padrinos de Biblia y Rosario</p>
-              <p class="padrino-names">Ito Alvarado<br />Lilly Alvarado</p>
-            </div>
-            <div class="padrino-group">
-              <p class="padrino-role">Primeros Padrinos</p>
-              <p class="padrino-names">Angie Pedraza<br />David Pedraza</p>
-            </div>
+          <div class="wp-group">
+            <p class="wp-role">Maid of Honor</p>
+            <p class="wp-name wp-name--honor">Briana Pedraza</p>
+          </div>
+
+          <div class="wp-group">
+            <p class="wp-role">Parents of the Bride</p>
+            <p class="wp-name">Adriana Pedraza</p>
+            <p class="wp-name">Ray Pedraza</p>
+          </div>
+
+          <div class="wp-group">
+            <p class="wp-role">Bridesmaids</p>
+            <p class="wp-name">Lizeth Reyna</p>
+            <p class="wp-name">Alexiz Sanchez</p>
+            <p class="wp-name">Claryssa Trevino</p>
+            <p class="wp-name">Sarah Vasquez</p>
           </div>
         </div>
 
       </div>
+
+      <!-- Ring Bearer centered below columns -->
+      <div class="wp-ring-bearer">
+        <div class="wp-rb-rule"></div>
+        <p class="wp-role wp-role--center">Ring Bearer</p>
+        <p class="wp-name wp-name--rb">Kai Carter</p>
+      </div>
+
+      <!-- Padrinos on slightly darker linen background -->
+      <div class="wp-padrinos">
+        <p class="wp-padrinos-heading">Padrinos</p>
+        <div class="wp-padrinos-ornament"><span>✦</span></div>
+        <div class="wp-padrinos-grid">
+          <div class="wp-padrino">
+            <p class="wp-role wp-role--center">De Lazo</p>
+            <p class="wp-name">Anthony Huerta</p>
+            <p class="wp-name">Wendy Huerta</p>
+          </div>
+          <div class="wp-padrino">
+            <p class="wp-role wp-role--center">De Arras</p>
+            <p class="wp-name">Adriana Guajardo</p>
+            <p class="wp-name">Elliot Guajardo</p>
+          </div>
+          <div class="wp-padrino">
+            <p class="wp-role wp-role--center">De Cojines</p>
+            <p class="wp-name">Amy Sojak</p>
+            <p class="wp-name">Billy Gonzalez</p>
+          </div>
+          <div class="wp-padrino">
+            <p class="wp-role wp-role--center">De Ramo</p>
+            <p class="wp-name">Cristina Rosales</p>
+            <p class="wp-name">Eddie Rosales</p>
+          </div>
+          <div class="wp-padrino">
+            <p class="wp-role wp-role--center">De Biblia y Rosario</p>
+            <p class="wp-name">Ito Alvarado</p>
+            <p class="wp-name">Lilly Alvarado</p>
+          </div>
+          <div class="wp-padrino">
+            <p class="wp-role wp-role--center">Primeros Padrinos</p>
+            <p class="wp-name">Angie Pedraza</p>
+            <p class="wp-name">David Pedraza</p>
+          </div>
+        </div>
+      </div>
+
     </div>
   </section>
 
