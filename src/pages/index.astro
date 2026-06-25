@@ -87,7 +87,7 @@ const galleryImages = [
   <div class="quote-section">
     <div class="quote-polaroids-wrap">
       <div class="quote-polaroid quote-polaroid--a">
-        <img src={`${base}/photos/Gallery/3_251220-gj-66.jpeg`} alt="Jamal and Gabriela" loading="lazy" />
+        <img src={`${base}/photos/hero/1_251220-gj-50.jpg`} alt="Jamal and Gabriela" loading="lazy" />
       </div>
       <div class="quote-polaroid quote-polaroid--b">
         <img src={`${base}/photos/Gallery/5_251220-gj-73.jpg`} alt="Jamal and Gabriela" loading="lazy" />
@@ -302,6 +302,11 @@ const galleryImages = [
     </div>
   </section>
 
+  <!-- ── Full-bleed photo divider ── -->
+  <div class="party-photo-divider" aria-hidden="true">
+    <img src={`${base}/photos/hero/7_251220-gj-74.jpg`} alt="" loading="lazy" />
+  </div>
+
   <!-- ════════════════════════════════
        3. DRESS CODE (light linen)
        ════════════════════════════════ -->
@@ -493,6 +498,7 @@ const galleryImages = [
       <h2 class="section-heading">RSVP</h2>
       <div class="section-ornament"><span>✦</span></div>
       <p class="rsvp-sub">Kindly reply by November 1, 2026</p>
+      <p class="rsvp-days" id="rsvpDays"></p>
       <!-- Replace href below with your Google Form URL when ready -->
       <a
         class="cashapp-btn"
@@ -514,33 +520,45 @@ const galleryImages = [
       <div class="faq-list">
 
         <div class="faq-item">
-          <span class="faq-number">1</span>
-          <div>
-            <p class="faq-q">What time should I arrive?</p>
+          <button class="faq-trigger" aria-expanded="false">
+            <span class="faq-number">1</span>
+            <span class="faq-q">What time should I arrive?</span>
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-answer" aria-hidden="true">
             <p class="faq-a">Please arrive by 2:30 PM to allow time to get settled before the 3:00 PM ceremony.</p>
           </div>
         </div>
 
         <div class="faq-item">
-          <span class="faq-number">2</span>
-          <div>
-            <p class="faq-q">Are children welcome?</p>
+          <button class="faq-trigger" aria-expanded="false">
+            <span class="faq-number">2</span>
+            <span class="faq-q">Are children welcome?</span>
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-answer" aria-hidden="true">
             <p class="faq-a">While we love your little ones, this will be an adults-only celebration.</p>
           </div>
         </div>
 
         <div class="faq-item">
-          <span class="faq-number">3</span>
-          <div>
-            <p class="faq-q">Is parking available?</p>
+          <button class="faq-trigger" aria-expanded="false">
+            <span class="faq-number">3</span>
+            <span class="faq-q">Is parking available?</span>
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-answer" aria-hidden="true">
             <p class="faq-a">Yes, complimentary parking is available on-site at Los Encinos Event Center.</p>
           </div>
         </div>
 
         <div class="faq-item">
-          <span class="faq-number">4</span>
-          <div>
-            <p class="faq-q">What is the RSVP deadline?</p>
+          <button class="faq-trigger" aria-expanded="false">
+            <span class="faq-number">4</span>
+            <span class="faq-q">What is the RSVP deadline?</span>
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-answer" aria-hidden="true">
             <p class="faq-a">Please RSVP by November 1, 2026 so we can finalize seating and catering.</p>
           </div>
         </div>
@@ -625,6 +643,19 @@ const galleryImages = [
   }
   tick();
   setInterval(tick, 1000);
+
+  // ── RSVP days remaining ──
+  var rsvpDaysEl = document.getElementById('rsvpDays');
+  if (rsvpDaysEl) {
+    var rsvpDeadline = new Date('2026-11-01T00:00:00-06:00').getTime();
+    var rsvpDiff = rsvpDeadline - Date.now();
+    if (rsvpDiff > 0) {
+      var daysLeft = Math.ceil(rsvpDiff / 86400000);
+      rsvpDaysEl.textContent = daysLeft + ' days remaining';
+    } else {
+      rsvpDaysEl.textContent = 'RSVP deadline has passed';
+    }
+  }
 
   // ── Gallery lightbox ──
   document.querySelectorAll('.gallery-item').forEach(function(item) {

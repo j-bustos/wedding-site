@@ -404,6 +404,41 @@ input, select, textarea { text-align: left; }
   background: var(--cream);
 }
 
+/* Per-section padding rhythm */
+.welcome-strip            { padding-top: 60px;  padding-bottom: 80px; }
+.quote-section            { padding-top: 60px;  padding-bottom: 80px; }
+#venues                   { padding-top: 100px; padding-bottom: 100px; }
+#wedding-party            { padding-top: 80px;  padding-bottom: 80px; }
+#dress-code               { padding-top: 40px;  padding-bottom: 40px; }
+#timeline                 { padding-top: 80px;  padding-bottom: 80px; }
+#where-to-stay            { padding-top: 100px; padding-bottom: 100px; }
+#gallery                  { padding-top: 40px;  padding-bottom: 60px; }
+#rsvp                     { padding-top: 60px;  padding-bottom: 60px; }
+#faq                      { padding-top: 80px;  padding-bottom: 80px; }
+#gifts                    { padding-top: 60px;  padding-bottom: 60px; }
+
+/* Full-bleed photo divider */
+.party-photo-divider {
+  position: relative;
+  height: 40vh;
+  overflow: hidden;
+  line-height: 0;
+}
+.party-photo-divider img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+.party-photo-divider::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.15);
+  pointer-events: none;
+}
+
 .section-inner {
   max-width: var(--max-w);
   margin: 0 auto;
@@ -481,16 +516,6 @@ input, select, textarea { text-align: left; }
   position: relative;
 }
 
-/* Gradient blend: dark → light going into next section */
-.quote-section::after {
-  content: '';
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 40px;
-  background: linear-gradient(to bottom, transparent, #e8e0d0);
-  pointer-events: none;
-  z-index: 5;
-}
 
 .quote-polaroids-wrap {
   display: flex;
@@ -600,9 +625,9 @@ input, select, textarea { text-align: left; }
 .venue-card {
   display: flex;
   flex-direction: column;
-  background-color: #e8e0d0;
-  background-image: var(--linen-texture);
-  background-size: 300px 300px;
+  background-color: #ffffff;
+  background-image: none;
+  border: 1px solid rgba(30, 58, 47, 0.15);
   box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 8px rgba(0,0,0,0.04), 0 12px 24px rgba(0,0,0,0.06);
   border-radius: 8px;
   overflow: hidden;
@@ -1399,22 +1424,52 @@ input, select, textarea { text-align: left; }
   .nav-links { display: none; }
   .nav-toggle { display: flex; }
   .nav-brand-text { font-size: 20px; }
+  .nav-mobile-menu a { font-size: clamp(1rem, 3.5vw, 1.1rem); }
 
   /* Sections */
   .section { padding: 4.5rem 1.25rem; }
 
-  /* Venues */
-  .venues-grid { grid-template-columns: 1fr; gap: 2rem; }
+  /* Body / base text */
+  body { font-size: clamp(1.1rem, 4.5vw, 1.3rem); }
+
+  /* Section headings */
+  .section-heading { font-size: clamp(2.8rem, 10vw, 5rem); }
+
+  /* Sub-headings / venue names */
+  .venue-name    { font-size: clamp(1.6rem, 6vw, 2.4rem); }
+  .venue-address { font-size: clamp(1.1rem, 4.5vw, 1.3rem); }
+  .venue-time    { font-size: clamp(1.1rem, 4.5vw, 1.3rem); }
+
+  /* Timeline */
+  .timeline::before  { left: 90px; }
+  .timeline-item     { grid-template-columns: 90px 1fr; }
+  .timeline-dot-wrap { left: 90px; }
+  .timeline-time  { font-size: clamp(1.1rem, 4vw, 1.3rem); }
+  .timeline-event { font-size: clamp(1.2rem, 4.5vw, 1.4rem); }
 
   /* Wedding party */
   .party-couple         { grid-template-columns: 1fr; }
   .party-featured-pair  { grid-template-columns: 1fr; gap: 1.5rem; }
   .party-two-col        { grid-template-columns: 1fr; gap: 1.5rem; }
+  .party-name-list li   { font-size: clamp(1.3rem, 5vw, 1.6rem); }
+  .party-featured-name  { font-size: clamp(1.3rem, 5vw, 1.6rem); }
 
-  /* Timeline */
-  .timeline::before { left: 90px; }
-  .timeline-item    { grid-template-columns: 90px 1fr; }
-  .timeline-dot-wrap { left: 90px; }
+  /* FAQ */
+  .faq-q { font-size: clamp(1.2rem, 4.5vw, 1.4rem); }
+  .faq-a { font-size: clamp(1.05rem, 4vw, 1.2rem); }
+
+  /* Buttons */
+  .cashapp-btn, .hero-rsvp-btn, .btn-directions { font-size: clamp(0.9rem, 3.5vw, 1rem); }
+
+  /* Hotels */
+  .hotel-list-name { font-size: clamp(1.2rem, 4.5vw, 1.4rem); }
+
+  /* Countdown */
+  .hero-countdown-number { font-size: clamp(2rem, 7vw, 3rem); }
+  .hero-countdown-label  { font-size: clamp(0.65rem, 2.5vw, 0.8rem); }
+
+  /* Venues */
+  .venues-grid { grid-template-columns: 1fr; gap: 2rem; }
 
   /* Travel */
   .travel-grid { grid-template-columns: 1fr; }
@@ -1422,12 +1477,14 @@ input, select, textarea { text-align: left; }
   /* Gallery */
   .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 0.5rem; }
 
-  /* Hero countdown */
+  /* Hero countdown gap */
   .hero-countdown { gap: 1.5rem; }
+
+  /* Photo divider */
+  .party-photo-divider { height: 30vh; }
 
   /* Christmas */
   .christmas-accent img { width: 300px; min-width: 300px; }
-
 }
 
 /* Quote section: full width on tablet */
@@ -1443,29 +1500,6 @@ input, select, textarea { text-align: left; }
   .quote-polaroid--a, .quote-polaroid--b { margin: 0; }
 }
 
-/* ── Section Gradient Transitions ── */
-/* FAQ: light → dark (top) and dark → light (bottom) */
-#faq {
-  overflow: visible;
-}
-#faq::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 40px;
-  background: linear-gradient(to bottom, #e8e0d0, transparent);
-  pointer-events: none;
-  z-index: 5;
-}
-#faq::after {
-  content: '';
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 40px;
-  background: linear-gradient(to bottom, transparent, #e8e0d0);
-  pointer-events: none;
-  z-index: 5;
-}
 
 @media (max-width: 500px) {
   .padrinos-grid { flex-direction: column; align-items: center; }
@@ -1622,28 +1656,10 @@ input, select, textarea { text-align: left; }
 .gallery-item:nth-child(3n+2) { aspect-ratio: 4/3; }
 .gallery-item:nth-child(3n)   { aspect-ratio: 1/1; }
 
-/* ── Gallery Hover Overlay ── */
-.gallery-item::after {
-  content: 'View';
-  position: absolute;
-  inset: 0;
-  background: rgba(30, 58, 47, 0.55);
-  color: var(--cream);
-  font-family: var(--font-sans);
-  font-size: 0.68rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  pointer-events: none;
-}
+/* ── Gallery Hover Scale ── */
 @media (prefers-reduced-motion: no-preference) {
-  .gallery-item::after { transition: opacity 0.3s ease; }
-  .gallery-item:hover img { transform: scale(1.04); }
+  .gallery-item:hover img { transform: scale(1.03); }
 }
-.gallery-item:hover::after { opacity: 1; }
 
 /* ── Travel Card Icon Bounce ── */
 @keyframes iconBounce {
@@ -1662,7 +1678,141 @@ input, select, textarea { text-align: left; }
   .hero-rsvp-btn:active, .cashapp-btn:active { transform: scale(0.98); }
 }
 
-/* ── Paralax quote polaroids (positioned via JS) ── */
+/* ── Parallax quote polaroids (positioned via JS) ── */
 @media (prefers-reduced-motion: no-preference) {
   .quote-polaroid { will-change: transform; }
+}
+
+/* ════════════════════════════════════════
+   FAQ ACCORDION
+   ════════════════════════════════════════ */
+.faq-trigger {
+  display: grid;
+  grid-template-columns: 2rem 1fr auto;
+  gap: 0 0.75rem;
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 1.75rem 0;
+  cursor: pointer;
+  text-align: left;
+  align-items: center;
+  border-bottom: 1px solid rgba(30, 58, 47, 0.1);
+}
+.faq-item:first-child .faq-trigger { border-top: 1px solid rgba(30, 58, 47, 0.1); }
+.section-dark .faq-trigger {
+  background: #243d31;
+  border: 1px solid #2e5040 !important;
+  border-radius: 3px;
+  padding: 1.5rem 1.75rem;
+  margin-bottom: 0.5rem;
+}
+.section-dark .faq-item:first-child .faq-trigger { border-top: 1px solid #2e5040 !important; }
+.faq-q {
+  font-family: var(--font-accent);
+  font-style: italic;
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: var(--ink);
+  line-height: 1.45;
+  margin: 0;
+}
+.section-dark .faq-q {
+  color: var(--cream);
+  font-variant-caps: small-caps;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+.faq-icon {
+  font-size: 1.4rem;
+  color: var(--cream);
+  opacity: 0.7;
+  line-height: 1;
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+  font-style: normal;
+}
+.faq-trigger[aria-expanded="true"] .faq-icon { transform: rotate(45deg); }
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease, padding 0.35s ease;
+  padding: 0 0 0 calc(2rem + 0.75rem);
+}
+.section-dark .faq-answer { padding-left: calc(2rem + 0.75rem + 1.75rem); }
+.faq-answer.open { max-height: 300px; }
+.faq-answer p { padding-bottom: 1.25rem; }
+.faq-a {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 300;
+  color: var(--ink-soft);
+  line-height: 1.8;
+}
+.section-dark .faq-a { color: rgba(240, 230, 200, 0.82); }
+
+/* Restore .faq-item as container (no direct border/padding now) */
+.faq-item { border: none !important; padding: 0 !important; background: none !important; }
+.section-dark .faq-item { background: none !important; border: none !important; margin-bottom: 0 !important; }
+
+/* ════════════════════════════════════════
+   RSVP DAYS REMAINING
+   ════════════════════════════════════════ */
+.rsvp-days {
+  font-family: var(--font-accent);
+  font-style: italic;
+  font-size: 0.95rem;
+  color: var(--ink-soft);
+  margin-top: 0.35rem;
+  margin-bottom: 2rem;
+  opacity: 0.75;
+}
+
+/* ════════════════════════════════════════
+   NAV PROGRESS BAR
+   ════════════════════════════════════════ */
+.nav-progress {
+  position: absolute;
+  top: 0; left: 0;
+  height: 2px;
+  width: 0%;
+  background: var(--green-deep);
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* ════════════════════════════════════════
+   STICKY RSVP — MOBILE ONLY
+   ════════════════════════════════════════ */
+.sticky-rsvp {
+  display: none;
+}
+@media (max-width: 768px) {
+  .sticky-rsvp {
+    display: block;
+    position: fixed;
+    bottom: 16px;
+    left: 16px;
+    right: 16px;
+    z-index: 900;
+    background: var(--green-deep);
+    color: var(--cream);
+    font-family: var(--font-sans);
+    font-variant-caps: small-caps;
+    font-size: 0.9rem;
+    letter-spacing: 0.12em;
+    border-radius: 8px;
+    padding: 14px;
+    border: none;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  .sticky-rsvp.visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
 }
