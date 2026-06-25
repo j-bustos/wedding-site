@@ -175,5 +175,145 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     (window as any).__openLightbox = openLightbox;
   </script>
 
+  <script is:inline>
+  // ════════════════════════════════════════
+  // MOTION SYSTEM
+  // ════════════════════════════════════════
+  (function () {
+    var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // ── Scroll Reveal ──
+    var revealObs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          e.target.classList.add('revealed');
+          revealObs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    function addReveal(el, cls, delay) {
+      el.classList.add(cls || 'reveal');
+      if (delay) el.style.setProperty('--reveal-delay', delay + 'ms');
+      revealObs.observe(el);
+    }
+
+    // Section headings + ornaments
+    document.querySelectorAll('.section-heading').forEach(function (el) { addReveal(el, 'reveal', 0); });
+    document.querySelectorAll('.section-ornament').forEach(function (el) { addReveal(el, 'reveal', 100); });
+
+    // Venue cards (staggered per grid)
+    document.querySelectorAll('.venues-grid').forEach(function (grid) {
+      grid.querySelectorAll('.venue-card').forEach(function (el, i) { addReveal(el, 'reveal', 150 + i * 130); });
+    });
+
+    // Dress card
+    document.querySelectorAll('.dress-card').forEach(function (el) { addReveal(el, 'reveal', 150); });
+
+    // Travel cards
+    document.querySelectorAll('.travel-grid').forEach(function (grid) {
+      grid.querySelectorAll('.travel-card').forEach(function (el, i) { addReveal(el, 'reveal', 100 + i * 100); });
+    });
+
+    // Timeline — whole container draws line; items stagger
+    var timeline = document.querySelector('.timeline');
+    if (timeline) {
+      addReveal(timeline, 'reveal', 0);
+      timeline.querySelectorAll('.timeline-item').forEach(function (el, i) { addReveal(el, 'reveal', 80 + i * 70); });
+    }
+
+    // FAQ items
+    document.querySelectorAll('.faq-list').forEach(function (list) {
+      list.querySelectorAll('.faq-item').forEach(function (el, i) { addReveal(el, 'reveal', 80 + i * 70); });
+    });
+
+    // Welcome text
+    document.querySelectorAll('.welcome-text').forEach(function (el) { addReveal(el, 'reveal', 100); });
+
+    // Quote block (not polaroids — they have parallax)
+    document.querySelectorAll('.quote-text-block').forEach(function (el) { addReveal(el, 'reveal', 0); });
+
+    // Wedding party — groups slide from right, featured scale
+    document.querySelectorAll('.party-group').forEach(function (el, i) { addReveal(el, 'reveal-right', i * 60); });
+    document.querySelectorAll('.party-featured-card').forEach(function (el, i) { addReveal(el, 'reveal-scale', 100 + i * 100); });
+    document.querySelectorAll('.party-single').forEach(function (el) { addReveal(el, 'reveal', 100); });
+
+    // Padrino groups
+    document.querySelectorAll('.padrino-group').forEach(function (el, i) { addReveal(el, 'reveal', i * 50); });
+
+    // Party name lists
+    document.querySelectorAll('.party-name-list').forEach(function (list) {
+      list.querySelectorAll('li').forEach(function (el, i) { addReveal(el, 'reveal-right', 50 + i * 80); });
+    });
+
+    // Gallery items
+    document.querySelectorAll('.gallery-grid').forEach(function (grid) {
+      grid.querySelectorAll('.gallery-item').forEach(function (el, i) { addReveal(el, 'reveal', i * 40); });
+    });
+
+    // RSVP sub, gifts body
+    document.querySelectorAll('.rsvp-sub, .gifts-body, .cashapp-btn, .cashapp-handle').forEach(function (el, i) {
+      addReveal(el, 'reveal', 100 + i * 80);
+    });
+
+    // Hotel list items
+    document.querySelectorAll('.hotel-list').forEach(function (list) {
+      list.querySelectorAll('.hotel-list-item').forEach(function (el, i) { addReveal(el, 'reveal', 50 + i * 70); });
+    });
+
+    if (reduced) return; // skip all motion JS for reduced-motion users
+
+    // ── Hero Parallax ──
+    var heroSlides = document.querySelectorAll('.hero-slide');
+    if (heroSlides.length) {
+      var rafPending = false;
+      function onParallaxScroll() {
+        if (rafPending) return;
+        rafPending = true;
+        requestAnimationFrame(function () {
+          var y = window.scrollY;
+          heroSlides.forEach(function (slide) {
+            slide.style.transform = 'translateY(' + (y * 0.4) + 'px)';
+          });
+          rafPending = false;
+        });
+      }
+      window.addEventListener('scroll', onParallaxScroll, { passive: true });
+    }
+
+    // ── Hero Scroll Indicator Fade ──
+    var heroEl = document.querySelector('.hero');
+    var scrollIndicator = document.querySelector('.hero-scroll');
+    if (heroEl && scrollIndicator) {
+      var scrollFadeObs = new IntersectionObserver(function (entries) {
+        scrollIndicator.style.opacity = entries[0].isIntersecting ? '0.5' : '0';
+      }, { threshold: 0.05 });
+      scrollFadeObs.observe(heroEl);
+    }
+
+    // ── Quote Polaroid Subtle Parallax ──
+    var polA = document.querySelector('.quote-polaroid--a');
+    var polB = document.querySelector('.quote-polaroid--b');
+    var quoteSection = document.querySelector('.quote-section');
+    if (polA && polB && quoteSection) {
+      var polRaf = false;
+      function onPolScroll() {
+        if (polRaf) return;
+        polRaf = true;
+        requestAnimationFrame(function () {
+          var rect = quoteSection.getBoundingClientRect();
+          var center = rect.top + rect.height / 2;
+          var offset = (window.innerHeight / 2 - center) * 0.06;
+          polA.style.transform = 'rotate(-4deg) translateY(' + (offset * 0.9) + 'px)';
+          polB.style.transform = 'rotate(3.5deg) translateY(' + (-12 + offset * 1.1) + 'px)';
+          polRaf = false;
+        });
+      }
+      window.addEventListener('scroll', onPolScroll, { passive: true });
+    }
+
+  })();
+  </script>
+
 </body>
 </html>
