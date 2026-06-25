@@ -21,6 +21,7 @@ const galleryImages = [
 ];
 ---
 <BaseLayout title="Home">
+  <link rel="preload" as="image" href={heroSlides[0]} fetchpriority="high" slot="head" />
 
   <!-- ════════════════════════════════
        HERO — Crossfade Carousel
@@ -139,9 +140,10 @@ const galleryImages = [
           </div>
           <div class="venue-card-img-wrap">
             <img
-              src={`${base}/photos/Venue/Ceremony.PNG`}
+              src={`${base}/photos/Venue/Ceremony.PNG?v=2`}
               alt="Holy Spirit Catholic Church"
               class="venue-photo-img"
+              style="width:100%;height:auto"
             />
           </div>
         </div>
@@ -179,9 +181,10 @@ const galleryImages = [
           </div>
           <div class="venue-card-img-wrap">
             <img
-              src={`${base}/photos/Venue/Reception.PNG`}
+              src={`${base}/photos/Venue/Reception.PNG?v=2`}
               alt="Los Encinos Event Center"
               class="venue-photo-img"
+              style="width:100%;height:auto"
             />
           </div>
         </div>
@@ -311,7 +314,7 @@ const galleryImages = [
 
   <!-- ── Full-bleed photo divider ── -->
   <div class="party-photo-divider" aria-hidden="true">
-    <img src={`${base}/photos/hero/7_251220-gj-74.jpg`} alt="" loading="lazy" />
+    <img src={`${base}/photos/Gallery/3_251220-gj-66.jpeg`} alt="" loading="lazy" style="width:100%;height:100%" />
   </div>
 
   <!-- ════════════════════════════════
@@ -502,7 +505,7 @@ const galleryImages = [
 
   <section id="rsvp" class="section section-cream">
     <div class="section-inner">
-      <h2 class="section-heading">RSVP</h2>
+      <h2 class="section-heading">Kindly Reply</h2>
       <div class="section-ornament"><span>✦</span></div>
       <p class="rsvp-sub">Kindly reply by November 1, 2026</p>
       <p class="rsvp-days" id="rsvpDays"></p>
