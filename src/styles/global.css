@@ -302,8 +302,10 @@ input, select, textarea { text-align: left; }
   padding: 16px 20px;
 }
 .hero-countdown-number {
-  font-family: var(--font-serif);
-  font-size: clamp(1.4rem, 3.5vw, 2rem);
+  font-family: var(--font-accent);
+  font-style: italic;
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  font-weight: 600;
   color: var(--cream);
   line-height: 1;
   min-width: 2ch;
@@ -466,7 +468,7 @@ input, select, textarea { text-align: left; }
 }
 
 /* ════════════════════════════════════════
-   QUOTE SECTION (between hero and venues)
+   QUOTE SECTION — polaroid centerpiece
    ════════════════════════════════════════ */
 .quote-section {
   background-color: var(--green-deep);
@@ -475,57 +477,68 @@ input, select, textarea { text-align: left; }
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
   background-repeat: no-repeat, repeat;
   background-size: 100% 100%, 200px 200px;
-  padding: 5rem 2rem;
-}
-.quote-inner {
-  max-width: var(--max-w-wide);
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 3rem;
-  flex-wrap: nowrap;
-}
-.quote-text-block {
-  flex: 1;
-  min-width: 0;
-  max-width: 520px;
-  text-align: center;
-}
-.quote-text-block p {
-  font-family: 'Italianno', cursive;
-  font-size: clamp(2.8rem, 5.5vw, 4.5rem);
-  color: var(--cream);
-  line-height: 1.25;
-}
-.quote-polaroids {
-  display: flex;
-  gap: 2rem;
-  align-items: flex-start;
-  flex-shrink: 0;
-}
-.quote-polaroid {
-  background: #fff;
-  padding: 10px 10px 36px;
-  box-shadow: 2px 3px 8px rgba(0, 0, 0, 0.18), 4px 8px 24px rgba(0, 0, 0, 0.14);
+  padding: 4rem 2rem 5rem;
   position: relative;
 }
+
+/* Gradient blend: dark → light going into next section */
+.quote-section::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 40px;
+  background: linear-gradient(to bottom, transparent, #e8e0d0);
+  pointer-events: none;
+  z-index: 5;
+}
+
+.quote-polaroids-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  max-width: 70vw;
+  margin: 0 auto;
+  position: relative;
+}
+
+.quote-polaroid {
+  background: #fff;
+  padding: 12px 12px 46px;
+  box-shadow:
+    2px 4px 12px rgba(0, 0, 0, 0.22),
+    6px 12px 36px rgba(0, 0, 0, 0.20),
+    12px 24px 64px rgba(0, 0, 0, 0.14);
+  position: relative;
+  width: 50%;
+  flex-shrink: 0;
+}
+
+/* Washi tape strip */
 .quote-polaroid::before {
   content: '';
   position: absolute;
-  top: -8px;
+  top: -9px;
   left: 50%;
-  transform: translateX(-50%) rotate(-3deg);
-  width: 54px;
-  height: 16px;
-  background: rgba(240, 230, 200, 0.45);
+  transform: translateX(-50%) rotate(-2deg);
+  width: 64px;
+  height: 18px;
+  background: rgba(240, 230, 200, 0.5);
+  z-index: 3;
+}
+
+.quote-polaroid--a {
+  transform: rotate(-3deg);
+  z-index: 1;
+  margin-right: -64px;
+}
+.quote-polaroid--b {
+  transform: rotate(2deg);
   z-index: 2;
 }
-.quote-polaroid--a { transform: rotate(-4deg); }
-.quote-polaroid--b { transform: rotate(3.5deg) translateY(-12px); }
+
 .quote-polaroid img {
-  width: 158px;
-  height: 158px;
+  width: 100%;
+  aspect-ratio: 3/4;
   object-fit: cover;
   object-position: center top;
   display: block;
@@ -768,9 +781,7 @@ input, select, textarea { text-align: left; }
   font-style: italic;
   color: var(--ink);
 }
-.party-featured-card--fixed .party-featured-name {
-  font-size: clamp(1.2rem, 2.4vw, 1.6rem);
-}
+/* --fixed override removed: Best Man and Maid of Honor share identical type */
 
 .party-single { text-align: center; }
 .party-single-name {
@@ -863,23 +874,34 @@ input, select, textarea { text-align: left; }
 }
 
 .dress-card {
-  background-color: #e8e0d0;
-  background-image: var(--linen-texture);
-  background-size: 300px 300px;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 8px rgba(0,0,0,0.04), 0 12px 24px rgba(0,0,0,0.06);
+  background-color: var(--green-deep);
+  background-image:
+    radial-gradient(ellipse at 50% 40%, #243f34 0%, transparent 70%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  background-repeat: no-repeat, repeat;
+  background-size: 100% 100%, 200px 200px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.18), 0 12px 40px rgba(0,0,0,0.12);
   border-radius: 8px;
   padding: 2.5rem 2.5rem 2rem;
   max-width: 600px;
   margin: 0 auto;
   text-align: center;
 }
+/* Dress card text overrides — all cream on dark */
+.dress-card .section-heading { color: var(--cream); }
+.dress-card .section-ornament { color: var(--cream); opacity: 0.35; }
+.dress-card .section-ornament::before,
+.dress-card .section-ornament::after { background: var(--cream); }
 .dress-subtitle {
   font-family: var(--font-accent);
   font-style: italic;
   font-size: clamp(1.5rem, 3vw, 2rem);
-  color: var(--green-deep);
+  color: var(--cream);
   margin-bottom: 1rem;
-  opacity: 0.85;
+  opacity: 0.9;
+}
+.dress-card .dress-code-text {
+  color: rgba(240, 230, 200, 0.88);
 }
 
 /* ════════════════════════════════════════
@@ -1282,28 +1304,7 @@ input, select, textarea { text-align: left; }
   opacity: 0.7;
 }
 
-/* ════════════════════════════════════════
-   TILE BAND + AGAVE ACCENT
-   ════════════════════════════════════════ */
-.tile-band {
-  width: 100%;
-  height: 40px;
-  background-color: #e8dcc8;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Crect width='40' height='40' fill='%23e8dcc8'/%3E%3Cpolygon points='20,2 38,20 20,38 2,20' fill='none' stroke='%23b5654a' stroke-width='1.5'/%3E%3Ccircle cx='20' cy='20' r='2' fill='%23b5654a' opacity='0.5'/%3E%3Ccircle cx='0' cy='20' r='2' fill='%23b5654a' opacity='0.4'/%3E%3Ccircle cx='40' cy='20' r='2' fill='%23b5654a' opacity='0.4'/%3E%3C/svg%3E");
-  background-repeat: repeat-x;
-  background-size: 40px 40px;
-  line-height: 0;
-}
-
-.botanical-accent {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 3.5rem 0;
-  background-color: var(--linen);
-  background-image: var(--linen-texture);
-  background-repeat: repeat;
-}
+/* tile-band and botanical-accent removed */
 
 /* ════════════════════════════════════════
    END PICTURE SECTION
@@ -1429,18 +1430,41 @@ input, select, textarea { text-align: left; }
 
 }
 
-/* Quote section: shrink photos between 600px–900px to keep side-by-side */
-@media (max-width: 900px) and (min-width: 601px) {
-  .quote-inner { gap: 2rem; }
-  .quote-polaroid img { width: 110px; height: 110px; }
-  .quote-polaroid { padding: 8px 8px 28px; }
+/* Quote section: full width on tablet */
+@media (max-width: 900px) {
+  .quote-polaroids-wrap { max-width: 90vw; }
+  .quote-polaroid--a { margin-right: -40px; }
 }
 
-/* Quote section: stack below 600px */
-@media (max-width: 600px) {
-  .quote-inner { flex-direction: column; gap: 2.5rem; }
-  .quote-polaroids { justify-content: center; }
-  .quote-polaroid img { width: 130px; height: 130px; }
+/* Quote section: stack below 560px */
+@media (max-width: 560px) {
+  .quote-polaroids-wrap { flex-direction: column; align-items: center; gap: 2.5rem; max-width: 90vw; }
+  .quote-polaroid { width: 75%; margin-right: 0 !important; }
+  .quote-polaroid--a, .quote-polaroid--b { margin: 0; }
+}
+
+/* ── Section Gradient Transitions ── */
+/* FAQ: light → dark (top) and dark → light (bottom) */
+#faq {
+  overflow: visible;
+}
+#faq::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 40px;
+  background: linear-gradient(to bottom, #e8e0d0, transparent);
+  pointer-events: none;
+  z-index: 5;
+}
+#faq::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 40px;
+  background: linear-gradient(to bottom, transparent, #e8e0d0);
+  pointer-events: none;
+  z-index: 5;
 }
 
 @media (max-width: 500px) {

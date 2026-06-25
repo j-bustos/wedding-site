@@ -27,7 +27,6 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   <div class="site-nav-wrap">
     <div class="nav-inner">
       <a class="nav-brand" id="navBrand" href={`${base}/`}>
-        <img src={`${base}/photos/monogram.png`} alt="" class="nav-mono" aria-hidden="true" />
         <span class="nav-brand-text">J &amp; G</span>
       </a>
 
@@ -73,7 +72,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     <p class="footer-title">The Bustos</p>
     <p class="footer-date">December 18, 2026</p>
     <p class="footer-tagline">We can't wait to celebrate with you!</p>
-    <p class="footer-contact">Questions? Email us at <a href="mailto:bustos.jamal@gmail.com">bustos.jamal@gmail.com</a></p>
+    <p class="footer-contact">Questions? Email us at <span>thebustos2026@email.com</span></p>
   </footer>
 
   <!-- ── Lightbox (shared, populated by gallery JS) ── -->
@@ -304,8 +303,8 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
           var rect = quoteSection.getBoundingClientRect();
           var center = rect.top + rect.height / 2;
           var offset = (window.innerHeight / 2 - center) * 0.06;
-          polA.style.transform = 'rotate(-4deg) translateY(' + (offset * 0.9) + 'px)';
-          polB.style.transform = 'rotate(3.5deg) translateY(' + (-12 + offset * 1.1) + 'px)';
+          polA.style.transform = 'rotate(-3deg) translateY(' + (offset * 0.9) + 'px)';
+          polB.style.transform = 'rotate(2deg) translateY(' + (offset * 1.1) + 'px)';
           polRaf = false;
         });
       }
