@@ -1816,6 +1816,11 @@ input, select, textarea { text-align: left; }
   opacity: 1;
 }
 
+/* RSVP section on dark background */
+#rsvp.section-dark .rsvp-sub  { color: var(--cream); }
+#rsvp.section-dark .rsvp-days { color: var(--cream); }
+#rsvp.section-dark .section-ornament { opacity: 0.3; }
+
 /* ════════════════════════════════════════
    NAV PROGRESS BAR
    ════════════════════════════════════════ */
