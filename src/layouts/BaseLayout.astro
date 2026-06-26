@@ -259,17 +259,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       window.addEventListener('scroll', onParallaxScroll, { passive: true });
     }
 
-    // ── Hero Scroll Indicator Fade ──
-    var heroEl = document.querySelector('.hero');
-    var scrollIndicator = document.querySelector('.hero-scroll');
-    if (heroEl && scrollIndicator) {
-      var scrollFadeObs = new IntersectionObserver(function (entries) {
-        scrollIndicator.style.opacity = entries[0].isIntersecting ? '0.5' : '0';
-      }, { threshold: 0.05 });
-      scrollFadeObs.observe(heroEl);
-    }
-
-    // ── Quote Polaroid Subtle Parallax ──
+// ── Quote Polaroid Subtle Parallax ──
     var polA = document.querySelector('.quote-polaroid--a');
     var polB = document.querySelector('.quote-polaroid--b');
     var quoteSection = document.querySelector('.quote-section');
