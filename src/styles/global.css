@@ -458,6 +458,14 @@ input, select, textarea { text-align: left; }
   text-align: center;
 }
 
+/* Gallery, Questions, Gifts headings use Cormorant Garamond italic instead of Mrs Saint Delafield */
+#gallery .section-heading,
+#faq .section-heading,
+#gifts .section-heading {
+  font-family: var(--font-accent);
+  font-style: italic;
+}
+
 .section-ornament {
   display: flex;
   align-items: center;
