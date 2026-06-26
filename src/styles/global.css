@@ -1112,10 +1112,14 @@ input, select, textarea { text-align: left; }
   font-size: 0.875rem;
   color: rgba(240, 230, 200, 0.75);
   line-height: 1.5;
+  background: none;
+  background-color: transparent;
 }
 
 .travel-detail--caution {
-  color: rgba(240, 230, 200, 0.5) !important;
+  color: rgba(240, 230, 200, 0.5);
+  background: none;
+  background-color: transparent;
 }
 
 .travel-airport-divider {
