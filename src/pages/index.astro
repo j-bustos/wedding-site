@@ -411,15 +411,28 @@ const galleryImages = [
           </svg>
           <h3 class="travel-card-heading">Getting There</h3>
           <div class="travel-airports">
-            <p class="travel-primary-airport">
-              McAllen Miller International Airport
-              <span class="travel-iata">(MFE)</span>
-            </p>
-            <p class="travel-alt">Alternative option</p>
-            <p class="travel-secondary-airport">
-              Valley International Airport, Harlingen
-              <span class="travel-iata">(HRL)</span>
-            </p>
+
+            <div class="travel-airport-entry">
+              <div class="travel-airport-name-row">
+                <p class="travel-airport-name">McAllen Miller International Airport (MFE)</p>
+                <span class="travel-recommended-badge">Recommended</span>
+              </div>
+              <ul class="travel-airport-details">
+                <li>~15 minutes from the hotels and venue</li>
+                <li>Airlines: American Airlines, United Airlines, Allegiant Air, Delta</li>
+              </ul>
+            </div>
+
+            <div class="travel-airport-divider" aria-hidden="true"></div>
+
+            <div class="travel-airport-entry">
+              <p class="travel-airport-name travel-airport-name--alt">Valley International Airport, Harlingen (HRL) — Alternative</p>
+              <ul class="travel-airport-details">
+                <li class="travel-detail--caution">~1 hour from McAllen hotels — plan accordingly</li>
+                <li>Airlines: Southwest Airlines, American Airlines, United Airlines, Delta, Sun Country Airlines</li>
+              </ul>
+            </div>
+
           </div>
         </div>
 
