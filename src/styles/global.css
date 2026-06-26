@@ -836,7 +836,7 @@ input, select, textarea { text-align: left; }
 }
 .wp-padrinos-heading {
   font-family: var(--font-serif);
-  font-size: 1.375rem; /* 22px */
+  font-size: 2.25rem; /* 36px */
   font-weight: 400;
   color: var(--green-deep);
   margin-bottom: 0.5rem;
@@ -886,8 +886,7 @@ input, select, textarea { text-align: left; }
   .wp-role,
   .wp-side-label    { font-size: 0.6875rem; } /* 11px */
   .wp-padrinos-grid     { grid-template-columns: 1fr 1fr; gap: 1.25rem 1.5rem; }
-  .wp-padrinos-heading  { font-size: 1.25rem; } /* 20px */
-  .wp-padrino .wp-name  { font-size: 2.125rem; } /* 34px — doubled from 17px, below section-heading min */
+  .wp-padrinos-heading  { font-size: 1.875rem; } /* 30px */
 }
 
 /* ════════════════════════════════════════
@@ -1155,12 +1154,12 @@ input, select, textarea { text-align: left; }
   display: inline-block;
   font-family: var(--font-sans);
   font-size: 0.8125rem; /* 13px */
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--cream);
-  border: 1px solid rgba(240, 230, 200, 0.4);
+  letter-spacing: 0.06em;
+  color: var(--green-deep);
+  background: var(--cream);
+  border: none;
   border-radius: 20px;
-  padding: 6px 14px;
+  padding: 8px 20px;
   margin-top: 0.4rem;
 }
 
@@ -1245,9 +1244,9 @@ input, select, textarea { text-align: left; }
 .rsvp-sub {
   font-family: var(--font-accent);
   font-style: italic;
-  font-size: 1.1rem;
+  font-size: 1.25rem; /* 20px */
   color: var(--ink-soft);
-  margin-bottom: 2.5rem;
+  margin-bottom: 0.5rem;
 }
 .rsvp-embed {
   max-width: 700px;
@@ -1796,11 +1795,11 @@ input, select, textarea { text-align: left; }
 .rsvp-days {
   font-family: var(--font-accent);
   font-style: italic;
-  font-size: 1.9rem; /* doubled from 0.95rem */
-  color: var(--ink-soft);
-  margin-top: 0.35rem;
+  font-size: 2rem; /* 32px */
+  color: #1e3a2f;
+  margin-top: 0.25rem;
   margin-bottom: 2rem;
-  opacity: 0.75;
+  opacity: 1;
 }
 
 /* ════════════════════════════════════════
