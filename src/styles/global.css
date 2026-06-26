@@ -8,7 +8,7 @@
   --ink-soft:    #3a3a3a;
 
   --font-display:      'Italianno', cursive;
-  --font-serif:        'Mrs Saint Delafield', cursive;
+  --font-serif:        'Tangerine', cursive;
   --font-sans:         'Jost', system-ui, sans-serif;
   --font-accent:       'Cormorant Garamond', Georgia, serif;
   --font-script:       'Pinyon Script', cursive;
@@ -454,28 +454,14 @@ input, select, textarea { text-align: left; }
 
 .section-heading {
   font-family: var(--font-serif);
-  font-size: clamp(2.2rem, 8vw, 4rem);
-  font-weight: 400;
+  font-size: clamp(2.64rem, 9.6vw, 4.8rem); /* +20% for Tangerine */
+  font-weight: 700;
   color: var(--green-deep);
   line-height: 1.15;
   margin-bottom: 0.5rem;
   text-align: center;
 }
 
-/* Gallery and Questions headings use Cormorant Garamond italic instead of Mrs Saint Delafield */
-#gallery .section-heading,
-#faq .section-heading {
-  font-family: var(--font-accent);
-  font-style: italic;
-}
-
-/* Gifts heading — Tangerine 700, 20% larger than base section heading */
-#gifts .section-heading {
-  font-family: 'Tangerine', cursive;
-  font-style: normal;
-  font-weight: 700;
-  font-size: clamp(2.64rem, 9.6vw, 4.8rem);
-}
 
 .section-ornament {
   display: flex;
@@ -701,7 +687,8 @@ input, select, textarea { text-align: left; }
 
 .venue-name {
   font-family: var(--font-serif);
-  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  font-size: clamp(1.92rem, 4.8vw, 2.64rem); /* +20% for Tangerine */
+  font-weight: 700;
   color: var(--green-deep);
   line-height: 1.1;
 }
@@ -855,8 +842,8 @@ input, select, textarea { text-align: left; }
 }
 .wp-padrinos-heading {
   font-family: var(--font-serif);
-  font-size: 2.25rem; /* 36px */
-  font-weight: 400;
+  font-size: 2.7rem; /* 36px × 1.2 = 43px for Tangerine */
+  font-weight: 700;
   color: var(--green-deep);
   margin-bottom: 0.5rem;
 }
@@ -905,7 +892,7 @@ input, select, textarea { text-align: left; }
   .wp-role,
   .wp-side-label    { font-size: 0.6875rem; } /* 11px */
   .wp-padrinos-grid     { grid-template-columns: 1fr 1fr; gap: 1.25rem 1.5rem; }
-  .wp-padrinos-heading  { font-size: 1.875rem; } /* 30px */
+  .wp-padrinos-heading  { font-size: 2.25rem; } /* 30px × 1.2 = 36px for Tangerine */
 }
 
 /* ════════════════════════════════════════
@@ -1448,7 +1435,8 @@ input, select, textarea { text-align: left; }
 }
 .footer-title {
   font-family: var(--font-serif);
-  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-size: clamp(3rem, 6vw, 4.2rem); /* +20% for Tangerine */
+  font-weight: 700;
   color: var(--cream);
   line-height: 1;
 }
@@ -1497,12 +1485,11 @@ input, select, textarea { text-align: left; }
   /* Body / base text */
   body { font-size: clamp(1.1rem, 4.5vw, 1.3rem); }
 
-  /* Section headings */
-  .section-heading { font-size: clamp(2.8rem, 10vw, 5rem); }
-  #gifts .section-heading { font-size: clamp(3.36rem, 12vw, 6rem); }
+  /* Section headings — +20% for Tangerine */
+  .section-heading { font-size: clamp(3.36rem, 12vw, 6rem); }
 
-  /* Sub-headings / venue names */
-  .venue-name    { font-size: clamp(1.6rem, 6vw, 2.4rem); }
+  /* Sub-headings / venue names — +20% for Tangerine */
+  .venue-name    { font-size: clamp(1.92rem, 7.2vw, 2.88rem); }
   .venue-address { font-size: clamp(1.1rem, 4.5vw, 1.3rem); }
   .venue-time    { font-size: clamp(1.1rem, 4.5vw, 1.3rem); }
 
@@ -1532,8 +1519,8 @@ input, select, textarea { text-align: left; }
   .hero-countdown-number { font-size: clamp(1.4rem, 5.5vw, 2rem); }
   .hero-countdown-label  { font-size: clamp(0.5rem, 1.8vw, 0.65rem); }
 
-  /* Travel heading — long text, scale down */
-  #where-to-stay .section-heading { font-size: clamp(2rem, 7.5vw, 3.2rem); }
+  /* Travel heading — long text, scale down (then +20% for Tangerine) */
+  #where-to-stay .section-heading { font-size: clamp(2.4rem, 9vw, 3.84rem); }
 
   /* Venues */
   .venues-grid { grid-template-columns: 1fr; gap: 2rem; }
