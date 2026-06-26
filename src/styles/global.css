@@ -207,7 +207,11 @@ input, select, textarea { text-align: left; }
 .hero-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.55);
+  background: linear-gradient(to bottom,
+    transparent 0%,
+    transparent 40%,
+    rgba(0, 0, 0, 0.35) 60%,
+    rgba(0, 0, 0, 0.55) 100%);
   z-index: 1;
 }
 
@@ -233,11 +237,11 @@ input, select, textarea { text-align: left; }
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  padding-top: 28vh;
+  justify-content: flex-end;
+  padding-top: 0;
   padding-left: 2rem;
   padding-right: 2rem;
-  padding-bottom: 2rem;
+  padding-bottom: 5rem;
   text-align: center;
   gap: 0.75rem;
 }
@@ -1511,11 +1515,14 @@ input, select, textarea { text-align: left; }
   /* Hotels */
   .hotel-list-name { font-size: clamp(1.2rem, 4.5vw, 1.4rem); }
 
+  /* Hero bottom anchor — reduce padding on mobile so countdown clears the edge */
+  .hero-content { padding-bottom: 3.5rem; }
+
   /* Countdown */
   .hero-countdown        { gap: 1rem; }
-  .hero-countdown-unit   { padding: 12px 14px; }
-  .hero-countdown-number { font-size: clamp(1.6rem, 6vw, 2.4rem); }
-  .hero-countdown-label  { font-size: clamp(0.55rem, 2vw, 0.7rem); }
+  .hero-countdown-unit   { padding: 10px 12px; }
+  .hero-countdown-number { font-size: clamp(1.4rem, 5.5vw, 2rem); }
+  .hero-countdown-label  { font-size: clamp(0.5rem, 1.8vw, 0.65rem); }
 
   /* Travel heading — long text, scale down */
   #where-to-stay .section-heading { font-size: clamp(2rem, 7.5vw, 3.2rem); }
