@@ -834,7 +834,7 @@ input, select, textarea { text-align: left; }
 
 /* Padrinos */
 .wp-padrinos {
-  background: #ddd5c0;
+  background: #1e3a2f;
   border-radius: 6px;
   padding: 2.5rem 2rem;
   margin-top: 2.5rem;
@@ -844,7 +844,7 @@ input, select, textarea { text-align: left; }
   font-family: var(--font-serif);
   font-size: 2.7rem; /* 36px × 1.2 = 43px for Tangerine */
   font-weight: 700;
-  color: var(--green-deep);
+  color: #f0e6c8;
   margin-bottom: 0.5rem;
 }
 .wp-padrinos-ornament {
@@ -854,15 +854,15 @@ input, select, textarea { text-align: left; }
   gap: 0.75rem;
   margin: 0.5rem auto 1.5rem;
   width: min(160px, 55%);
-  color: var(--green-deep);
-  opacity: 0.4;
+  color: rgba(240, 230, 200, 0.3);
+  opacity: 1;
 }
 .wp-padrinos-ornament::before,
 .wp-padrinos-ornament::after {
   content: '';
   flex: 1;
   height: 1px;
-  background: var(--green-deep);
+  background: rgba(240, 230, 200, 0.3);
 }
 .wp-padrinos-ornament span { font-size: 0.5rem; }
 .wp-padrinos-grid {
@@ -873,6 +873,8 @@ input, select, textarea { text-align: left; }
   margin: 0 auto;
 }
 .wp-padrino { text-align: center; }
+.wp-padrinos .wp-name { color: #f0e6c8; }
+.wp-padrinos .wp-role { color: rgba(240, 230, 200, 0.6); }
 
 /* Mobile collapse below 400px */
 @media (max-width: 400px) {
