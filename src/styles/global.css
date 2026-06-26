@@ -462,12 +462,19 @@ input, select, textarea { text-align: left; }
   text-align: center;
 }
 
-/* Gallery, Questions, Gifts headings use Cormorant Garamond italic instead of Mrs Saint Delafield */
+/* Gallery and Questions headings use Cormorant Garamond italic instead of Mrs Saint Delafield */
 #gallery .section-heading,
-#faq .section-heading,
-#gifts .section-heading {
+#faq .section-heading {
   font-family: var(--font-accent);
   font-style: italic;
+}
+
+/* Gifts heading — Tangerine 700, 20% larger than base section heading */
+#gifts .section-heading {
+  font-family: 'Tangerine', cursive;
+  font-style: normal;
+  font-weight: 700;
+  font-size: clamp(2.64rem, 9.6vw, 4.8rem);
 }
 
 .section-ornament {
@@ -1492,6 +1499,7 @@ input, select, textarea { text-align: left; }
 
   /* Section headings */
   .section-heading { font-size: clamp(2.8rem, 10vw, 5rem); }
+  #gifts .section-heading { font-size: clamp(3.36rem, 12vw, 6rem); }
 
   /* Sub-headings / venue names */
   .venue-name    { font-size: clamp(1.6rem, 6vw, 2.4rem); }
