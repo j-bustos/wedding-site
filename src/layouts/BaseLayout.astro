@@ -33,6 +33,20 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   <meta name="twitter:description" content="Join us as we celebrate our wedding. Holy Spirit Catholic Church & Los Encinos Event Center · McAllen, TX" />
   <meta name="twitter:image" content="https://thebustos2026.com/photos/hero/11_251220-gj-102.jpg" />
 
+  <!-- TEMP: dev password gate — remove before launch -->
+  <script is:inline>
+    (function () {
+      if (localStorage.getItem('bustos_access') === 'true') return;
+      var pw = prompt('Enter password to continue:');
+      if (pw === 'dev2026') {
+        localStorage.setItem('bustos_access', 'true');
+      } else {
+        document.documentElement.innerHTML = '';
+        window.location.replace('about:blank');
+      }
+    })();
+  </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Italianno&family=Jost:wght@300;400;500&family=Mrs+Saint+Delafield&family=Pinyon+Script&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Ruthie&family=Tangerine:wght@400;700&display=swap" rel="stylesheet" />
