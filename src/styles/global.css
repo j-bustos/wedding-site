@@ -256,8 +256,8 @@ input, select, textarea { text-align: left; }
 }
 
 .hero-title {
-  font-family: 'Mrs Saint Delafield', cursive;
-  font-size: clamp(3.5rem, 12vw, 8rem);
+  font-family: 'Pinyon Script', cursive;
+  font-size: clamp(64px, 18vw, 140px);
   color: var(--cream);
   line-height: 0.9;
   text-shadow: 0 2px 40px rgba(0,0,0,0.3);
@@ -271,12 +271,12 @@ input, select, textarea { text-align: left; }
 }
 
 .hero-date {
-  font-family: var(--font-accent);
-  font-style: italic;
+  font-family: 'Julius Sans One', sans-serif;
   font-size: clamp(1rem, 2.5vw, 1.35rem);
   color: var(--cream);
   opacity: 0.9;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
 }
 
 .hero-location {
@@ -1444,9 +1444,9 @@ input, select, textarea { text-align: left; }
   margin-bottom: 0.5rem;
 }
 .footer-title {
-  font-family: var(--font-serif);
-  font-size: clamp(3rem, 6vw, 4.2rem); /* +20% for Tangerine */
-  font-weight: 700;
+  font-family: 'Pinyon Script', cursive;
+  font-size: clamp(3rem, 6vw, 4.2rem);
+  font-weight: 400;
   color: var(--cream);
   line-height: 1;
 }
