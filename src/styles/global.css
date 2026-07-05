@@ -693,6 +693,34 @@ input, select, textarea { text-align: left; }
 }
 .btn-directions:hover { filter: brightness(1.25); }
 
+.cal-btn-group {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 0.6rem;
+}
+.btn-cal {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.45rem 1rem;
+  border: 1.5px solid var(--green-deep);
+  color: var(--green-deep);
+  background: transparent;
+  font-family: var(--font-sans);
+  font-size: 0.62rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  border-radius: 3px;
+  min-height: 38px;
+  transition: background 0.2s var(--ease), color 0.2s var(--ease);
+}
+.btn-cal:hover {
+  background: var(--green-deep);
+  color: var(--cream);
+}
+
 .venue-card-img-wrap { margin-top: auto; }
 
 .venue-photo-img {
@@ -1051,6 +1079,17 @@ input, select, textarea { text-align: left; }
   color: var(--cream);
   opacity: 0.88;
   line-height: 1.75;
+}
+
+.travel-weather {
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  color: var(--cream);
+  opacity: 0.8;
+  line-height: 1.7;
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(240, 230, 200, 0.2);
 }
 
 .travel-airports {
@@ -1802,6 +1841,8 @@ input, select, textarea { text-align: left; }
   line-height: 1.8;
 }
 .section-dark .faq-a { color: rgba(240, 230, 200, 0.82); }
+.section-dark .faq-a a { color: rgba(240, 230, 200, 0.9); text-decoration: underline; text-underline-offset: 3px; }
+.section-dark .faq-a a:hover { color: var(--cream); }
 
 /* Restore .faq-item as container — must be block so trigger spans full width */
 .faq-item { display: block !important; border: none !important; padding: 0 !important; background: none !important; }

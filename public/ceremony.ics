@@ -1,0 +1,13 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//The Bustos Wedding//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+DTSTART;TZID=America/Chicago:20261218T150000
+DTEND;TZID=America/Chicago:20261218T160000
+SUMMARY:The Bustos Wedding — Ceremony
+DESCRIPTION:Ceremony for Jamal & Gabriela's wedding.
+LOCATION:Holy Spirit Catholic Church\, 2201 Martin Ave\, McAllen\, TX 78504
+END:VEVENT
+END:VCALENDAR
