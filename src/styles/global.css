@@ -1034,6 +1034,34 @@ input, select, textarea { text-align: left; }
   margin-top: 0.15rem;
 }
 
+/* ── Timeline dark-green section overrides ── */
+#timeline .section-ornament {
+  color: rgba(240, 230, 200, 0.3);
+  opacity: 1;
+}
+#timeline .section-ornament::before,
+#timeline .section-ornament::after {
+  background: rgba(240, 230, 200, 0.3);
+}
+#timeline .timeline::before {
+  background: linear-gradient(to bottom,
+    transparent,
+    rgba(240, 230, 200, 0.3) 8%,
+    rgba(240, 230, 200, 0.3) 92%,
+    transparent);
+}
+#timeline .timeline-item + .timeline-item::before {
+  background: rgba(240, 230, 200, 0.15);
+}
+#timeline .timeline-dot {
+  background: #f0e6c8;
+  border-color: rgba(240, 230, 200, 0.35);
+  box-shadow: 0 0 0 3px rgba(240, 230, 200, 0.12);
+}
+#timeline .timeline-time  { color: #f0e6c8; }
+#timeline .timeline-event { color: #f0e6c8; }
+#timeline .timeline-desc  { color: rgba(240, 230, 200, 0.75); }
+
 /* ════════════════════════════════════════
    TRAVEL & ACCOMMODATIONS
    ════════════════════════════════════════ */
