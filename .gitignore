@@ -4,3 +4,11 @@ node_modules/
 .env
 .env.*
 !.env.example
+
+# Cloudflare Worker (workers/rsvp)
+workers/rsvp/guest-list.csv
+workers/rsvp/seed-output.sql
+workers/rsvp/.dev.vars
+workers/rsvp/.dev.vars.*
+!workers/rsvp/.dev.vars.example
+workers/rsvp/.wrangler/

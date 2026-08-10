@@ -1,0 +1,35 @@
+name = "thebustos-rsvp"
+main = "src/index.ts"
+compatibility_date = "2024-11-01"
+
+[vars]
+ALLOWED_ORIGIN = "https://thebustos2026.com"
+RSVP_DEADLINE = "2026-11-18T23:59:59-06:00"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "thebustos-rsvp"
+database_id = "REPLACE_WITH_D1_DATABASE_ID"
+
+# Local/dev override — used by `wrangler dev --env dev`.
+[env.dev]
+
+[env.dev.vars]
+ALLOWED_ORIGIN = "http://localhost:4321"
+RSVP_DEADLINE = "2026-11-18T23:59:59-06:00"
+
+[[env.dev.d1_databases]]
+binding = "DB"
+database_name = "thebustos-rsvp"
+database_id = "REPLACE_WITH_D1_DATABASE_ID"
+
+# By default this Worker deploys to the free *.workers.dev subdomain, which
+# needs no DNS changes. If/when thebustos2026.com's DNS is moved onto
+# Cloudflare, you can instead route a subdomain straight to this Worker:
+#
+# [[routes]]
+# pattern = "api.thebustos2026.com/*"
+# zone_name = "thebustos2026.com"
+#
+# and update ALLOWED_ORIGIN / the site's RSVP_API_BASE accordingly. See
+# README.md for the full deploy walkthrough.

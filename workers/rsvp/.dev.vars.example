@@ -1,0 +1,4 @@
+# Copy this file to .dev.vars (gitignored) for local `wrangler dev` runs.
+TURNSTILE_SECRET_KEY=1x0000000000000000000000000000000AA
+ADMIN_TOKEN=change-me-dev-only
+IP_HASH_SALT=change-me-dev-only
