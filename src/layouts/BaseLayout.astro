@@ -1,5 +1,11 @@
 ---
-import '../styles/global.css';
+// global.css is loaded non-render-blocking (media=print swap trick below) --
+// see the inlined critical.css <style> in <head> for why this is safe: it
+// covers everything visible before first paint (tokens, reset, banner, nav,
+// hero). global.css itself still @imports critical.css so the full bundle
+// (used by everything below the fold) contains the same rules.
+import globalCssUrl from '../styles/global.css?url';
+import criticalCss from '../styles/critical.css?raw';
 import RsvpBanner from '../components/RsvpBanner.astro';
 import { ViewTransitions } from 'astro:transitions';
 
@@ -21,6 +27,16 @@ import '@fontsource/julius-sans-one/latin-400.css';
 import '@fontsource/playfair-display/latin-400.css';
 import '@fontsource/playfair-display/latin-600.css';
 import '@fontsource/playfair-display/latin-400-italic.css';
+
+// Preloaded separately (in <head>, below) so the browser can start fetching
+// these four above-the-fold hero fonts in parallel with the render-blocking
+// global stylesheet, instead of waiting to discover them via @font-face
+// once that CSS is parsed (was flagged as the longest network dependency
+// chain — CSS -> font -- in a Lighthouse audit).
+import pinyonScriptUrl from '@fontsource/pinyon-script/files/pinyon-script-latin-400-normal.woff2?url';
+import juliusSansOneUrl from '@fontsource/julius-sans-one/files/julius-sans-one-latin-400-normal.woff2?url';
+import jostLightUrl from '@fontsource/jost/files/jost-latin-300-normal.woff2?url';
+import cormorantSemiBoldItalicUrl from '@fontsource/cormorant-garamond/files/cormorant-garamond-latin-600-italic.woff2?url';
 
 interface Props {
   title?: string;
@@ -45,6 +61,22 @@ const ogImageUrl = `https://thebustos2026.com/og/${ogImage}.png`;
   <title>The Bustos Wedding — December 18, 2026</title>
   <link rel="icon" type="image/png" href={`${base}/favicon.png`} />
   <link rel="apple-touch-icon" href={`${base}/apple-touch-icon.png`} />
+
+  <link rel="preload" as="font" type="font/woff2" href={pinyonScriptUrl} crossorigin />
+  <link rel="preload" as="font" type="font/woff2" href={juliusSansOneUrl} crossorigin />
+  <link rel="preload" as="font" type="font/woff2" href={jostLightUrl} crossorigin />
+  <link rel="preload" as="font" type="font/woff2" href={cormorantSemiBoldItalicUrl} crossorigin />
+
+  <!-- Critical above-the-fold CSS, inlined so first paint doesn't wait on
+       the deferred stylesheet below. -->
+  <style set:html={criticalCss}></style>
+
+  <!-- Full stylesheet, loaded non-render-blocking (classic media=print
+       swap). Everything it adds is below the fold or not needed until
+       interaction, so deferring it doesn't affect first paint. -->
+  <link rel="preload" as="style" href={globalCssUrl} />
+  <link rel="stylesheet" href={globalCssUrl} media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href={globalCssUrl} /></noscript>
 
   <!-- Open Graph -->
   <meta property="og:title" content="Jamal & Gabriela — December 18, 2026" />
@@ -335,20 +367,30 @@ const ogImageUrl = `https://thebustos2026.com/og/${ogImage}.png`;
   // ── Sticky RSVP Button (mobile) ──
   var stickyRsvp = document.getElementById('stickyRsvp');
   if (stickyRsvp) {
+    var rsvpElForSticky = document.getElementById('rsvp');
     stickyRsvp.addEventListener('click', function () {
-      var rsvpEl = document.getElementById('rsvp');
-      if (rsvpEl) rsvpEl.scrollIntoView({ behavior: 'smooth' });
+      if (rsvpElForSticky) rsvpElForSticky.scrollIntoView({ behavior: 'smooth' });
     });
     var heroElForRsvp = document.querySelector('.hero');
+
+    // Cache layout reads (offsetHeight/offsetTop force a synchronous reflow)
+    // instead of re-reading them inside the scroll-driven rAF callback.
+    var cachedHeroH = 0;
+    var cachedRsvpTop = 0;
+    function measureStickyRsvpLayout() {
+      cachedHeroH = heroElForRsvp ? heroElForRsvp.offsetHeight : 0;
+      cachedRsvpTop = rsvpElForSticky ? rsvpElForSticky.offsetTop : 0;
+    }
+    measureStickyRsvpLayout();
+    window.addEventListener('resize', measureStickyRsvpLayout, { passive: true });
+
     var stickyRaf = false;
     function updateStickyRsvp() {
       if (stickyRaf) return;
       stickyRaf = true;
       requestAnimationFrame(function () {
-        var rsvpEl = document.getElementById('rsvp');
-        var heroH = heroElForRsvp ? heroElForRsvp.offsetHeight : 0;
-        var pastHero = window.scrollY > heroH * 0.5;
-        var atOrPastRsvp = rsvpEl ? window.scrollY >= rsvpEl.offsetTop - window.innerHeight * 0.6 : false;
+        var pastHero = window.scrollY > cachedHeroH * 0.5;
+        var atOrPastRsvp = rsvpElForSticky ? window.scrollY >= cachedRsvpTop - window.innerHeight * 0.6 : false;
         stickyRsvp.classList.toggle('visible', pastHero && !atOrPastRsvp);
         stickyRaf = false;
       });

@@ -2,9 +2,9 @@ import sharp from 'sharp';
 import { statSync } from 'node:fs';
 
 const jobs = [
-  { src: 'public/photos/hero/4_251220-gj-92.jpeg', maxWidth: 1600, quality: 68 },
-  { src: 'public/photos/hero/9_251220-gj-97.jpg', maxWidth: 1600, quality: 68 },
-  { src: 'public/photos/hero/11_251220-gj-102.jpg', maxWidth: 1600, quality: 68 },
+  { src: 'public/photos/hero/4_251220-gj-92.jpeg', maxWidth: 1600, quality: 62 },
+  { src: 'public/photos/hero/9_251220-gj-97.jpg', maxWidth: 1600, quality: 62 },
+  { src: 'public/photos/hero/11_251220-gj-102.jpg', maxWidth: 1600, quality: 62 },
   { src: 'public/photos/monogram.png', maxWidth: 400, quality: 90, alpha: true },
   { src: 'public/photos/1_251220-gj-50.jpg', maxWidth: 1000, quality: 80 },
   { src: 'public/photos/Gallery/5_251220-gj-73.jpg', maxWidth: 1000, quality: 80 },
