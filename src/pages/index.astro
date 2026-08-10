@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import RsvpForm from '../components/RsvpForm.astro';
 import { HOTELS } from '../data/hotels';
 import ScheduleMap from '../components/ScheduleMap.astro';
-import { PHOTO_SHARE_URL, CEREMONY, RECEPTION } from '../site.config';
+import { PHOTO_SHARE_URL, CEREMONY, RECEPTION, REGISTRY_HANDLE } from '../site.config';
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 const heroSlides = [
@@ -637,11 +637,11 @@ const heroSlides = [
         <div class="faq-item">
           <button class="faq-trigger" aria-expanded="false">
             <span class="faq-number">10</span>
-            <span class="faq-q">Do you have a registry?</span>
+            <span class="faq-q">What about gifts?</span>
             <span class="faq-icon" aria-hidden="true">+</span>
           </button>
           <div class="faq-answer" aria-hidden="true">
-            <p class="faq-a">Your presence is truly the gift. If you'd like to give one anyway, see the Gifts section below for our CashApp.</p>
+            <p class="faq-a">Your presence is the gift. If you'd like to contribute toward our honeymoon, our CashApp is {REGISTRY_HANDLE} — see the Gifts section below.</p>
           </div>
         </div>
 

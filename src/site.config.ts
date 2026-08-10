@@ -41,7 +41,8 @@ export const CONTACT_PHONE: string | null = null;
 // hero state links here only when non-null.
 export const PHOTO_SHARE_URL: string | null = null;
 
-// Reusing the existing CashApp gift link as the site's registry/gift link.
+// This is a gift link (CashApp), not a formal registry — the FAQ/Gifts
+// copy is worded accordingly.
 export const REGISTRY_URL = 'https://cash.app/$JamalAndGabbie';
 export const REGISTRY_HANDLE = '$JamalAndGabbie';
 
