@@ -1,5 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import RsvpForm from '../components/RsvpForm.astro';
+import { HOTELS } from '../data/hotels';
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 const heroSlides = [
@@ -8,16 +10,6 @@ const heroSlides = [
   `${base}/photos/hero/11_251220-gj-102.jpg`,
 ];
 
-const galleryImages = [
-  { src: `${base}/photos/Gallery/3_251220-gj-66.jpeg`,  alt: 'Jamal and Gabriela' },
-  { src: `${base}/photos/Gallery/4_251220-gj-92.jpg`,   alt: 'Jamal and Gabriela' },
-  { src: `${base}/photos/Gallery/5_251220-gj-73.jpg`,   alt: 'Jamal and Gabriela' },
-  { src: `${base}/photos/Gallery/6_251220-gj-3.jpg`,    alt: 'Jamal and Gabriela' },
-  { src: `${base}/photos/Gallery/8_251220-gj-75.jpg`,   alt: 'Jamal and Gabriela' },
-  { src: `${base}/photos/Gallery/10_251220-gj-6.jpg`,   alt: 'Jamal and Gabriela' },
-  { src: `${base}/photos/Gallery/14_251220-gj-100.jpg`, alt: 'Jamal and Gabriela' },
-  { src: `${base}/photos/Gallery/15_251220-gj-47.jpg`,  alt: 'Jamal and Gabriela' },
-];
 ---
 <BaseLayout title="Home">
   <link rel="preload" as="image" href={heroSlides[0]} fetchpriority="high" slot="head" />
@@ -183,7 +175,7 @@ const galleryImages = [
                 <svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="1" y="3" width="14" height="12" rx="1.5" stroke="currentColor" stroke-width="1.4"/><line x1="1" y1="7" x2="15" y2="7" stroke="currentColor" stroke-width="1.4"/><line x1="4.5" y1="1" x2="4.5" y2="5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><line x1="11.5" y1="1" x2="11.5" y2="5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
                 Apple Calendar
               </a>
-              <a class="btn-cal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=The+Bustos+Wedding+%E2%80%94+Reception&dates=20261218T230000Z%2F20261219T050000Z&details=Reception+for+Jamal+%26+Gabriela%27s+wedding.&location=Los+Encinos+Event+Center%2C+17256+La+Blanca+Road%2C+Donna%2C+TX+78537" target="_blank" rel="noopener noreferrer">
+              <a class="btn-cal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=The+Bustos+Wedding+%E2%80%94+Reception&dates=20261218T230000Z%2F20261219T060000Z&details=Reception+for+Jamal+%26+Gabriela%27s+wedding.&location=Los+Encinos+Event+Center%2C+17256+La+Blanca+Road%2C+Donna%2C+TX+78537" target="_blank" rel="noopener noreferrer">
                 <svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="1" y="3" width="14" height="12" rx="1.5" stroke="currentColor" stroke-width="1.4"/><line x1="1" y1="7" x2="15" y2="7" stroke="currentColor" stroke-width="1.4"/><line x1="4.5" y1="1" x2="4.5" y2="5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><line x1="11.5" y1="1" x2="11.5" y2="5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
                 Google Calendar
               </a>
@@ -331,17 +323,12 @@ const galleryImages = [
        3. DRESS CODE (light linen)
        ════════════════════════════════ -->
 
-  <section id="dress-code" class="section section-cream">
-    <div class="section-inner">
-      <div class="dress-card">
-        <h2 class="section-heading">Dress Code</h2>
-        <div class="section-ornament"><span>✦</span></div>
-        <p class="dress-subtitle">All Black Formal Attire</p>
-        <p class="dress-code-text">
-          We kindly ask all guests to wear all black.<br />
-          Your elegance will set the perfect tone for our celebration.
-        </p>
-      </div>
+  <section id="dress-code" class="dress-code-band">
+    <div class="dress-code-band-inner">
+      <p class="dress-code-eyebrow">Dress Code</p>
+      <h2 class="dress-code-display">ALL BLACK</h2>
+      <p class="dress-code-support">Formal attire, head to toe in black. One color, one room, one unforgettable photo.</p>
+      <p class="dress-code-clarifier">Floor-length or cocktail dresses &middot; Suits or tuxedos &middot; Black on black encouraged.</p>
     </div>
   </section>
 
@@ -359,52 +346,45 @@ const galleryImages = [
           <div class="timeline-dot-wrap"><div class="timeline-dot"></div></div>
           <div class="timeline-col">
             <span class="timeline-event">Ceremony</span>
-            <p class="timeline-desc">Join us as we exchange our vows surrounded by those we love.</p>
+            <p class="timeline-desc">
+              Holy Spirit Catholic Church, McAllen —
+              <a class="timeline-link" href="https://www.google.com/maps/search/?api=1&query=Holy+Spirit+Catholic+Church,+2201+Martin+Ave,+McAllen,+TX+78504" target="_blank" rel="noopener noreferrer">directions</a>
+            </p>
           </div>
         </div>
         <div class="timeline-item">
-          <span class="timeline-time">4:00 PM</span>
+          <span class="timeline-time">4:30 PM</span>
           <div class="timeline-dot-wrap"><div class="timeline-dot"></div></div>
-          <span class="timeline-event">Cocktail Hour</span>
+          <span class="timeline-event">Ceremony concludes</span>
+        </div>
+        <div class="timeline-item timeline-item--note">
+          <span class="timeline-time" aria-hidden="true"></span>
+          <div class="timeline-dot-wrap"><div class="timeline-dot timeline-dot--note"></div></div>
+          <div class="timeline-col">
+            <p class="timeline-desc">The reception is about 20 minutes away in Donna. Head straight over — doors open at 5:00.</p>
+          </div>
         </div>
         <div class="timeline-item">
           <span class="timeline-time">5:00 PM</span>
           <div class="timeline-dot-wrap"><div class="timeline-dot"></div></div>
-          <span class="timeline-event">Reception Begins</span>
+          <span class="timeline-event">Happy hour</span>
         </div>
         <div class="timeline-item">
-          <span class="timeline-time">5:30 PM</span>
-          <div class="timeline-dot-wrap"><div class="timeline-dot"></div></div>
-          <span class="timeline-event">Dinner</span>
-        </div>
-        <div class="timeline-item">
-          <span class="timeline-time">6:30 PM</span>
-          <div class="timeline-dot-wrap"><div class="timeline-dot"></div></div>
-          <span class="timeline-event">Toasts</span>
-        </div>
-        <div class="timeline-item">
-          <span class="timeline-time">7:00 PM</span>
+          <span class="timeline-time">6:00 PM</span>
           <div class="timeline-dot-wrap"><div class="timeline-dot"></div></div>
           <div class="timeline-col">
-            <span class="timeline-event">First Dance</span>
-            <p class="timeline-desc">The moment we've been waiting for — our first dance as husband and wife.</p>
+            <span class="timeline-event">Reception</span>
+            <p class="timeline-desc">
+              Los Encinos Event Center, Donna —
+              <a class="timeline-link" href="https://www.google.com/maps/search/?api=1&query=Los+Encinos+Event+Center,+17256+La+Blanca+Road,+Donna,+TX+78537" target="_blank" rel="noopener noreferrer">directions</a>
+            </p>
           </div>
         </div>
         <div class="timeline-item">
-          <span class="timeline-time">7:30 PM</span>
-          <div class="timeline-dot-wrap"><div class="timeline-dot"></div></div>
-          <span class="timeline-event">Cake Cutting</span>
-        </div>
-        <div class="timeline-item">
-          <span class="timeline-time">8:00 PM</span>
-          <div class="timeline-dot-wrap"><div class="timeline-dot"></div></div>
-          <span class="timeline-event">Dancing &amp; Celebration</span>
-        </div>
-        <div class="timeline-item">
-          <span class="timeline-time">11:00 PM</span>
+          <span class="timeline-time">12:00 AM</span>
           <div class="timeline-dot-wrap"><div class="timeline-dot"></div></div>
           <div class="timeline-col">
-            <span class="timeline-event">Send-off</span>
+            <span class="timeline-event">Last dance</span>
             <p class="timeline-desc">Help us celebrate one last time as we head off into our new adventure.</p>
           </div>
         </div>
@@ -452,49 +432,7 @@ const galleryImages = [
             </div>
 
           </div>
-          <p class="travel-weather">Decembers in the Rio Grande Valley are typically mild — expect daytime highs in the 60s and 70s, with cooler evenings. We recommend packing layers.</p>
-        </div>
-
-        <!-- Accommodations -->
-        <div class="travel-card">
-          <svg class="travel-icon" width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true">
-            <rect x="4" y="12" width="28" height="22" rx="1" stroke="#1e3a2f" stroke-width="1.5"/>
-            <path d="M8 12V8l10-5 10 5v4" stroke="#1e3a2f" stroke-width="1.5" fill="none"/>
-            <rect x="15" y="24" width="6" height="10" fill="#1e3a2f" opacity="0.35"/>
-            <rect x="7" y="17" width="5" height="5" rx="0.5" stroke="#1e3a2f" stroke-width="1.2"/>
-            <rect x="24" y="17" width="5" height="5" rx="0.5" stroke="#1e3a2f" stroke-width="1.2"/>
-          </svg>
-          <h3 class="travel-card-heading">Accommodations</h3>
-          <ul class="hotel-list">
-            <li class="hotel-list-item">
-              <a class="hotel-list-link" href="https://www.wyndhamhotels.com/laquinta/mcallen-texas/la-quinta-mcallen-convention-center/overview?CID=LC:6ysy27krtpcrqev:53221&iata=00093796" target="_blank" rel="noopener noreferrer">
-                <span class="hotel-list-name">La Quinta Inn &amp; Suites McAllen</span>
-                <span class="hotel-list-city">McAllen, TX</span>
-                <span class="hotel-list-book">Book Now →</span>
-              </a>
-            </li>
-            <li class="hotel-list-item">
-              <a class="hotel-list-link" href="https://www.choicehotels.com/texas/mcallen/cambria-hotels/txg05?mc=llgoxxpx" target="_blank" rel="noopener noreferrer">
-                <span class="hotel-list-name">Cambria Hotel McAllen</span>
-                <span class="hotel-list-city">McAllen, TX</span>
-                <span class="hotel-list-book">Book Now →</span>
-              </a>
-            </li>
-            <li class="hotel-list-item">
-              <a class="hotel-list-link" href="https://www.hilton.com/en/hotels/mfecoes-embassy-suites-mcallen-convention-center/?SEO_id=GMB-AMER-ES-MFECOES&y_source=1_MzM1NTMzOS03MTUtbG9jYXRpb24ud2Vic2l0ZQ%3D%3D" target="_blank" rel="noopener noreferrer">
-                <span class="hotel-list-name">Embassy Suites by Hilton McAllen</span>
-                <span class="hotel-list-city">McAllen, TX</span>
-                <span class="hotel-list-book">Book Now →</span>
-              </a>
-            </li>
-            <li class="hotel-list-item">
-              <a class="hotel-list-link" href="https://www.hilton.com/en/hotels/mfemahu-home2-suites-mcallen/" target="_blank" rel="noopener noreferrer">
-                <span class="hotel-list-name">Home2 Suites by Hilton McAllen</span>
-                <span class="hotel-list-city">McAllen, TX</span>
-                <span class="hotel-list-book">Book Now →</span>
-              </a>
-            </li>
-          </ul>
+          <p class="travel-weather">December in the Rio Grande Valley ranges from 45°F to 80°F — an evening layer is smart.</p>
         </div>
 
         <!-- Transportation -->
@@ -511,22 +449,21 @@ const galleryImages = [
         </div>
 
       </div>
-    </div>
-  </section>
 
-  <!-- ════════════════════════════════
-       6. GALLERY (light linen)
-       ════════════════════════════════ -->
-
-  <section id="gallery" class="section section-white">
-    <div class="section-inner-wide">
-      <h2 class="section-heading">Gallery</h2>
-      <div class="section-ornament"><span>✦</span></div>
-      <p class="gallery-intro">A few moments from our engagement session.</p>
-      <div class="gallery-grid" id="galleryGrid">
-        {galleryImages.map((img) => (
-          <div class="gallery-item" tabindex="0" role="button" aria-label={`View photo: ${img.alt}`}>
-            <img src={img.src} alt={img.alt} loading="lazy" />
+      <h3 class="hotels-heading">Where to Stay</h3>
+      <div class="hotels-grid">
+        {HOTELS.map((hotel) => (
+          <div class="hotel-card">
+            <p class="hotel-card-name">{hotel.name}</p>
+            <p class="hotel-card-city">{hotel.city}</p>
+            <p class="hotel-card-drive">{hotel.driveTimeCeremony} to ceremony &middot; {hotel.driveTimeReception} to reception</p>
+            <p class="hotel-card-phone">{hotel.phone}</p>
+            {hotel.blockCode === null ? (
+              <p class="hotel-card-block-note">Room block details coming soon — book flexible rates for now.</p>
+            ) : (
+              <p class="hotel-card-block-note">Block code {hotel.blockCode} &middot; book by {hotel.bookByDate}</p>
+            )}
+            <a class="hotel-card-link" href={hotel.url} target="_blank" rel="noopener noreferrer">Visit hotel site →</a>
           </div>
         ))}
       </div>
@@ -534,27 +471,16 @@ const galleryImages = [
   </section>
 
   <!-- ════════════════════════════════
-       7. RSVP (light linen)
+       6. RSVP (light linen)
        ════════════════════════════════ -->
 
   <section id="rsvp" class="section section-dark">
     <div class="section-inner">
       <h2 class="section-heading">Kindly Reply</h2>
       <div class="section-ornament"><span>✦</span></div>
-      <p class="rsvp-sub">Kindly reply by November 1, 2026</p>
+      <p class="rsvp-sub">Kindly reply by November 18, 2026</p>
       <p class="rsvp-days" id="rsvpDays"></p>
-      <iframe
-        data-tally-src="https://tally.so/embed/ODg7Zk?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1"
-        loading="lazy"
-        width="100%"
-        height="400"
-        frameborder="0"
-        marginheight="0"
-        marginwidth="0"
-        title="The Bustos Wedding RSVP"
-        style="min-height: 400px; width: 100%; border: none;"
-      ></iframe>
-      <script is:inline>var d=document,w="https://tally.so/widgets/embed.js",v=function(){"undefined"!=typeof Tally?Tally.loadEmbeds():d.querySelectorAll("iframe[data-tally-src]:not([src])").forEach((function(e){e.src=e.dataset.tallySrc}))};if("undefined"!=typeof Tally)v();else if(d.querySelector('script[src="'+w+'"]')==null){var s=d.createElement("script");s.src=w;s.onload=v;s.onerror=v;d.body.appendChild(s);}</script>
+      <RsvpForm />
     </div>
   </section>
 
@@ -582,72 +508,105 @@ const galleryImages = [
         <div class="faq-item">
           <button class="faq-trigger" aria-expanded="false">
             <span class="faq-number">2</span>
-            <span class="faq-q">Are children welcome?</span>
+            <span class="faq-q">What is the RSVP deadline?</span>
             <span class="faq-icon" aria-hidden="true">+</span>
           </button>
           <div class="faq-answer" aria-hidden="true">
-            <p class="faq-a">While we love your little ones, this will be an adults-only celebration.</p>
+            <p class="faq-a">Please RSVP by November 18, 2026 so we can finalize seating and catering.</p>
           </div>
         </div>
 
         <div class="faq-item">
           <button class="faq-trigger" aria-expanded="false">
             <span class="faq-number">3</span>
-            <span class="faq-q">Is parking available?</span>
+            <span class="faq-q">What is the dress code?</span>
             <span class="faq-icon" aria-hidden="true">+</span>
           </button>
           <div class="faq-answer" aria-hidden="true">
-            <p class="faq-a">Yes, complimentary parking is available on-site at Los Encinos Event Center.</p>
+            <p class="faq-a">All black formal attire. Floor-length or cocktail dresses, suits or tuxedos — we kindly ask every guest to dress head to toe in black for our celebration.</p>
           </div>
         </div>
 
         <div class="faq-item">
           <button class="faq-trigger" aria-expanded="false">
             <span class="faq-number">4</span>
-            <span class="faq-q">What is the RSVP deadline?</span>
+            <span class="faq-q">Does it really have to be all black?</span>
             <span class="faq-icon" aria-hidden="true">+</span>
           </button>
           <div class="faq-answer" aria-hidden="true">
-            <p class="faq-a">Please RSVP by November 1, 2026 so we can finalize seating and catering.</p>
+            <p class="faq-a">Yes — we promise the photos will be worth it.</p>
           </div>
         </div>
 
         <div class="faq-item">
           <button class="faq-trigger" aria-expanded="false">
             <span class="faq-number">5</span>
-            <span class="faq-q">What is the dress code?</span>
+            <span class="faq-q">Are kids or plus-ones included?</span>
             <span class="faq-icon" aria-hidden="true">+</span>
           </button>
           <div class="faq-answer" aria-hidden="true">
-            <p class="faq-a">All black formal attire. We kindly ask all guests to dress in all black for our celebration.</p>
+            <p class="faq-a">Your invitation lookup will show exactly who's included in your party. If you're not sure, look yourself up in the RSVP section above — it lists every named guest and any additional seats reserved for your household.</p>
           </div>
         </div>
 
         <div class="faq-item">
           <button class="faq-trigger" aria-expanded="false">
             <span class="faq-number">6</span>
-            <span class="faq-q">Is transportation provided to the venue?</span>
+            <span class="faq-q">Is the ceremony unplugged?</span>
             <span class="faq-icon" aria-hidden="true">+</span>
           </button>
           <div class="faq-answer" aria-hidden="true">
-            <p class="faq-a">Transportation is not provided. We recommend renting a car — the venue is approximately 20 minutes from McAllen. Rideshare services are also available in the area.</p>
+            <p class="faq-a">We kindly ask that phones and cameras stay put during the ceremony so everyone can be fully present — our photographer has it covered, and we'll share photos afterward. Feel free to snap away at the reception!</p>
           </div>
         </div>
 
         <div class="faq-item">
           <button class="faq-trigger" aria-expanded="false">
             <span class="faq-number">7</span>
-            <span class="faq-q">Plus-ones</span>
+            <span class="faq-q">Is transportation provided to the venue?</span>
             <span class="faq-icon" aria-hidden="true">+</span>
           </button>
           <div class="faq-answer" aria-hidden="true">
-            <p class="faq-a">Due to limited guest capacity, we're only able to accommodate those listed by name on your invitation.</p>
+            <p class="faq-a">Transportation is not provided — we recommend renting a car for the weekend. Uber and Lyft coverage in Donna is limited late at night, so plan a designated driver or leave with your group.</p>
           </div>
         </div>
 
         <div class="faq-item">
           <button class="faq-trigger" aria-expanded="false">
             <span class="faq-number">8</span>
+            <span class="faq-q">Is parking available?</span>
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-answer" aria-hidden="true">
+            <p class="faq-a">Yes — parking is available on-site at Holy Spirit Catholic Church for the ceremony, and complimentary on-site parking is available at Los Encinos Event Center for the reception.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-trigger" aria-expanded="false">
+            <span class="faq-number">9</span>
+            <span class="faq-q">What's the weather like?</span>
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-answer" aria-hidden="true">
+            <p class="faq-a">December in the Rio Grande Valley ranges from 45°F to 80°F — an evening layer is smart.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-trigger" aria-expanded="false">
+            <span class="faq-number">10</span>
+            <span class="faq-q">Do you have a registry?</span>
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-answer" aria-hidden="true">
+            <p class="faq-a">Your presence is truly the gift. If you'd like to give one anyway, see the Gifts section below for our CashApp.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-trigger" aria-expanded="false">
+            <span class="faq-number">11</span>
             <span class="faq-q">Who do I contact with questions?</span>
             <span class="faq-icon" aria-hidden="true">+</span>
           </button>
@@ -740,7 +699,7 @@ const galleryImages = [
   // ── RSVP days remaining ──
   var rsvpDaysEl = document.getElementById('rsvpDays');
   if (rsvpDaysEl) {
-    var rsvpDeadline = new Date('2026-11-01T00:00:00-06:00').getTime();
+    var rsvpDeadline = new Date('2026-11-18T23:59:59-06:00').getTime();
     var rsvpDiff = rsvpDeadline - Date.now();
     if (rsvpDiff > 0) {
       var daysLeft = Math.ceil(rsvpDiff / 86400000);
@@ -749,17 +708,4 @@ const galleryImages = [
       rsvpDaysEl.textContent = 'RSVP deadline has passed';
     }
   }
-
-  // ── Gallery lightbox ──
-  document.querySelectorAll('.gallery-item').forEach(function(item) {
-    var trigger = function(e) {
-      if (e.type === 'keydown' && e.key !== 'Enter') return;
-      var img = item.querySelector('img');
-      if (img && window.__openLightbox) {
-        window.__openLightbox(img.src, img.alt);
-      }
-    };
-    item.addEventListener('click', trigger);
-    item.addEventListener('keydown', trigger);
-  });
 </script>

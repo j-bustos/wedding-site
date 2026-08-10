@@ -1,0 +1,60 @@
+---
+import {
+  RSVP_DEADLINE_ISO,
+  RSVP_API_BASE,
+  TURNSTILE_SITE_KEY,
+  CONTACT_PHONE,
+  CONTACT_EMAIL,
+} from '../site.config';
+
+const deadlinePassed = Date.now() > new Date(RSVP_DEADLINE_ISO).getTime();
+const deadlineFormatted = new Date(RSVP_DEADLINE_ISO).toLocaleDateString('en-US', {
+  month: 'long',
+  day: 'numeric',
+  year: 'numeric',
+  timeZone: 'America/Chicago',
+});
+const contactLine = CONTACT_PHONE
+  ? `Text us at ${CONTACT_PHONE}`
+  : `Email us at ${CONTACT_EMAIL}`;
+---
+
+{deadlinePassed ? (
+  <div class="rsvp-closed-card">
+    <h3>RSVPs are closed</h3>
+    <p>Our RSVP deadline of {deadlineFormatted} has passed.</p>
+    <p>Need to make a change? {contactLine} and we'll sort it out.</p>
+  </div>
+) : (
+  <div
+    class="rsvp-form"
+    data-rsvp-form
+    data-api-base={RSVP_API_BASE}
+    data-turnstile-site-key={TURNSTILE_SITE_KEY}
+    data-contact-phone={CONTACT_PHONE ?? ''}
+    data-contact-email={CONTACT_EMAIL}
+  >
+    <div id="rsvpLive" class="sr-only" aria-live="polite" role="status"></div>
+
+    <section class="rsvp-step" data-step="find">
+      <h3 data-step-heading>Find your invitation</h3>
+      <p class="rsvp-hint">Enter your first and last name as it appears on your invitation.</p>
+      <label class="sr-only" for="rsvpNameInput">Full name</label>
+      <input type="text" id="rsvpNameInput" class="rsvp-name-input" autocomplete="name" required />
+      <div id="rsvpTurnstile" class="rsvp-turnstile"></div>
+      <button type="button" id="rsvpFindBtn" class="btn-primary" disabled>Find my invitation</button>
+      <p class="rsvp-error" id="rsvpFindError" hidden></p>
+    </section>
+
+    <section class="rsvp-step" data-step="confirm" hidden></section>
+    <section class="rsvp-step" data-step="ambiguous" hidden></section>
+    <section class="rsvp-step" data-step="not-found" hidden></section>
+    <section class="rsvp-step" data-step="respond" hidden></section>
+    <section class="rsvp-step" data-step="review" hidden></section>
+    <section class="rsvp-step" data-step="success" hidden></section>
+  </div>
+)}
+
+<script>
+  import '../scripts/rsvp-form';
+</script>

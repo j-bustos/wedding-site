@@ -5,7 +5,7 @@ CALSCALE:GREGORIAN
 METHOD:PUBLISH
 BEGIN:VEVENT
 DTSTART;TZID=America/Chicago:20261218T170000
-DTEND;TZID=America/Chicago:20261218T230000
+DTEND;TZID=America/Chicago:20261219T000000
 SUMMARY:The Bustos Wedding — Reception
 DESCRIPTION:Reception for Jamal & Gabriela's wedding.
 LOCATION:Los Encinos Event Center\, 17256 La Blanca Road\, Donna\, TX 78537

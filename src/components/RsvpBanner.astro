@@ -1,0 +1,29 @@
+---
+import { RSVP_DEADLINE_ISO } from '../site.config';
+
+const deadlinePassed = Date.now() > new Date(RSVP_DEADLINE_ISO).getTime();
+const deadlineFormatted = new Date(RSVP_DEADLINE_ISO).toLocaleDateString('en-US', {
+  month: 'long',
+  day: 'numeric',
+  year: 'numeric',
+  timeZone: 'America/Chicago',
+});
+---
+
+{!deadlinePassed && (
+  <div class="rsvp-banner" id="rsvpBanner">
+    <p class="rsvp-banner-text">
+      Please RSVP by {deadlineFormatted}.
+      <a href="#rsvp" class="rsvp-banner-link">RSVP now</a>
+    </p>
+    <button type="button" class="rsvp-banner-dismiss" id="rsvpBannerDismiss" aria-label="Dismiss this reminder">&times;</button>
+  </div>
+)}
+
+<script>
+  const banner = document.getElementById('rsvpBanner');
+  const dismissBtn = document.getElementById('rsvpBannerDismiss');
+  dismissBtn?.addEventListener('click', () => {
+    banner?.remove();
+  });
+</script>
