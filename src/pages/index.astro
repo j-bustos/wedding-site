@@ -2,12 +2,14 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import RsvpForm from '../components/RsvpForm.astro';
 import { HOTELS } from '../data/hotels';
+import ScheduleMap from '../components/ScheduleMap.astro';
+import { PHOTO_SHARE_URL, CEREMONY, RECEPTION } from '../site.config';
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 const heroSlides = [
-  `${base}/photos/hero/4_251220-gj-92.jpeg`,
-  `${base}/photos/hero/9_251220-gj-97.jpg`,
-  `${base}/photos/hero/11_251220-gj-102.jpg`,
+  `${base}/photos/hero/4_251220-gj-92.webp`,
+  `${base}/photos/hero/9_251220-gj-97.webp`,
+  `${base}/photos/hero/11_251220-gj-102.webp`,
 ];
 
 ---
@@ -20,16 +22,16 @@ const heroSlides = [
   <div class="hero" id="hero">
 
     {heroSlides.map((src, i) => (
-      <div
-        class={`hero-slide${i === 0 ? ' active' : ''}`}
-        style={`background-image:url('${src}')`}
-        aria-hidden="true"
-      />
+      i === 0 ? (
+        <div class="hero-slide active" style={`background-image:url('${src}')`} aria-hidden="true" />
+      ) : (
+        <div class="hero-slide" data-bg={src} aria-hidden="true" />
+      )
     ))}
 
     <div class="hero-overlay" aria-hidden="true"></div>
 
-    <div class="hero-content">
+    <div class="hero-content" id="heroStateCountdown" data-hero-state="countdown">
       <h1 class="hero-title">The Bustos</h1>
 
       <div class="hero-divider" aria-hidden="true"></div>
@@ -56,7 +58,39 @@ const heroSlides = [
         </div>
       </div>
 
-      <a href="#rsvp" class="hero-rsvp-btn">RSVP Now</a>
+      <a href="#rsvp" class="hero-rsvp-btn" id="heroCta">RSVP Now</a>
+    </div>
+
+    <div class="hero-content hero-content--day-of" id="heroStateDayOf" data-hero-state="day-of" hidden>
+      <h1 class="hero-title">Today's the Day</h1>
+      <div class="hero-divider" aria-hidden="true"></div>
+      <ul class="hero-day-timeline" id="heroDayTimeline" aria-label="Today's schedule">
+        <li data-hero-time={CEREMONY.startIso}>
+          <span class="hero-day-time">3:00 PM</span><span class="hero-day-event">Ceremony</span>
+        </li>
+        <li data-hero-time={CEREMONY.endIso}>
+          <span class="hero-day-time">4:30 PM</span><span class="hero-day-event">Ceremony concludes</span>
+        </li>
+        <li data-hero-time={RECEPTION.doorsIso}>
+          <span class="hero-day-time">5:00 PM</span><span class="hero-day-event">Happy hour</span>
+        </li>
+        <li data-hero-time={RECEPTION.startIso}>
+          <span class="hero-day-time">6:00 PM</span><span class="hero-day-event">Reception</span>
+        </li>
+        <li data-hero-time={RECEPTION.endIso}>
+          <span class="hero-day-time">12:00 AM</span><span class="hero-day-event">Last dance</span>
+        </li>
+      </ul>
+      <a href="#timeline" class="hero-rsvp-btn">Full Schedule</a>
+    </div>
+
+    <div class="hero-content" id="heroStateAfter" data-hero-state="after" hidden>
+      <h1 class="hero-title">Thank You</h1>
+      <div class="hero-divider" aria-hidden="true"></div>
+      <p class="hero-date">We're so grateful you celebrated with us.</p>
+      {PHOTO_SHARE_URL && (
+        <a href={PHOTO_SHARE_URL} class="hero-rsvp-btn" target="_blank" rel="noopener noreferrer">See &amp; Share Photos</a>
+      )}
     </div>
 
   </div>
@@ -70,10 +104,10 @@ const heroSlides = [
   <div class="quote-section">
     <div class="quote-polaroids-wrap">
       <div class="quote-polaroid quote-polaroid--a">
-        <img src={`${base}/photos/1_251220-gj-50.jpg`} alt="Jamal and Gabriela" loading="lazy" />
+        <img src={`${base}/photos/1_251220-gj-50.webp`} alt="Jamal and Gabriela" loading="lazy" width="947" height="1400" />
       </div>
       <div class="quote-polaroid quote-polaroid--b">
-        <img src={`${base}/photos/Gallery/5_251220-gj-73.jpg`} alt="Jamal and Gabriela" loading="lazy" />
+        <img src={`${base}/photos/Gallery/5_251220-gj-73.webp`} alt="Jamal and Gabriela" loading="lazy" width="976" height="1400" />
       </div>
     </div>
   </div>
@@ -132,10 +166,13 @@ const heroSlides = [
           </div>
           <div class="venue-card-img-wrap">
             <img
-              src={`${base}/photos/Venue/ceremony2.png`}
+              src={`${base}/photos/Venue/ceremony2.webp`}
               alt="Holy Spirit Catholic Church"
               class="venue-photo-img"
               style="width:100%;height:auto"
+              width="1200"
+              height="594"
+              loading="lazy"
             />
           </div>
         </div>
@@ -183,10 +220,13 @@ const heroSlides = [
           </div>
           <div class="venue-card-img-wrap">
             <img
-              src={`${base}/photos/Venue/reception2.png`}
+              src={`${base}/photos/Venue/reception2.webp`}
               alt="Los Encinos Event Center"
               class="venue-photo-img"
               style="width:100%;height:auto"
+              width="1200"
+              height="815"
+              loading="lazy"
             />
           </div>
         </div>
@@ -316,7 +356,7 @@ const heroSlides = [
 
   <!-- ── Full-bleed photo divider ── -->
   <div class="party-photo-divider" aria-hidden="true">
-    <img src={`${base}/photos/Gallery/3_251220-gj-66.jpeg`} alt="" loading="lazy" style="width:100%;height:100%" />
+    <img src={`${base}/photos/Gallery/3_251220-gj-66.webp`} alt="" loading="lazy" style="width:100%;height:100%" width="1400" height="1020" />
   </div>
 
   <!-- ════════════════════════════════
@@ -400,6 +440,7 @@ const heroSlides = [
     <div class="section-inner-wide">
       <h2 class="section-heading">Travel &amp; Accommodations</h2>
       <div class="section-ornament"><span>✦</span></div>
+      <ScheduleMap />
       <div class="travel-grid">
 
         <!-- Getting There -->
@@ -651,24 +692,45 @@ const heroSlides = [
        ════════════════════════════════ -->
   <div class="end-photo-section">
     <img
-      src={`${base}/photos/End Picture/2_251220-gj-61.jpg`}
+      src={`${base}/photos/End Picture/2_251220-gj-61.webp`}
       alt="Jamal and Gabriela"
       class="end-photo-img"
+      width="1400"
+      height="1002"
+      loading="lazy"
     />
     <div class="end-photo-overlay" aria-hidden="true"></div>
     <img
-      src={`${base}/photos/monogram.png`}
+      src={`${base}/photos/monogram.webp`}
       alt=""
       class="end-photo-monogram"
       aria-hidden="true"
+      width="400"
+      height="400"
+      loading="lazy"
     />
   </div>
 
 </BaseLayout>
 
+<script>
+  import '../scripts/lifecycle-hero';
+</script>
+
 <script is:inline>
   // ── Hero crossfade carousel ──
   var slides = document.querySelectorAll('.hero-slide');
+
+  // Non-active slides carry their background URL in data-bg instead of an
+  // inline style, so they don't compete on the network with the LCP-critical
+  // first slide. Assign them after window.load, well before the 5s interval
+  // would need them.
+  window.addEventListener('load', function () {
+    document.querySelectorAll('.hero-slide[data-bg]').forEach(function (el) {
+      el.style.backgroundImage = "url('" + el.dataset.bg + "')";
+    });
+  });
+
   if (slides.length > 1) {
     var current = 0;
     setInterval(function () {

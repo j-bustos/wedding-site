@@ -83,18 +83,21 @@ function initRsvpForm(root: HTMLElement) {
     }, 30);
   }
 
-  function showStep(name: StepName, announceText?: string) {
+  function showStep(name: StepName, announceText?: string, moveFocus = true) {
     steps.forEach((el, key) => {
       const active = key === name;
       el.hidden = !active;
       el.setAttribute('aria-hidden', active ? 'false' : 'true');
     });
     const target = steps.get(name);
-    if (target) {
+    // Only move focus on step *transitions* triggered by user action — not on
+    // initial mount, where focusing/scrolling into the RSVP section would
+    // yank the page's scroll position on every load.
+    if (target && moveFocus) {
       const heading = target.querySelector<HTMLElement>('h3, h4, legend, [data-step-heading]');
       const focusTarget = heading ?? target.querySelector<HTMLElement>('input, button, textarea') ?? target;
       focusTarget.setAttribute('tabindex', focusTarget.hasAttribute('tabindex') ? focusTarget.getAttribute('tabindex')! : '-1');
-      focusTarget.focus();
+      focusTarget.focus({ preventScroll: true });
     }
     if (announceText) announce(announceText);
   }
@@ -521,7 +524,7 @@ function initRsvpForm(root: HTMLElement) {
     `;
   }
 
-  showStep('find');
+  showStep('find', undefined, false);
 }
 
 document.querySelectorAll<HTMLElement>('[data-rsvp-form]').forEach(initRsvpForm);

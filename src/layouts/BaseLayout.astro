@@ -1,14 +1,40 @@
 ---
 import '../styles/global.css';
 import RsvpBanner from '../components/RsvpBanner.astro';
+import { ViewTransitions } from 'astro:transitions';
+
+// Self-hosted, latin-subset font files (font-display: swap is baked into
+// each @fontsource CSS file) — only the weights/styles actually used
+// anywhere in global.css. Replaces the old Google Fonts CDN <link>, which
+// also loaded three unused families (Italianno, Mrs Saint Delafield, Ruthie).
+import '@fontsource/cormorant-garamond/latin-400.css';
+import '@fontsource/cormorant-garamond/latin-600.css';
+import '@fontsource/cormorant-garamond/latin-400-italic.css';
+import '@fontsource/cormorant-garamond/latin-600-italic.css';
+import '@fontsource/jost/latin-300.css';
+import '@fontsource/jost/latin-400.css';
+import '@fontsource/jost/latin-500.css';
+import '@fontsource/tangerine/latin-400.css';
+import '@fontsource/tangerine/latin-700.css';
+import '@fontsource/pinyon-script/latin-400.css';
+import '@fontsource/julius-sans-one/latin-400.css';
+import '@fontsource/playfair-display/latin-400.css';
+import '@fontsource/playfair-display/latin-600.css';
+import '@fontsource/playfair-display/latin-400-italic.css';
 
 interface Props {
   title?: string;
   description?: string;
+  ogImage?: string;
 }
 
-const { title = 'Jamal & Gabriela', description = "We're getting married — December 18, 2026" } = Astro.props;
+const {
+  title = 'Jamal & Gabriela',
+  description = "We're getting married — December 18, 2026",
+  ogImage = 'home',
+} = Astro.props;
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const ogImageUrl = `https://thebustos2026.com/og/${ogImage}.png`;
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -17,11 +43,13 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content={description} />
   <title>The Bustos Wedding — December 18, 2026</title>
+  <link rel="icon" type="image/png" href={`${base}/favicon.png`} />
+  <link rel="apple-touch-icon" href={`${base}/apple-touch-icon.png`} />
 
   <!-- Open Graph -->
   <meta property="og:title" content="Jamal & Gabriela — December 18, 2026" />
   <meta property="og:description" content="Join us as we celebrate our wedding. Holy Spirit Catholic Church & Los Encinos Event Center · McAllen, TX" />
-  <meta property="og:image" content="https://thebustos2026.com/photos/hero/11_251220-gj-102.jpg" />
+  <meta property="og:image" content={ogImageUrl} />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="og:url" content="https://thebustos2026.com" />
@@ -32,7 +60,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Jamal & Gabriela — December 18, 2026" />
   <meta name="twitter:description" content="Join us as we celebrate our wedding. Holy Spirit Catholic Church & Los Encinos Event Center · McAllen, TX" />
-  <meta name="twitter:image" content="https://thebustos2026.com/photos/hero/11_251220-gj-102.jpg" />
+  <meta name="twitter:image" content={ogImageUrl} />
 
   <!-- TEMP: dev password gate — remove before launch -->
   <script is:inline>
@@ -48,9 +76,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     })();
   </script>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Italianno&family=Jost:wght@300;400;500&family=Julius+Sans+One&family=Mrs+Saint+Delafield&family=Pinyon+Script&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Ruthie&family=Tangerine:wght@400;700&display=swap" rel="stylesheet" />
+  <ViewTransitions />
   <slot name="head" />
 </head>
 <body>
@@ -101,7 +127,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   </main>
 
   <footer class="site-footer">
-    <img src={`${base}/photos/monogram.png`} alt="" class="footer-mono" aria-hidden="true" />
+    <img src={`${base}/photos/monogram.webp`} alt="" class="footer-mono" aria-hidden="true" width="400" height="400" loading="lazy" />
     <p class="footer-title">The Bustos</p>
     <p class="footer-date">December 18, 2026</p>
     <p class="footer-tagline">We can't wait to celebrate with you!</p>
@@ -213,6 +239,18 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     // Timeline container only (for line-draw); items appear immediately
     var timeline = document.querySelector('.timeline');
     if (timeline) { addReveal(timeline, 'reveal', 0); }
+
+    // Dress-code band
+    document.querySelectorAll('.dress-code-eyebrow, .dress-code-display, .dress-code-support, .dress-code-clarifier')
+      .forEach(function (el, i) { addReveal(el, 'reveal', i * 100); });
+
+    // Hotel cards
+    document.querySelectorAll('.hotels-grid').forEach(function (grid) {
+      grid.querySelectorAll('.hotel-card').forEach(function (el, i) { addReveal(el, 'reveal', i * 120); });
+    });
+
+    // Schematic map pins
+    document.querySelectorAll('.schedule-map-pin').forEach(function (el, i) { addReveal(el, 'reveal-scale', i * 150); });
 
     if (reduced) return;
 

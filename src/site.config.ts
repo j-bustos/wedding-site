@@ -17,11 +17,17 @@ export const CEREMONY = {
 export const RECEPTION = {
   name: 'Los Encinos Event Center',
   address: '17256 La Blanca Road, Donna, TX 78537',
-  doorsIso: '2026-12-18T17:00:00-06:00',
-  endIso: '2026-12-19T00:00:00-06:00',
+  doorsIso: '2026-12-18T17:00:00-06:00', // happy hour
+  startIso: '2026-12-18T18:00:00-06:00', // reception proper
+  endIso: '2026-12-19T00:00:00-06:00', // last dance
   mapsUrl:
     'https://www.google.com/maps/search/?api=1&query=Los+Encinos+Event+Center,+17256+La+Blanca+Road,+Donna,+TX+78537',
 };
+
+// Fixed absolute instants (not viewer-local) bounding "wedding day" for the
+// lifecycle hero's day-of state.
+export const WEDDING_DAY_START_ISO = '2026-12-18T00:00:00-06:00';
+export const WEDDING_DAY_END_ISO = '2026-12-19T00:00:00-06:00';
 
 export const CONTACT_EMAIL = 'thebustos2026@gmail.com';
 

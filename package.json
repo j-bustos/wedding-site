@@ -5,12 +5,23 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro build",
+    "build": "node scripts/generate-og-images.mjs && astro build",
+    "og:generate": "node scripts/generate-og-images.mjs",
     "preview": "astro preview",
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^4.16.0",
-    "@astrojs/mdx": "^3.1.9"
+    "@astrojs/mdx": "^3.1.9",
+    "@fontsource/cormorant-garamond": "^5.3.0",
+    "@fontsource/jost": "^5.3.0",
+    "@fontsource/julius-sans-one": "^5.3.0",
+    "@fontsource/pinyon-script": "^5.3.0",
+    "@fontsource/playfair-display": "^5.3.0",
+    "@fontsource/tangerine": "^5.3.0",
+    "astro": "^4.16.0"
+  },
+  "devDependencies": {
+    "@resvg/resvg-js": "^2.6.2",
+    "satori": "^0.29.0"
   }
 }

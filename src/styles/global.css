@@ -7,12 +7,9 @@
   --ink:         #1a1a1a;
   --ink-soft:    #3a3a3a;
 
-  --font-display:      'Italianno', cursive;
   --font-serif:        'Tangerine', cursive;
   --font-sans:         'Jost', system-ui, sans-serif;
   --font-accent:       'Cormorant Garamond', Georgia, serif;
-  --font-script:       'Pinyon Script', cursive;
-  --font-handwriting:  'Ruthie', cursive;
 
   --linen-texture: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
 
@@ -285,6 +282,9 @@ input, select, textarea { text-align: left; }
   text-align: center;
   gap: 0.75rem;
 }
+.hero-content[hidden] {
+  display: none;
+}
 
 .hero-eyebrow {
   font-family: var(--font-sans);
@@ -379,6 +379,28 @@ input, select, textarea { text-align: left; }
   transition: filter 0.2s var(--ease);
 }
 .hero-rsvp-btn:hover { filter: brightness(1.25); }
+
+/* ── Hero lifecycle states (day-of / after) ── */
+.hero-day-timeline {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 0.5rem 0;
+}
+.hero-day-timeline li {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  font-family: var(--font-sans);
+  color: rgba(240, 230, 200, 0.6);
+  font-size: 0.9rem;
+}
+.hero-day-timeline li.hero-day-current {
+  color: var(--cream);
+  font-weight: 500;
+}
+.hero-day-timeline .hero-day-time { min-width: 5.5rem; text-align: right; opacity: 0.8; }
 
 
 /* ════════════════════════════════════════
@@ -1248,6 +1270,62 @@ input, select, textarea { text-align: left; }
 }
 
 /* ════════════════════════════════════════
+   SCHEMATIC MAP
+   ════════════════════════════════════════ */
+.schedule-map-wrap {
+  max-width: 480px;
+  margin: 2.5rem auto 0;
+}
+.schedule-map { width: 100%; height: auto; display: block; }
+.schedule-map-road {
+  stroke: var(--green-deep);
+  stroke-width: 2;
+  stroke-dasharray: 6 5;
+  opacity: 0.5;
+}
+.schedule-map-road-label {
+  font-family: var(--font-sans);
+  font-size: 7px;
+  letter-spacing: 0.1em;
+  fill: var(--green-deep);
+  opacity: 0.5;
+}
+.schedule-map-city {
+  font-family: var(--font-accent);
+  font-style: italic;
+  font-size: 12px;
+  fill: var(--ink-soft);
+}
+.schedule-map-drivetime {
+  font-family: var(--font-sans);
+  font-size: 7px;
+  fill: var(--ink-soft);
+  opacity: 0.7;
+}
+.schedule-map-pin {
+  cursor: pointer;
+  outline-offset: 3px;
+}
+.schedule-map-dot {
+  fill: var(--green-deep);
+  stroke: var(--cream);
+  stroke-width: 1.5;
+  transition: r 0.15s var(--ease), fill 0.15s var(--ease);
+}
+.schedule-map-pin-label {
+  font-family: var(--font-sans);
+  font-size: 9px;
+  font-weight: 500;
+  fill: var(--green-deep);
+}
+.schedule-map-pin:hover .schedule-map-dot,
+.schedule-map-pin:focus-visible .schedule-map-dot {
+  r: 12;
+  fill: #0f2019;
+}
+.schedule-map-pin:focus-visible { outline: 2px solid var(--green-deep); }
+
+/* ════════════════════════════════════════
    HOTELS — card grid
    ════════════════════════════════════════ */
 .hotels-heading {
@@ -1558,7 +1636,7 @@ input, select, textarea { text-align: left; }
 }
 .section-dark .faq-item:first-child { border-top: 1px solid #2e5040 !important; }
 .section-dark .faq-number {
-  color: rgba(240, 230, 200, 0.5);
+  color: rgba(240, 230, 200, 0.85);
   opacity: 1;
 }
 .section-dark .faq-q {
@@ -1693,7 +1771,7 @@ input, select, textarea { text-align: left; }
   font-family: var(--font-sans);
   font-size: 0.9375rem;
   color: var(--cream);
-  opacity: 0.45;
+  opacity: 0.8;
   margin-top: 0.75rem;
   letter-spacing: 0.02em;
 }
