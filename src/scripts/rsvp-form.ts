@@ -132,14 +132,29 @@ function initRsvpForm(root: HTMLElement) {
     document.head.appendChild(script);
   }
 
+  // Whichever action button is currently on-screen (the 'find' step's
+  // #rsvpFindBtn, or the dynamically-rendered review step's
+  // #rsvpSubmitBtn) should only be clickable while a live token is held —
+  // otherwise the request it fires is guaranteed to fail verification.
+  function setActionButtonsEnabled(enabled: boolean) {
+    const findBtnEl = root.querySelector<HTMLButtonElement>('#rsvpFindBtn');
+    if (findBtnEl) findBtnEl.disabled = !enabled;
+    const submitBtnEl = root.querySelector<HTMLButtonElement>('#rsvpSubmitBtn');
+    if (submitBtnEl && !submitting) submitBtnEl.disabled = !enabled;
+  }
+
   // Turnstile tokens are single-use — Cloudflare invalidates a token the
   // moment it's verified server-side. Every request that sends
   // turnstileToken (lookup, then rsvp submit) must be followed by this, or
   // the *next* request silently fails verification instead of succeeding.
+  // The widget re-verifies in the background (usually near-instant), so the
+  // disabled window is normally too brief to notice — but the guard in
+  // handleSubmit below covers the case where a user reaches "Submit" before
+  // it finishes.
   function resetTurnstile() {
     if (!turnstileSiteKey) return; // dev bypass token needs no refresh
     turnstileToken = '';
-    if (findBtn) findBtn.disabled = true;
+    setActionButtonsEnabled(false);
     if (window.turnstile && turnstileWidgetId !== undefined) {
       window.turnstile.reset(turnstileWidgetId);
     }
@@ -147,13 +162,12 @@ function initRsvpForm(root: HTMLElement) {
 
   function renderTurnstileWidget() {
     const container = root.querySelector<HTMLElement>('#rsvpTurnstile');
-    const findBtn = root.querySelector<HTMLButtonElement>('#rsvpFindBtn');
     if (!container) return;
 
     if (!turnstileSiteKey) {
       container.textContent = '';
       turnstileToken = 'dev-no-turnstile-configured';
-      if (findBtn) findBtn.disabled = false;
+      setActionButtonsEnabled(true);
       return;
     }
 
@@ -163,15 +177,15 @@ function initRsvpForm(root: HTMLElement) {
         sitekey: turnstileSiteKey,
         callback: (token: string) => {
           turnstileToken = token;
-          if (findBtn) findBtn.disabled = false;
+          setActionButtonsEnabled(true);
         },
         'expired-callback': () => {
           turnstileToken = '';
-          if (findBtn) findBtn.disabled = true;
+          setActionButtonsEnabled(false);
         },
         'error-callback': () => {
           turnstileToken = '';
-          if (findBtn) findBtn.disabled = true;
+          setActionButtonsEnabled(false);
         },
       });
     });
@@ -443,15 +457,28 @@ function initRsvpForm(root: HTMLElement) {
       showStep('respond');
     });
 
+    const initialSubmitBtn = section.querySelector<HTMLButtonElement>('#rsvpSubmitBtn');
+    if (initialSubmitBtn) initialSubmitBtn.disabled = !turnstileToken;
     section.querySelector('#rsvpSubmitBtn')?.addEventListener('click', handleSubmit);
   }
 
   async function handleSubmit() {
     if (submitting || !household) return;
-    submitting = true;
     const section = steps.get('review');
     const submitBtn = section?.querySelector<HTMLButtonElement>('#rsvpSubmitBtn');
     const submitError = section?.querySelector<HTMLElement>('#rsvpSubmitError');
+
+    // The widget re-verifies in the background after resetTurnstile(); this
+    // only fires if the user reaches "Submit" faster than that completes.
+    if (!turnstileToken) {
+      if (submitError) {
+        submitError.hidden = false;
+        submitError.textContent = "Still verifying you're human — please try again in a moment.";
+      }
+      return;
+    }
+
+    submitting = true;
     if (submitBtn) {
       submitBtn.disabled = true;
       submitBtn.textContent = 'Submitting…';
