@@ -41,7 +41,6 @@ const contactLine = CONTACT_PHONE
       <p class="rsvp-hint">Enter your first and last name as it appears on your invitation.</p>
       <label class="sr-only" for="rsvpNameInput">Full name</label>
       <input type="text" id="rsvpNameInput" class="rsvp-name-input" autocomplete="name" required />
-      <div id="rsvpTurnstile" class="rsvp-turnstile"></div>
       <button type="button" id="rsvpFindBtn" class="btn-primary" disabled>Find my invitation</button>
       <p class="rsvp-error" id="rsvpFindError" hidden></p>
     </section>
@@ -52,6 +51,20 @@ const contactLine = CONTACT_PHONE
     <section class="rsvp-step" data-step="respond" hidden></section>
     <section class="rsvp-step" data-step="review" hidden></section>
     <section class="rsvp-step" data-step="success" hidden></section>
+
+    <!--
+      Deliberately NOT inside a [data-step] section: this single widget's
+      token is reused across both the lookup and the final submit request
+      (see resetTurnstile() in rsvp-form.ts). Cloudflare Turnstile can't
+      complete a background re-verification while its container is
+      display:none, which is what happens to a whole [data-step] section
+      once showStep() moves past it — so this has to stay outside that
+      hidden/shown lifecycle to keep working on every step, not just the
+      first one. Cloudflare also advises against CSS tricks (0-size,
+      off-screen) to visually hide a live widget, so it stays genuinely
+      visible rather than disguised.
+    -->
+    <div id="rsvpTurnstile" class="rsvp-turnstile"></div>
   </div>
 )}
 
