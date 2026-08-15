@@ -9,7 +9,7 @@ RSVP_DEADLINE = "2026-11-18T23:59:59-06:00"
 [[d1_databases]]
 binding = "DB"
 database_name = "thebustos-rsvp"
-database_id = "REPLACE_WITH_D1_DATABASE_ID"
+database_id = "914ca37c-9d81-434b-bd9c-b063c287aa3e"
 
 # Local/dev override — used by `wrangler dev --env dev`.
 [env.dev]
@@ -21,7 +21,7 @@ RSVP_DEADLINE = "2026-11-18T23:59:59-06:00"
 [[env.dev.d1_databases]]
 binding = "DB"
 database_name = "thebustos-rsvp"
-database_id = "REPLACE_WITH_D1_DATABASE_ID"
+database_id = "914ca37c-9d81-434b-bd9c-b063c287aa3e"
 
 # By default this Worker deploys to the free *.workers.dev subdomain, which
 # needs no DNS changes. If/when thebustos2026.com's DNS is moved onto

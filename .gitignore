@@ -7,6 +7,8 @@ node_modules/
 
 # Cloudflare Worker (workers/rsvp)
 workers/rsvp/guest-list.csv
+workers/rsvp/guest-list*.csv
+!workers/rsvp/guest-list.example.csv
 workers/rsvp/seed-output.sql
 workers/rsvp/.dev.vars
 workers/rsvp/.dev.vars.*

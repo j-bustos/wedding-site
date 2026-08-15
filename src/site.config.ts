@@ -52,13 +52,8 @@ export const PHOTO_SHARE_URL: string | null = null;
 export const REGISTRY_URL = 'https://cash.app/$JamalAndGabbie';
 export const REGISTRY_HANDLE = '$JamalAndGabbie';
 
-// TODO(owner): deploy workers/rsvp (see workers/rsvp/README.md) and paste the
-// printed *.workers.dev URL here.
-export const RSVP_API_BASE = 'https://thebustos-rsvp.YOUR-SUBDOMAIN.workers.dev';
+export const RSVP_API_BASE = 'https://thebustos-rsvp.house-gpjb.workers.dev';
 
-// TODO(owner): create a Turnstile site (see workers/rsvp/README.md) and paste
-// the public site key here. This value is public/safe to commit — the secret
-// key lives only as a Worker secret. Left blank, the RSVP form skips
-// rendering the Turnstile widget so local development still works end-to-end
-// against the Worker's test secret key.
-export const TURNSTILE_SITE_KEY = '';
+// Turnstile site key (public/safe to commit — the secret key lives only as
+// a Worker secret, set via `wrangler secret put TURNSTILE_SECRET_KEY`).
+export const TURNSTILE_SITE_KEY = '0x4AAAAAAERGidth-dx22h4B';
