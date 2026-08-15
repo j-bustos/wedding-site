@@ -132,6 +132,19 @@ function initRsvpForm(root: HTMLElement) {
     document.head.appendChild(script);
   }
 
+  // Turnstile tokens are single-use — Cloudflare invalidates a token the
+  // moment it's verified server-side. Every request that sends
+  // turnstileToken (lookup, then rsvp submit) must be followed by this, or
+  // the *next* request silently fails verification instead of succeeding.
+  function resetTurnstile() {
+    if (!turnstileSiteKey) return; // dev bypass token needs no refresh
+    turnstileToken = '';
+    if (findBtn) findBtn.disabled = true;
+    if (window.turnstile && turnstileWidgetId !== undefined) {
+      window.turnstile.reset(turnstileWidgetId);
+    }
+  }
+
   function renderTurnstileWidget() {
     const container = root.querySelector<HTMLElement>('#rsvpTurnstile');
     const findBtn = root.querySelector<HTMLButtonElement>('#rsvpFindBtn');
@@ -205,6 +218,9 @@ function initRsvpForm(root: HTMLElement) {
       if (res.status === 429) {
         throw new Error(data.message || 'Too many attempts — please wait a few minutes and try again.');
       }
+      if (data.status === 'error') {
+        throw new Error(data.message || `We couldn't reach the server. Please try again, or ${contactFallbackText()}`);
+      }
 
       if (data.status === 'found') {
         household = data.household as Household;
@@ -228,10 +244,8 @@ function initRsvpForm(root: HTMLElement) {
             : `We couldn't reach the server. Please try again, or ${contactFallbackText()}`;
       }
     } finally {
-      if (findBtn) {
-        findBtn.disabled = !turnstileToken;
-        findBtn.textContent = 'Find my invitation';
-      }
+      if (findBtn) findBtn.textContent = 'Find my invitation';
+      resetTurnstile();
     }
   }
 
@@ -492,10 +506,10 @@ function initRsvpForm(root: HTMLElement) {
         submitBtn.disabled = false;
         submitBtn.textContent = 'Submit RSVP';
       }
+    } finally {
       submitting = false;
-      return;
+      resetTurnstile();
     }
-    submitting = false;
   }
 
   function renderClosedInline(section: HTMLElement | null | undefined) {
