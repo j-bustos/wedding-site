@@ -130,6 +130,7 @@ const ogImageUrl = `https://thebustos2026.com/og/${ogImage}.png`;
         <li><a class="nav-link" href={`${base}/#dress-code`}>Dress Code</a></li>
         <li><a class="nav-link" href={`${base}/#timeline`}>Timeline</a></li>
         <li><a class="nav-link" href={`${base}/#where-to-stay`}>Travel &amp; Stay</a></li>
+        <li><a class="nav-link" href={`${base}/#gallery`}>Gallery</a></li>
         <li><a class="nav-link" href={`${base}/#rsvp`}>RSVP</a></li>
         <li><a class="nav-link" href={`${base}/#faq`}>Questions</a></li>
         <li><a class="nav-link" href={`${base}/#gifts`}>Gifts</a></li>
@@ -148,6 +149,7 @@ const ogImageUrl = `https://thebustos2026.com/og/${ogImage}.png`;
       <a href={`${base}/#dress-code`}>Dress Code</a>
       <a href={`${base}/#timeline`}>Timeline</a>
       <a href={`${base}/#where-to-stay`}>Travel &amp; Stay</a>
+      <a href={`${base}/#gallery`}>Gallery</a>
       <a href={`${base}/#rsvp`}>RSVP</a>
       <a href={`${base}/#faq`}>Questions</a>
       <a href={`${base}/#gifts`}>Gifts</a>
@@ -169,6 +171,12 @@ const ogImageUrl = `https://thebustos2026.com/og/${ogImage}.png`;
   <!-- ── Mobile Sticky RSVP ── -->
   <button class="sticky-rsvp" id="stickyRsvp" aria-label="RSVP Now">RSVP Now</button>
 
+  <!-- ── Lightbox (shared, populated by gallery JS) ── -->
+  <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
+    <button class="lb-close" id="lbClose" aria-label="Close lightbox">&#215;</button>
+    <img class="lb-img" id="lbImg" src="" alt="" />
+  </div>
+
   <script>
     // ── Nav Brand reveal via IntersectionObserver ──
     const brand = document.getElementById('navBrand');
@@ -187,7 +195,7 @@ const ogImageUrl = `https://thebustos2026.com/og/${ogImage}.png`;
     const sections = document.querySelectorAll('section[id], div[id].hero');
     const navLinks  = document.querySelectorAll('.nav-link');
 
-    const sectionIds = ['venues','wedding-party','dress-code','timeline','where-to-stay','rsvp','faq','gifts'];
+    const sectionIds = ['venues','wedding-party','dress-code','timeline','where-to-stay','gallery','rsvp','faq','gifts'];
     const sectionMap = new Map();
     sectionIds.forEach(id => {
       const el = document.getElementById(id);
@@ -231,6 +239,36 @@ const ogImageUrl = `https://thebustos2026.com/og/${ogImage}.png`;
       });
     }
 
+    // ── Lightbox ──
+    const lb    = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lbImg') as HTMLImageElement | null;
+    const lbClose = document.getElementById('lbClose');
+
+    function openLightbox(src: string, alt: string) {
+      if (!lb || !lbImg) return;
+      lbImg.src = src;
+      lbImg.alt = alt;
+      lb.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox() {
+      if (!lb || !lbImg) return;
+      lb.classList.remove('open');
+      lbImg.src = '';
+      document.body.style.overflow = '';
+    }
+
+    if (lbClose) lbClose.addEventListener('click', closeLightbox);
+    if (lb) {
+      lb.addEventListener('click', e => { if (e.target === lb) closeLightbox(); });
+      document.addEventListener('keydown', e => {
+        if (e.key === 'Escape' && lb.classList.contains('open')) closeLightbox();
+      });
+    }
+
+    // Expose globally for gallery items
+    (window as any).__openLightbox = openLightbox;
+
   </script>
 
   <script is:inline>
@@ -267,6 +305,11 @@ const ogImageUrl = `https://thebustos2026.com/og/${ogImage}.png`;
 
     // Polaroid photos
     document.querySelectorAll('.quote-polaroid').forEach(function (el, i) { addReveal(el, 'reveal', i * 120); });
+
+    // Gallery items
+    document.querySelectorAll('.gallery-grid').forEach(function (grid) {
+      grid.querySelectorAll('.gallery-item').forEach(function (el, i) { addReveal(el, 'reveal', i * 40); });
+    });
 
     // Timeline container only (for line-draw); items appear immediately
     var timeline = document.querySelector('.timeline');

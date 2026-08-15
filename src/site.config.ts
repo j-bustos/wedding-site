@@ -2,6 +2,12 @@
 // across the site (both in .astro frontmatter and, via literal interpolation
 // or JSON, in client-side scripts).
 
+// The homepage Gallery section (#gallery, src/pages/index.astro + the shared
+// lightbox in src/layouts/BaseLayout.astro) is an intentional, permanent
+// part of this build — reconfirmed by the owner 2026-08-15 after it was
+// mistakenly dropped from an earlier cleanup pass. Do not remove it in a
+// future cleanup without explicit owner sign-off.
+
 export const WEDDING_DATE_ISO = '2026-12-18T15:00:00-06:00';
 export const RSVP_DEADLINE_ISO = '2026-11-18T23:59:59-06:00';
 
@@ -9,7 +15,7 @@ export const CEREMONY = {
   name: 'Holy Spirit Catholic Church',
   address: '2201 Martin Ave, McAllen, TX 78504',
   startIso: '2026-12-18T15:00:00-06:00',
-  endIso: '2026-12-18T16:30:00-06:00',
+  endIso: '2026-12-18T16:00:00-06:00',
   mapsUrl:
     'https://www.google.com/maps/search/?api=1&query=Holy+Spirit+Catholic+Church,+2201+Martin+Ave,+McAllen,+TX+78504',
 };

@@ -48,6 +48,7 @@
 #wedding-party            { padding-top: 80px;  padding-bottom: 80px; }
 #timeline                 { padding-top: 80px;  padding-bottom: 80px; }
 #where-to-stay            { padding-top: 100px; padding-bottom: 100px; }
+#gallery                  { padding-top: 40px;  padding-bottom: 60px; }
 #rsvp                     { padding-top: 60px;  padding-bottom: 60px; }
 #faq                      { padding-top: 80px;  padding-bottom: 80px; }
 #gifts                    { padding-top: 60px;  padding-bottom: 100px; }
@@ -1001,6 +1002,81 @@
 .hotel-card-link:hover { filter: brightness(0.95); }
 
 /* ════════════════════════════════════════
+   GALLERY + LIGHTBOX
+   ════════════════════════════════════════ */
+.gallery-intro {
+  font-family: var(--font-accent);
+  font-style: italic;
+  font-size: 1.125rem; /* 18px */
+  color: #1e3a2f;
+  text-align: center;
+  margin-bottom: 1.5rem; /* 24px */
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+}
+.gallery-item {
+  aspect-ratio: 1/1;
+  overflow: hidden;
+  cursor: pointer;
+  background: rgba(30, 58, 47, 0.04);
+  position: relative;
+}
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  transition: transform 0.4s var(--ease);
+}
+.gallery-item:hover img { transform: scale(1.04); }
+
+/* Lightbox */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.92);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s var(--ease);
+}
+.lightbox.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+.lb-img {
+  max-width: 90vw;
+  max-height: 90vh;
+  object-fit: contain;
+  display: block;
+}
+.lb-close {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.5rem;
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 2.25rem;
+  line-height: 1;
+  min-height: 44px;
+  min-width: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.15s;
+}
+.lb-close:hover { color: #fff; }
+
+/* ════════════════════════════════════════
    RSVP
    ════════════════════════════════════════ */
 .rsvp-sub {
@@ -1434,6 +1510,9 @@
   /* Travel */
   .travel-grid { grid-template-columns: 1fr; }
 
+  /* Gallery */
+  .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 0.5rem; }
+
   /* Hero countdown gap */
   .hero-countdown { gap: 1.5rem; }
 
@@ -1555,6 +1634,16 @@
 /* ── Directions Button Press ── */
 @media (prefers-reduced-motion: no-preference) {
   .btn-directions:active { transform: scale(0.98); }
+}
+
+/* ── Gallery Varied Aspect Ratios ── */
+.gallery-item:nth-child(3n+1) { aspect-ratio: 3/4; }
+.gallery-item:nth-child(3n+2) { aspect-ratio: 4/3; }
+.gallery-item:nth-child(3n)   { aspect-ratio: 1/1; }
+
+/* ── Gallery Hover Scale ── */
+@media (prefers-reduced-motion: no-preference) {
+  .gallery-item:hover img { transform: scale(1.03); }
 }
 
 /* ── Travel Card Icon Bounce ── */

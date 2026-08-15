@@ -12,6 +12,12 @@ const jobs = [
   { src: 'public/photos/Venue/reception2.png', maxWidth: 1200, quality: 82 },
   { src: 'public/photos/Gallery/3_251220-gj-66.jpeg', maxWidth: 1600, quality: 78 },
   { src: 'public/photos/End Picture/2_251220-gj-61.jpg', maxWidth: 1600, quality: 78 },
+  { src: 'public/photos/Gallery/4_251220-gj-92.jpg', maxWidth: 1000, quality: 80 },
+  { src: 'public/photos/Gallery/6_251220-gj-3.jpg', maxWidth: 1000, quality: 80 },
+  { src: 'public/photos/Gallery/8_251220-gj-75.jpg', maxWidth: 1000, quality: 80 },
+  { src: 'public/photos/Gallery/10_251220-gj-6.jpg', maxWidth: 1000, quality: 80 },
+  { src: 'public/photos/Gallery/14_251220-gj-100.jpg', maxWidth: 1000, quality: 80 },
+  { src: 'public/photos/Gallery/15_251220-gj-47.jpg', maxWidth: 1000, quality: 80 },
 ];
 
 for (const job of jobs) {
