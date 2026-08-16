@@ -48,7 +48,6 @@ const galleryImages = [
       <div class="hero-divider" aria-hidden="true"></div>
 
       <p class="hero-date">December 18, 2026</p>
-      <p class="hero-location">McAllen, TX</p>
 
       <div class="hero-countdown" aria-label="Countdown to the wedding">
         <div class="hero-countdown-unit">
@@ -88,8 +87,11 @@ const galleryImages = [
         <li data-hero-time={RECEPTION.startIso}>
           <span class="hero-day-time">6:00 PM</span><span class="hero-day-event">Reception</span>
         </li>
+        <li data-hero-time={RECEPTION.lastDanceIso}>
+          <span class="hero-day-time">11:30 PM</span><span class="hero-day-event">Last dance</span>
+        </li>
         <li data-hero-time={RECEPTION.endIso}>
-          <span class="hero-day-time">12:00 AM</span><span class="hero-day-event">Last dance</span>
+          <span class="hero-day-time">12:00 AM</span><span class="hero-day-event">Reception ends</span>
         </li>
       </ul>
       <a href="#timeline" class="hero-rsvp-btn">Full Schedule</a>
@@ -377,7 +379,8 @@ const galleryImages = [
   <section id="dress-code" class="dress-code-band">
     <div class="dress-code-band-inner">
       <p class="dress-code-eyebrow">Dress Code</p>
-      <h2 class="dress-code-display">ALL BLACK</h2>
+      <h2 class="dress-code-display">All Black</h2>
+      <div class="section-ornament dress-code-ornament"><span>✦</span></div>
       <p class="dress-code-support">Formal attire, head to toe in black. One color, one room, one unforgettable photo.</p>
       <p class="dress-code-clarifier">Floor-length or cocktail dresses &middot; Suits or tuxedos &middot; Black on black encouraged.</p>
     </div>
@@ -432,11 +435,18 @@ const galleryImages = [
           </div>
         </div>
         <div class="timeline-item">
-          <span class="timeline-time">12:00 AM</span>
+          <span class="timeline-time">11:30 PM</span>
           <div class="timeline-dot-wrap"><div class="timeline-dot"></div></div>
           <div class="timeline-col">
             <span class="timeline-event">Last dance</span>
             <p class="timeline-desc">Help us celebrate one last time as we head off into our new adventure.</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <span class="timeline-time">12:00 AM</span>
+          <div class="timeline-dot-wrap"><div class="timeline-dot"></div></div>
+          <div class="timeline-col">
+            <span class="timeline-event">Reception ends</span>
           </div>
         </div>
       </div>
@@ -509,10 +519,8 @@ const galleryImages = [
             <p class="hotel-card-name">{hotel.name}</p>
             <p class="hotel-card-city">{hotel.city}</p>
             <p class="hotel-card-drive">{hotel.driveTimeCeremony} to ceremony &middot; {hotel.driveTimeReception} to reception</p>
-            <p class="hotel-card-phone">{hotel.phone}</p>
-            {hotel.blockCode === null ? (
-              <p class="hotel-card-block-note">Room block details coming soon — book flexible rates for now.</p>
-            ) : (
+            <p class="hotel-card-phone"><a href={`tel:+1${hotel.phone.replace(/\D/g, '')}`}>{hotel.phone}</a></p>
+            {hotel.blockCode !== null && (
               <p class="hotel-card-block-note">Block code {hotel.blockCode} &middot; book by {hotel.bookByDate}</p>
             )}
             <a class="hotel-card-link" href={hotel.url} target="_blank" rel="noopener noreferrer">Visit hotel site →</a>
@@ -594,24 +602,13 @@ const galleryImages = [
             <span class="faq-icon" aria-hidden="true">+</span>
           </button>
           <div class="faq-answer" aria-hidden="true">
-            <p class="faq-a">All black formal attire. Floor-length or cocktail dresses, suits or tuxedos — we kindly ask every guest to dress head to toe in black for our celebration.</p>
+            <p class="faq-a">All black formal attire. Floor-length or cocktail dresses, suits or tuxedos.</p>
           </div>
         </div>
 
         <div class="faq-item">
           <button class="faq-trigger" aria-expanded="false">
             <span class="faq-number">4</span>
-            <span class="faq-q">Does it really have to be all black?</span>
-            <span class="faq-icon" aria-hidden="true">+</span>
-          </button>
-          <div class="faq-answer" aria-hidden="true">
-            <p class="faq-a">Yes — we promise the photos will be worth it.</p>
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <button class="faq-trigger" aria-expanded="false">
-            <span class="faq-number">5</span>
             <span class="faq-q">Are kids or plus-ones included?</span>
             <span class="faq-icon" aria-hidden="true">+</span>
           </button>
@@ -622,7 +619,7 @@ const galleryImages = [
 
         <div class="faq-item">
           <button class="faq-trigger" aria-expanded="false">
-            <span class="faq-number">6</span>
+            <span class="faq-number">5</span>
             <span class="faq-q">Is the ceremony unplugged?</span>
             <span class="faq-icon" aria-hidden="true">+</span>
           </button>
@@ -633,7 +630,7 @@ const galleryImages = [
 
         <div class="faq-item">
           <button class="faq-trigger" aria-expanded="false">
-            <span class="faq-number">7</span>
+            <span class="faq-number">6</span>
             <span class="faq-q">Is transportation provided to the venue?</span>
             <span class="faq-icon" aria-hidden="true">+</span>
           </button>
@@ -644,7 +641,7 @@ const galleryImages = [
 
         <div class="faq-item">
           <button class="faq-trigger" aria-expanded="false">
-            <span class="faq-number">8</span>
+            <span class="faq-number">7</span>
             <span class="faq-q">Is parking available?</span>
             <span class="faq-icon" aria-hidden="true">+</span>
           </button>
@@ -655,7 +652,7 @@ const galleryImages = [
 
         <div class="faq-item">
           <button class="faq-trigger" aria-expanded="false">
-            <span class="faq-number">9</span>
+            <span class="faq-number">8</span>
             <span class="faq-q">What's the weather like?</span>
             <span class="faq-icon" aria-hidden="true">+</span>
           </button>
@@ -666,7 +663,7 @@ const galleryImages = [
 
         <div class="faq-item">
           <button class="faq-trigger" aria-expanded="false">
-            <span class="faq-number">10</span>
+            <span class="faq-number">9</span>
             <span class="faq-q">What about gifts?</span>
             <span class="faq-icon" aria-hidden="true">+</span>
           </button>
@@ -677,7 +674,7 @@ const galleryImages = [
 
         <div class="faq-item">
           <button class="faq-trigger" aria-expanded="false">
-            <span class="faq-number">11</span>
+            <span class="faq-number">10</span>
             <span class="faq-q">Who do I contact with questions?</span>
             <span class="faq-icon" aria-hidden="true">+</span>
           </button>

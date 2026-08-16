@@ -547,20 +547,72 @@ function initRsvpForm(root: HTMLElement) {
     `;
   }
 
+  function joinWithAnd(names: string[]): string {
+    if (names.length === 0) return '';
+    if (names.length === 1) return names[0];
+    if (names.length === 2) return `${names[0]} and ${names[1]}`;
+    return `${names.slice(0, -1).join(', ')}, and ${names[names.length - 1]}`;
+  }
+
+  function firstName(fullName: string): string {
+    return fullName.split(' ')[0];
+  }
+
+  function lastName(fullName: string): string {
+    const parts = fullName.trim().split(/\s+/);
+    return parts[parts.length - 1];
+  }
+
+  function buildSuccessMessage(): string {
+    if (!household) return "Thank you for letting us know.";
+
+    const attendingNamed = household.guests.filter((g) => responses.get(g.id)?.attending === true);
+    const decliningNamed = household.guests.filter((g) => responses.get(g.id)?.attending === false);
+    const attendingPlusOnes = plusOnes.filter((p) => p.name.trim());
+
+    const attendingNames = [...attendingNamed.map((g) => g.fullName), ...attendingPlusOnes.map((p) => p.name.trim())];
+    const decliningNames = decliningNamed.map((g) => g.fullName);
+
+    const hasAttending = attendingNames.length > 0;
+    const hasDeclining = decliningNames.length > 0;
+
+    if (hasAttending && hasDeclining) {
+      return `We can't wait to celebrate with ${escapeHtml(joinWithAnd(attendingNames))}. We'll miss ${escapeHtml(joinWithAnd(decliningNames))}.`;
+    }
+
+    if (!hasAttending && hasDeclining) {
+      return `Thank you for letting us know, ${escapeHtml(joinWithAnd(decliningNames))}. You'll be missed.`;
+    }
+
+    if (hasAttending) {
+      if (attendingNames.length === 1) {
+        return `We can't wait to celebrate with you, ${escapeHtml(attendingNames[0])}!`;
+      }
+      if (attendingNames.length === 2) {
+        return `We can't wait to celebrate with ${escapeHtml(joinWithAnd(attendingNames))}!`;
+      }
+      // 3+ attending: use "the [Surname] family" when every attendee is a
+      // named household guest sharing one surname (plus-ones usually only
+      // give a first name, so they can't be verified against a family
+      // surname) — otherwise fall back to a plain comma list.
+      const surnames = new Set(attendingNamed.map((g) => lastName(g.fullName)));
+      if (attendingPlusOnes.length === 0 && surnames.size === 1) {
+        return `We can't wait to celebrate with the ${escapeHtml([...surnames][0])} family!`;
+      }
+      const displayNames = [...attendingNamed.map((g) => firstName(g.fullName)), ...attendingPlusOnes.map((p) => p.name.trim())];
+      return `We can't wait to celebrate with ${escapeHtml(joinWithAnd(displayNames))}!`;
+    }
+
+    return "Thank you for letting us know.";
+  }
+
   function renderSuccessStep() {
     const section = steps.get('success');
     if (!section || !household) return;
-    const attendingGuests = household.guests.filter((g) => responses.get(g.id)?.attending);
-    const attendingPlusOnes = plusOnes.filter((p) => p.name.trim());
-    const names = [...attendingGuests.map((g) => g.fullName), ...attendingPlusOnes.map((p) => p.name.trim())];
 
     section.innerHTML = `
       <h3 data-step-heading>You're all set!</h3>
-      ${
-        names.length > 0
-          ? `<p>We can't wait to celebrate with ${escapeHtml(names.join(', '))}.</p>`
-          : `<p>Thank you for letting us know.</p>`
-      }
+      <p>${buildSuccessMessage()}</p>
       <p class="rsvp-recap">${formatEventDateTime()} — Holy Spirit Catholic Church, McAllen &amp; Los Encinos Event Center, Donna, TX.</p>
     `;
   }

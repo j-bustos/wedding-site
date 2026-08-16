@@ -25,7 +25,8 @@ export const RECEPTION = {
   address: '17256 La Blanca Road, Donna, TX 78537',
   doorsIso: '2026-12-18T17:00:00-06:00', // happy hour
   startIso: '2026-12-18T18:00:00-06:00', // reception proper
-  endIso: '2026-12-19T00:00:00-06:00', // last dance
+  lastDanceIso: '2026-12-18T23:30:00-06:00',
+  endIso: '2026-12-19T00:00:00-06:00', // reception closes (venue booking end)
   mapsUrl:
     'https://www.google.com/maps/search/?api=1&query=Los+Encinos+Event+Center,+17256+La+Blanca+Road,+Donna,+TX+78537',
 };

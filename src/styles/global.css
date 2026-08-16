@@ -202,7 +202,7 @@
   width: 100%;
   aspect-ratio: 3/4;
   object-fit: cover;
-  object-position: center top;
+  object-position: center center;
   display: block;
 }
 
@@ -581,18 +581,27 @@
   margin-bottom: 1rem;
 }
 .dress-code-display {
-  font-family: 'Playfair Display', var(--font-accent), serif;
-  font-weight: 600;
-  font-size: clamp(3.2rem, 13vw, 8rem);
-  letter-spacing: 0.03em;
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: clamp(3rem, 8vw, 4.8rem);
+  letter-spacing: 0.01em;
   color: #fff;
-  line-height: 1;
-  margin-bottom: 1.5rem;
+  line-height: 1.15;
+  margin-bottom: 0.5rem;
+}
+.dress-code-ornament {
+  color: rgba(255, 255, 255, 0.45);
+  margin: 0.75rem auto 2rem;
+}
+.dress-code-ornament::before,
+.dress-code-ornament::after {
+  background: rgba(255, 255, 255, 0.45);
 }
 .dress-code-support {
-  font-family: var(--font-sans);
-  font-weight: 300;
-  font-size: clamp(1.05rem, 2.2vw, 1.35rem);
+  font-family: var(--font-accent);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(1.15rem, 2.4vw, 1.4rem);
   color: rgba(255, 255, 255, 0.92);
   max-width: 480px;
   margin: 0 auto 2rem;
@@ -682,7 +691,7 @@
 .timeline-desc {
   font-family: var(--font-accent);
   font-style: italic;
-  font-size: 0.9375rem; /* 15px */
+  font-size: 1.125rem; /* 18px, +20% from 15px */
   color: #5a5a5a;
   line-height: 1.6;
   margin-top: 0.15rem;
@@ -726,7 +735,7 @@
 .timeline-item--note { padding: 0.6rem 0; }
 .timeline-item--note .timeline-desc {
   font-style: italic;
-  font-size: 0.875rem;
+  font-size: 1.05rem;
 }
 .timeline-dot--note {
   opacity: 0.5;
@@ -753,8 +762,8 @@
   padding: 2rem 1.75rem;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  text-align: left;
+  align-items: center;
+  text-align: center;
   color: var(--cream);
 }
 
@@ -774,7 +783,7 @@
 
 .travel-card-text {
   font-family: var(--font-sans);
-  font-size: 0.9375rem;
+  font-size: 1.125rem;
   color: var(--cream);
   opacity: 0.88;
   line-height: 1.75;
@@ -782,7 +791,7 @@
 
 .travel-weather {
   font-family: var(--font-sans);
-  font-size: 0.875rem;
+  font-size: 1.05rem;
   color: var(--cream);
   opacity: 0.8;
   line-height: 1.7;
@@ -794,6 +803,7 @@
 .travel-airports {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 0;
   width: 100%;
 }
@@ -801,12 +811,14 @@
 .travel-airport-entry {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 0.5rem;
 }
 
 .travel-airport-name-row {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.6rem;
   flex-wrap: wrap;
 }
@@ -837,17 +849,19 @@
 }
 
 .travel-airport-details {
-  list-style: disc;
-  padding-left: 1.1rem;
+  list-style: disc inside;
+  padding-left: 0;
   margin: 0;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  text-align: center;
   gap: 0.25rem;
 }
 
 .travel-airport-details li {
   font-family: var(--font-sans);
-  font-size: 0.875rem;
+  font-size: 1.05rem;
   color: rgba(240, 230, 200, 0.75);
   line-height: 1.5;
   background: none;
@@ -921,6 +935,27 @@
   r: 12;
   fill: #0f2019;
 }
+
+/* Mobile: the map was rendering at ~60% of viewport width with viewBox-unit
+   text sizes tuned for the larger desktop box, making the drive-time labels
+   in particular illegible. Bleed the wrap past the section's side padding
+   out to ~92vw, and scale up every text element + touch target so the
+   larger physical box actually reads clearly. */
+@media (max-width: 560px) {
+  .schedule-map-wrap {
+    width: 92vw;
+    max-width: 92vw;
+    margin-left: calc(50% - 46vw);
+    margin-right: calc(50% - 46vw);
+  }
+  .schedule-map-road-label { font-size: 10px; }
+  .schedule-map-city { font-size: 17px; }
+  .schedule-map-drivetime { font-size: 13px; }
+  .schedule-map-pin-label { font-size: 14px; }
+  .schedule-map-dot { r: 12; }
+  .schedule-map-pin:hover .schedule-map-dot,
+  .schedule-map-pin:focus-visible .schedule-map-dot { r: 15; }
+}
 .schedule-map-pin:focus-visible { outline: 2px solid var(--green-deep); }
 
 /* ════════════════════════════════════════
@@ -968,21 +1003,22 @@
 }
 .hotel-card-drive {
   font-family: var(--font-sans);
-  font-size: 0.85rem;
+  font-size: 1.02rem;
   color: rgba(240, 230, 200, 0.85);
   margin-top: 0.25rem;
 }
 .hotel-card-block-note {
   font-family: var(--font-sans);
-  font-size: 0.8125rem;
+  font-size: 0.975rem;
   font-style: italic;
   color: rgba(240, 230, 200, 0.65);
 }
 .hotel-card-phone {
   font-family: var(--font-sans);
-  font-size: 0.85rem;
+  font-size: 1.02rem;
   color: rgba(240, 230, 200, 0.85);
 }
+.hotel-card-phone a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
 .hotel-card-link {
   display: inline-block;
   margin-top: 0.5rem;
@@ -1129,7 +1165,7 @@
   max-width: 560px;
   width: 100%;
   margin: 0 auto;
-  text-align: left;
+  text-align: center;
 }
 .rsvp-step > *:not(:last-child) { margin-bottom: 1rem; }
 .rsvp-step h3 {
@@ -1157,6 +1193,7 @@
   background: rgba(255, 255, 255, 0.95);
   color: var(--ink);
   min-height: 44px;
+  text-align: left;
 }
 .rsvp-turnstile { display: flex; justify-content: center; min-height: 65px; }
 .rsvp-error {
@@ -1280,7 +1317,7 @@
 .faq-q {
   font-family: var(--font-accent);
   font-style: italic;
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   font-weight: 400;
   color: var(--ink);
   margin-bottom: 0.5rem;
@@ -1288,7 +1325,7 @@
 }
 .faq-a {
   font-family: var(--font-sans);
-  font-size: 1rem;
+  font-size: 1.2rem;
   font-weight: 300;
   color: var(--ink-soft);
   line-height: 1.8;
@@ -1486,8 +1523,8 @@
   .timeline-event { font-size: clamp(1.2rem, 4.5vw, 1.4rem); }
 
   /* FAQ */
-  .faq-q { font-size: clamp(1.2rem, 4.5vw, 1.4rem); }
-  .faq-a { font-size: clamp(1.05rem, 4vw, 1.2rem); }
+  .faq-q { font-size: clamp(1.44rem, 4.5vw, 1.68rem); }
+  .faq-a { font-size: clamp(1.26rem, 4vw, 1.44rem); }
 
   /* Buttons */
   .cashapp-btn, .hero-rsvp-btn, .btn-directions { font-size: clamp(0.9rem, 3.5vw, 1rem); }
@@ -1530,11 +1567,14 @@
   .quote-polaroid--a { margin-right: -40px; }
 }
 
-/* Quote section: stack below 560px */
+/* Quote section: stack below 560px — smaller, less-tilted, with generous
+   breathing room so each polaroid fully renders in its own space while
+   scrolling rather than crowding its neighbor. */
 @media (max-width: 560px) {
-  .quote-polaroids-wrap { flex-direction: column; align-items: center; gap: 2.5rem; max-width: 90vw; }
-  .quote-polaroid { width: 75%; margin-right: 0 !important; }
-  .quote-polaroid--a, .quote-polaroid--b { margin: 0; }
+  .quote-polaroids-wrap { flex-direction: column; align-items: center; gap: 3.5rem; max-width: 90vw; padding: 0.5rem 0; }
+  .quote-polaroid { width: 68%; margin-right: 0 !important; }
+  .quote-polaroid--a { transform: rotate(-1.5deg); margin: 0; }
+  .quote-polaroid--b { transform: rotate(1deg); margin: 0; }
 }
 
 
@@ -1696,7 +1736,7 @@
 .faq-q {
   font-family: var(--font-accent);
   font-style: italic;
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   font-weight: 400;
   color: var(--ink);
   line-height: 1.45;
@@ -1730,7 +1770,7 @@
 .faq-answer p { padding-bottom: 1.25rem; }
 .faq-a {
   font-family: var(--font-sans);
-  font-size: 1rem;
+  font-size: 1.2rem;
   font-weight: 300;
   color: var(--ink-soft);
   line-height: 1.8;
