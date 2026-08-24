@@ -958,9 +958,11 @@
   .schedule-map-city { font-size: 17px; }
   .schedule-map-drivetime { font-size: 13px; }
   .schedule-map-pin-label { font-size: 14px; }
-  .schedule-map-dot { r: 12; }
+  /* r:11 at the 92vw mobile wrap width renders roughly a 19px dot diameter
+     at a 375px viewport, matching the target tap-target size. */
+  .schedule-map-dot { r: 11; }
   .schedule-map-pin:hover .schedule-map-dot,
-  .schedule-map-pin:focus-visible .schedule-map-dot { r: 15; }
+  .schedule-map-pin:focus-visible .schedule-map-dot { r: 13; }
 }
 .schedule-map-pin:focus-visible { outline: 2px solid var(--green-deep); }
 

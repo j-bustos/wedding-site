@@ -23,9 +23,9 @@ const hotelsMapsUrl =
     <line x1="35" y1="120" x2="365" y2="120" class="schedule-map-road" />
     <text x="200" y="112" class="schedule-map-road-label" text-anchor="middle">US-83</text>
 
-    <!-- Drive-time labels -->
-    <text x="105" y="145" class="schedule-map-drivetime" text-anchor="middle">~10 min</text>
-    <text x="260" y="145" class="schedule-map-drivetime" text-anchor="middle">~20 min</text>
+    <!-- Drive-time labels: centered on the segment they describe -->
+    <text x="93" y="145" class="schedule-map-drivetime" text-anchor="middle">~10 min</text>
+    <text x="235" y="145" class="schedule-map-drivetime" text-anchor="middle">~20 min</text>
 
     <!-- McAllen label -->
     <text x="90" y="30" class="schedule-map-city" text-anchor="middle">McAllen</text>
@@ -34,19 +34,19 @@ const hotelsMapsUrl =
 
     <!-- Hotel cluster pin -->
     <a href={hotelsMapsUrl} target="_blank" rel="noopener noreferrer" class="schedule-map-pin" aria-label="Hotel cluster in McAllen — open directions in Google Maps">
-      <circle cx="50" cy="120" r="9" class="schedule-map-dot" />
+      <circle cx="50" cy="120" r="10" class="schedule-map-dot" />
       <text x="50" y="100" class="schedule-map-pin-label" text-anchor="middle">Hotels</text>
     </a>
 
     <!-- Ceremony pin -->
     <a href={CEREMONY.mapsUrl} target="_blank" rel="noopener noreferrer" class="schedule-map-pin" aria-label={`Ceremony — ${CEREMONY.name} — open directions in Google Maps`}>
-      <circle cx="135" cy="120" r="9" class="schedule-map-dot" />
+      <circle cx="135" cy="120" r="10" class="schedule-map-dot" />
       <text x="135" y="100" class="schedule-map-pin-label" text-anchor="middle">Ceremony</text>
     </a>
 
     <!-- Reception pin -->
     <a href={RECEPTION.mapsUrl} target="_blank" rel="noopener noreferrer" class="schedule-map-pin" aria-label={`Reception — ${RECEPTION.name} — open directions in Google Maps`}>
-      <circle cx="335" cy="120" r="9" class="schedule-map-dot" />
+      <circle cx="335" cy="120" r="10" class="schedule-map-dot" />
       <text x="335" y="100" class="schedule-map-pin-label" text-anchor="middle">Reception</text>
     </a>
   </svg>

@@ -323,8 +323,10 @@ const ogImageUrl = `https://thebustos2026.com/og/${ogImage}.png`;
       grid.querySelectorAll('.hotel-card').forEach(function (el, i) { addReveal(el, 'reveal', i * 120); });
     });
 
-    // Schematic map pins
-    document.querySelectorAll('.schedule-map-pin').forEach(function (el, i) { addReveal(el, 'reveal-scale', i * 150); });
+    // Schematic map pins are intentionally NOT wired into the opacity/IntersectionObserver
+    // reveal system: SVG <a> elements often report a zero-size layout box in WebKit, which
+    // can make the observer never fire and leave the pins permanently invisible. These are
+    // wayfinding UI, not decoration, so they render immediately instead.
 
     if (reduced) return;
 
