@@ -83,6 +83,11 @@ function initRsvpForm(root: HTMLElement) {
     }, 30);
   }
 
+  function scrollStepIntoView(target: HTMLElement) {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+  }
+
   function showStep(name: StepName, announceText?: string, moveFocus = true) {
     steps.forEach((el, key) => {
       const active = key === name;
@@ -90,14 +95,18 @@ function initRsvpForm(root: HTMLElement) {
       el.setAttribute('aria-hidden', active ? 'false' : 'true');
     });
     const target = steps.get(name);
-    // Only move focus on step *transitions* triggered by user action — not on
-    // initial mount, where focusing/scrolling into the RSVP section would
-    // yank the page's scroll position on every load.
+    // Only move focus/scroll on step *transitions* triggered by user action —
+    // not on initial mount, where focusing/scrolling into the RSVP section
+    // would yank the page's scroll position on every load.
     if (target && moveFocus) {
       const heading = target.querySelector<HTMLElement>('h3, h4, legend, [data-step-heading]');
       const focusTarget = heading ?? target.querySelector<HTMLElement>('input, button, textarea') ?? target;
       focusTarget.setAttribute('tabindex', focusTarget.hasAttribute('tabindex') ? focusTarget.getAttribute('tabindex')! : '-1');
       focusTarget.focus({ preventScroll: true });
+      // The previous step may have been much taller than this one, so the
+      // viewport needs to be repositioned to the new step's top rather than
+      // left wherever it happened to be scrolled.
+      scrollStepIntoView(heading ?? target);
     }
     if (announceText) announce(announceText);
   }
