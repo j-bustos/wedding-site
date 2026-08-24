@@ -12,7 +12,7 @@ export async function handleRsvp(request: Request, env: Env, corsHeadersOut: Rec
     return jsonError(400, 'Invalid JSON body', 'BAD_JSON', corsHeadersOut);
   }
 
-  const { turnstileToken, householdId, responses, plusOnes, message } = body;
+  const { turnstileToken, householdId, responses, plusOnes } = body;
   if (!turnstileToken || !householdId || !Array.isArray(responses)) {
     return jsonError(400, 'Missing required fields', 'MISSING_FIELDS', corsHeadersOut);
   }
@@ -59,12 +59,15 @@ export async function handleRsvp(request: Request, env: Env, corsHeadersOut: Rec
     return jsonError(400, 'Attending count exceeds party size', 'OVER_CAPACITY', corsHeadersOut);
   }
 
+  // Dietary notes and the household message are no longer collected by the
+  // form. The D1 columns stay in place for now, but we stop writing to them;
+  // any dietaryNotes/message still sent by a stale client is accepted and
+  // ignored rather than rejected.
   const statements = [];
   for (const r of responses) {
     statements.push(
-      env.DB.prepare('UPDATE guests SET attending = ?, dietary_notes = ?, song_request = ? WHERE id = ?').bind(
+      env.DB.prepare('UPDATE guests SET attending = ?, song_request = ? WHERE id = ?').bind(
         r.attending ? 1 : 0,
-        r.dietaryNotes ?? null,
         r.songRequest ?? null,
         r.guestId
       )
@@ -76,19 +79,15 @@ export async function handleRsvp(request: Request, env: Env, corsHeadersOut: Rec
     const plusOneName = plusOne.name.trim();
     statements.push(
       env.DB.prepare(
-        'UPDATE guests SET full_name = ?, normalized_name = ?, attending = 1, dietary_notes = ? WHERE id = ?'
-      ).bind(plusOneName, normalizeName(plusOneName), plusOne.dietaryNotes ?? null, seat.id)
+        'UPDATE guests SET full_name = ?, normalized_name = ?, attending = 1 WHERE id = ?'
+      ).bind(plusOneName, normalizeName(plusOneName), seat.id)
     );
   }
 
   const nowIso = new Date().toISOString();
   const ipHash = await hashIp(ip, env.IP_HASH_SALT);
   statements.push(
-    env.DB.prepare('UPDATE households SET responded_at = ?, message = ? WHERE id = ?').bind(
-      nowIso,
-      message ?? null,
-      householdId
-    )
+    env.DB.prepare('UPDATE households SET responded_at = ? WHERE id = ?').bind(nowIso, householdId)
   );
   statements.push(
     env.DB.prepare('INSERT INTO rsvp_log (household_id, payload, ip_hash, created_at) VALUES (?, ?, ?, ?)').bind(

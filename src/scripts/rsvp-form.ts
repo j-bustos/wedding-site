@@ -13,13 +13,11 @@ interface Household {
 
 interface GuestResponseState {
   attending: boolean | null;
-  dietaryNotes: string;
   songRequest: string;
 }
 
 interface PlusOneState {
   name: string;
-  dietaryNotes: string;
 }
 
 type StepName = 'find' | 'confirm' | 'ambiguous' | 'not-found' | 'respond' | 'review' | 'success';
@@ -68,7 +66,6 @@ function initRsvpForm(root: HTMLElement) {
   let household: Household | null = null;
   let responses = new Map<number, GuestResponseState>();
   let plusOnes: PlusOneState[] = [];
-  let message = '';
   let turnstileToken = '';
   let turnstileWidgetId: string | undefined;
   let submitting = false;
@@ -247,8 +244,8 @@ function initRsvpForm(root: HTMLElement) {
 
       if (data.status === 'found') {
         household = data.household as Household;
-        responses = new Map(household.guests.map((g) => [g.id, { attending: null, dietaryNotes: '', songRequest: '' }]));
-        plusOnes = Array.from({ length: household.openPlusOneSeats }, () => ({ name: '', dietaryNotes: '' }));
+        responses = new Map(household.guests.map((g) => [g.id, { attending: null, songRequest: '' }]));
+        plusOnes = Array.from({ length: household.openPlusOneSeats }, () => ({ name: '' }));
         renderConfirmStep();
         showStep('confirm', `Found ${household.label}.`);
       } else if (data.status === 'ambiguous') {
@@ -347,7 +344,6 @@ function initRsvpForm(root: HTMLElement) {
         <label class="rsvp-radio"><input type="radio" name="attend-${g.id}" value="yes" /> Joyfully accepts</label>
         <label class="rsvp-radio"><input type="radio" name="attend-${g.id}" value="no" /> Regretfully declines</label>
         <div class="rsvp-guest-extra" data-guest-extra="${g.id}" hidden>
-          <label>Dietary notes (optional)<input type="text" data-field="dietary" data-guest="${g.id}" /></label>
           <label>Song request (optional)<input type="text" data-field="song" data-guest="${g.id}" /></label>
         </div>
       </fieldset>`
@@ -360,7 +356,6 @@ function initRsvpForm(root: HTMLElement) {
       <fieldset class="rsvp-guest-fieldset" data-plusone-index="${i}">
         <legend>Additional guest ${i + 1} (optional)</legend>
         <label>Name<input type="text" data-plusone-name="${i}" /></label>
-        <label>Dietary notes (optional)<input type="text" data-plusone-dietary="${i}" /></label>
       </fieldset>`
       )
       .join('');
@@ -374,7 +369,6 @@ function initRsvpForm(root: HTMLElement) {
       ${alreadyRespondedBanner}
       ${guestFields}
       ${plusOneFields}
-      <label class="rsvp-message-label">Message for the couple (optional)<textarea id="rsvpMessageInput" rows="3"></textarea></label>
       <p class="rsvp-error" id="rsvpRespondError" hidden></p>
       <button type="button" class="btn-primary" data-action="review">Review your RSVP</button>
     `;
@@ -396,7 +390,6 @@ function initRsvpForm(root: HTMLElement) {
         const guestId = Number(input.dataset.guest);
         const state = responses.get(guestId);
         if (!state) return;
-        if (input.dataset.field === 'dietary') state.dietaryNotes = input.value;
         if (input.dataset.field === 'song') state.songRequest = input.value;
       });
     });
@@ -406,16 +399,6 @@ function initRsvpForm(root: HTMLElement) {
         const i = Number(input.dataset.plusoneName);
         plusOnes[i].name = input.value;
       });
-    });
-    section.querySelectorAll<HTMLInputElement>('input[data-plusone-dietary]').forEach((input) => {
-      input.addEventListener('input', () => {
-        const i = Number(input.dataset.plusoneDietary);
-        plusOnes[i].dietaryNotes = input.value;
-      });
-    });
-
-    section.querySelector<HTMLTextAreaElement>('#rsvpMessageInput')?.addEventListener('input', (e) => {
-      message = (e.target as HTMLTextAreaElement).value;
     });
 
     section.querySelector('[data-action="review"]')?.addEventListener('click', () => {
@@ -441,22 +424,17 @@ function initRsvpForm(root: HTMLElement) {
     const guestLines = household.guests.map((g) => {
       const r = responses.get(g.id);
       const status = r?.attending ? 'Attending' : 'Not attending';
-      const extras = r?.attending
-        ? [r.dietaryNotes && `dietary: ${r.dietaryNotes}`, r.songRequest && `song: ${r.songRequest}`]
-            .filter(Boolean)
-            .join(', ')
-        : '';
+      const extras = r?.attending && r.songRequest ? `song: ${r.songRequest}` : '';
       return `<li>${escapeHtml(g.fullName)} — ${status}${extras ? ` (${escapeHtml(extras)})` : ''}</li>`;
     });
 
     const plusOneLines = plusOnes
       .filter((p) => p.name.trim())
-      .map((p) => `<li>${escapeHtml(p.name.trim())} — Attending${p.dietaryNotes ? ` (dietary: ${escapeHtml(p.dietaryNotes)})` : ''}</li>`);
+      .map((p) => `<li>${escapeHtml(p.name.trim())} — Attending</li>`);
 
     section.innerHTML = `
       <h3 data-step-heading>Review your RSVP</h3>
       <ul class="rsvp-guest-preview">${[...guestLines, ...plusOneLines].join('')}</ul>
-      ${message ? `<p class="rsvp-message-preview">Message: ${escapeHtml(message)}</p>` : ''}
       <button type="button" class="btn-secondary" data-action="back">Back</button>
       <button type="button" class="btn-primary" id="rsvpSubmitBtn">Submit RSVP</button>
       <p class="rsvp-error" id="rsvpSubmitError" hidden></p>
@@ -503,13 +481,11 @@ function initRsvpForm(root: HTMLElement) {
       responses: [...responses.entries()].map(([guestId, r]) => ({
         guestId,
         attending: !!r.attending,
-        dietaryNotes: r.dietaryNotes || undefined,
         songRequest: r.songRequest || undefined,
       })),
       plusOnes: plusOnes
         .filter((p) => p.name.trim())
-        .map((p) => ({ name: p.name.trim(), attending: true as const, dietaryNotes: p.dietaryNotes || undefined })),
-      message: message || undefined,
+        .map((p) => ({ name: p.name.trim(), attending: true as const })),
     };
 
     try {

@@ -200,6 +200,11 @@
 
 .quote-polaroid img {
   width: 100%;
+  /* The width/height HTML attributes map to CSS as low-priority
+     presentational hints; without an explicit height here, that hint
+     (height="1400") wins over aspect-ratio and the image renders at its
+     raw intrinsic height regardless of the scaled-down width. */
+  height: auto;
   aspect-ratio: 3/4;
   object-fit: cover;
   object-position: center center;
@@ -885,40 +890,41 @@
    SCHEMATIC MAP
    ════════════════════════════════════════ */
 .schedule-map-wrap {
-  max-width: 480px;
+  max-width: 640px;
   margin: 2.5rem auto 0;
 }
 .schedule-map { width: 100%; height: auto; display: block; }
 .schedule-map-road {
   stroke: var(--green-deep);
-  stroke-width: 2;
+  stroke-width: 2.5;
   stroke-dasharray: 6 5;
-  opacity: 0.5;
+  opacity: 0.75;
 }
 .schedule-map-road-label {
   font-family: var(--font-sans);
-  font-size: 7px;
+  font-size: 8px;
   letter-spacing: 0.1em;
   fill: var(--green-deep);
-  opacity: 0.5;
+  opacity: 0.7;
 }
 .schedule-map-city {
   font-family: var(--font-accent);
   font-style: italic;
-  font-size: 12px;
+  font-size: 15px;
   fill: var(--ink-soft);
 }
 .schedule-map-drivetime {
   font-family: var(--font-sans);
-  font-size: 7px;
+  font-size: 8px;
   fill: var(--ink-soft);
-  opacity: 0.7;
+  opacity: 0.85;
 }
 .schedule-map-pin {
   cursor: pointer;
   outline-offset: 3px;
 }
 .schedule-map-dot {
+  r: 11;
   fill: var(--green-deep);
   stroke: var(--cream);
   stroke-width: 1.5;
@@ -926,13 +932,13 @@
 }
 .schedule-map-pin-label {
   font-family: var(--font-sans);
-  font-size: 9px;
-  font-weight: 500;
+  font-size: 11px;
+  font-weight: 600;
   fill: var(--green-deep);
 }
 .schedule-map-pin:hover .schedule-map-dot,
 .schedule-map-pin:focus-visible .schedule-map-dot {
-  r: 12;
+  r: 13;
   fill: #0f2019;
 }
 
@@ -967,6 +973,21 @@
   color: var(--green-deep);
   text-align: center;
   margin-top: 3.5rem;
+}
+.hotels-callout {
+  max-width: 640px;
+  margin: 1.5rem auto 0;
+  padding: 1.1rem 1.5rem;
+  background: rgba(30, 58, 47, 0.06);
+  border: 1px solid rgba(30, 58, 47, 0.15);
+  border-radius: 8px;
+  text-align: center;
+}
+.hotels-callout-text {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  color: var(--ink-soft);
+  line-height: 1.7;
 }
 .hotels-grid {
   display: grid;
@@ -1183,8 +1204,7 @@
   text-align: center;
 }
 .rsvp-name-input,
-.rsvp-guest-fieldset input[type='text'],
-.rsvp-message-label textarea {
+.rsvp-guest-fieldset input[type='text'] {
   width: 100%;
   padding: 0.75rem 1rem;
   font-family: var(--font-sans);
@@ -1256,18 +1276,13 @@
   padding-left: 1.5rem;
 }
 .rsvp-guest-extra label,
-.rsvp-message-label {
+.rsvp-guest-fieldset[data-plusone-index] label {
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
   font-family: var(--font-sans);
   font-size: 0.85rem;
   color: rgba(240, 230, 200, 0.8);
-}
-.rsvp-message-preview {
-  font-family: var(--font-accent);
-  font-style: italic;
-  color: var(--cream);
 }
 .rsvp-recap {
   font-family: var(--font-sans);
@@ -1478,20 +1493,6 @@
   letter-spacing: 0.04em;
   margin-top: 0.35rem;
 }
-.footer-contact {
-  font-family: var(--font-sans);
-  font-size: 0.9375rem;
-  color: var(--cream);
-  opacity: 0.8;
-  margin-top: 0.75rem;
-  letter-spacing: 0.02em;
-}
-.footer-contact a {
-  color: inherit;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-
 /* ════════════════════════════════════════
    RESPONSIVE
    ════════════════════════════════════════ */
