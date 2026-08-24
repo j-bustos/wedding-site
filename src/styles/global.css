@@ -1167,7 +1167,7 @@
   margin: 0 auto;
   text-align: center;
 }
-.rsvp-step { scroll-margin-top: calc(var(--nav-h) + 24px); }
+.rsvp-step [data-step-heading] { scroll-margin-top: calc(var(--nav-h) + 24px); }
 .rsvp-step > *:not(:last-child) { margin-bottom: 1rem; }
 .rsvp-step h3 {
   font-family: var(--font-serif);
