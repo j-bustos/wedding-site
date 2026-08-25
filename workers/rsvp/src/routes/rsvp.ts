@@ -35,27 +35,53 @@ export async function handleRsvp(request: Request, env: Env, corsHeadersOut: Rec
     return jsonError(404, 'Household not found', 'HOUSEHOLD_NOT_FOUND', corsHeadersOut);
   }
 
-  const guestRows = await env.DB.prepare('SELECT id, is_named_guest as isNamedGuest FROM guests WHERE household_id = ?')
+  const guestRows = await env.DB.prepare(
+    'SELECT id, is_named_guest as isNamedGuest, plus_one_of as plusOneOf FROM guests WHERE household_id = ?'
+  )
     .bind(householdId)
-    .all<{ id: number; isNamedGuest: number }>();
+    .all<{ id: number; isNamedGuest: number; plusOneOf: number | null }>();
   const householdGuests = guestRows.results ?? [];
   const validGuestIds = new Set(householdGuests.map((g) => g.id));
+  // Only a top-level guest (not itself someone's plus-one) can be the subject
+  // of a response — a plus-one's attendance can only travel nested under its
+  // sponsor's response, never submitted directly by guestId.
+  const topLevelGuestIds = new Set(householdGuests.filter((g) => g.plusOneOf === null).map((g) => g.id));
+  const plusOneSeatBySponsor = new Map(
+    householdGuests.filter((g) => g.plusOneOf !== null).map((g) => [g.plusOneOf as number, g])
+  );
 
   for (const r of responses) {
     if (!validGuestIds.has(r.guestId)) {
       return jsonError(400, `Guest ${r.guestId} does not belong to this household`, 'INVALID_GUEST', corsHeadersOut);
     }
+    if (!topLevelGuestIds.has(r.guestId)) {
+      return jsonError(400, `Guest ${r.guestId} is a plus-one seat and cannot be responded to directly`, 'INVALID_GUEST', corsHeadersOut);
+    }
   }
 
-  const unnamedSeats = householdGuests.filter((g) => g.isNamedGuest === 0);
+  // Generic seats: unnamed and not attributed to any specific guest.
+  const unnamedSeats = householdGuests.filter((g) => g.isNamedGuest === 0 && g.plusOneOf === null);
   const plusOnesArr = Array.isArray(plusOnes) ? plusOnes : [];
   if (plusOnesArr.length > unnamedSeats.length) {
     return jsonError(400, 'More plus-ones submitted than available seats', 'OVER_CAPACITY', corsHeadersOut);
   }
 
   const namedAttendingCount = responses.filter((r) => r.attending).length;
-  const plusOneAttendingCount = plusOnesArr.filter((p) => p.attending).length;
-  if (namedAttendingCount + plusOneAttendingCount > household.maxParty) {
+  const genericPlusOneAttendingCount = plusOnesArr.filter((p) => p.attending).length;
+
+  // Server-side enforcement: an attributed plus-one can only be counted (or
+  // recorded) as attending if their sponsoring guest is *also* attending —
+  // never trust the client's plusOne.attending value on its own.
+  let attributedPlusOneAttendingCount = 0;
+  for (const r of responses) {
+    if (r.plusOne && plusOneSeatBySponsor.has(r.guestId)) {
+      const effectiveAttending = r.attending && r.plusOne.attending === true;
+      if (effectiveAttending) attributedPlusOneAttendingCount++;
+    }
+  }
+
+  const totalAttending = namedAttendingCount + attributedPlusOneAttendingCount + genericPlusOneAttendingCount;
+  if (totalAttending > household.maxParty) {
     return jsonError(400, 'Attending count exceeds party size', 'OVER_CAPACITY', corsHeadersOut);
   }
 
@@ -72,6 +98,26 @@ export async function handleRsvp(request: Request, env: Env, corsHeadersOut: Rec
         r.guestId
       )
     );
+
+    const attributedSeat = plusOneSeatBySponsor.get(r.guestId);
+    if (attributedSeat && r.plusOne) {
+      const effectiveAttending = r.attending && r.plusOne.attending === true;
+      const plusOneName = effectiveAttending ? (r.plusOne.name ?? '').trim() : '';
+      if (plusOneName) {
+        statements.push(
+          env.DB.prepare('UPDATE guests SET attending = ?, full_name = ?, normalized_name = ? WHERE id = ?').bind(
+            effectiveAttending ? 1 : 0,
+            plusOneName,
+            normalizeName(plusOneName),
+            attributedSeat.id
+          )
+        );
+      } else {
+        statements.push(
+          env.DB.prepare('UPDATE guests SET attending = ? WHERE id = ?').bind(effectiveAttending ? 1 : 0, attributedSeat.id)
+        );
+      }
+    }
   }
   for (let i = 0; i < plusOnesArr.length; i++) {
     const seat = unnamedSeats[i];
@@ -105,7 +151,7 @@ export async function handleRsvp(request: Request, env: Env, corsHeadersOut: Rec
       status: 'ok',
       summary: {
         householdId,
-        totalAttending: namedAttendingCount + plusOneAttendingCount,
+        totalAttending,
       },
     },
     200,

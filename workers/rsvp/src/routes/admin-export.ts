@@ -21,9 +21,11 @@ export async function handleAdminExport(request: Request, env: Env): Promise<Res
   const result = await env.DB.prepare(
     `SELECT h.label as householdLabel, h.max_party as maxParty, g.full_name as fullName,
             g.is_named_guest as isNamedGuest, g.attending as attending,
-            g.dietary_notes as dietaryNotes, g.song_request as songRequest
+            g.dietary_notes as dietaryNotes, g.song_request as songRequest,
+            sponsor.full_name as plusOneOfName
      FROM guests g
      JOIN households h ON h.id = g.household_id
+     LEFT JOIN guests sponsor ON sponsor.id = g.plus_one_of
      ORDER BY h.label, g.is_named_guest DESC, g.full_name`
   ).all<ExportRow>();
 

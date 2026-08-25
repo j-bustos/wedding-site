@@ -1,21 +1,39 @@
-interface NamedGuest {
+interface ApiPlusOne {
   id: number;
-  fullName: string;
+  name: string;
+  is_named: boolean;
+}
+
+interface ApiGuest {
+  id: number;
+  name: string;
+  is_named: boolean;
+  has_plus_one: boolean;
+  plus_one?: ApiPlusOne;
 }
 
 interface Household {
   id: number;
   label: string;
-  guests: NamedGuest[];
-  openPlusOneSeats: number;
-  alreadyResponded: boolean;
+  max_party: number;
+  already_responded: boolean;
+  guests: ApiGuest[];
+  open_plus_one_seats: number;
+}
+
+interface PlusOneResponseState {
+  attending: boolean | null;
+  name: string;
 }
 
 interface GuestResponseState {
   attending: boolean | null;
   songRequest: string;
+  /** Only present when this guest has an attributed plus-one seat. */
+  plusOne?: PlusOneResponseState;
 }
 
+/** A generic, unattributed household plus-one seat. */
 interface PlusOneState {
   name: string;
 }
@@ -49,6 +67,13 @@ function formatEventDateTime(): string {
     year: 'numeric',
     timeZone: 'America/Chicago',
   });
+}
+
+/** An attributed plus-one is only ever "attending" if both it AND its
+ * sponsoring guest said yes — computed fresh wherever needed rather than
+ * stored, so there's one place this rule lives. */
+function effectivePlusOneAttending(r: GuestResponseState): boolean {
+  return !!r.attending && r.plusOne?.attending === true;
 }
 
 function initRsvpForm(root: HTMLElement) {
@@ -244,8 +269,17 @@ function initRsvpForm(root: HTMLElement) {
 
       if (data.status === 'found') {
         household = data.household as Household;
-        responses = new Map(household.guests.map((g) => [g.id, { attending: null, songRequest: '' }]));
-        plusOnes = Array.from({ length: household.openPlusOneSeats }, () => ({ name: '' }));
+        responses = new Map(
+          household.guests.map((g) => [
+            g.id,
+            {
+              attending: null,
+              songRequest: '',
+              plusOne: g.has_plus_one ? { attending: null, name: g.plus_one?.is_named ? g.plus_one.name : '' } : undefined,
+            },
+          ])
+        );
+        plusOnes = Array.from({ length: household.open_plus_one_seats }, () => ({ name: '' }));
         renderConfirmStep();
         showStep('confirm', `Found ${household.label}.`);
       } else if (data.status === 'ambiguous') {
@@ -281,14 +315,14 @@ function initRsvpForm(root: HTMLElement) {
   function renderConfirmStep() {
     const section = steps.get('confirm');
     if (!section || !household) return;
-    const alreadyRespondedBanner = household.alreadyResponded
+    const alreadyRespondedBanner = household.already_responded
       ? `<p class="rsvp-banner-note">You've already RSVP'd — submitting again updates your response.</p>`
       : '';
     section.innerHTML = `
       <h3 data-step-heading>${escapeHtml(household.label)}</h3>
       ${alreadyRespondedBanner}
       <ul class="rsvp-guest-preview">
-        ${household.guests.map((g) => `<li>${escapeHtml(g.fullName)}</li>`).join('')}
+        ${household.guests.map((g) => `<li>${escapeHtml(g.name)}${g.has_plus_one ? ' <span class="rsvp-guest-preview-tag">+1</span>' : ''}</li>`).join('')}
       </ul>
       <button type="button" class="btn-primary" data-action="continue-to-respond">Continue</button>
     `;
@@ -337,17 +371,36 @@ function initRsvpForm(root: HTMLElement) {
     if (!section || !household) return;
 
     const guestFields = household.guests
-      .map(
-        (g) => `
+      .map((g) => {
+        const mainField = `
       <fieldset class="rsvp-guest-fieldset" data-guest-id="${g.id}">
-        <legend>${escapeHtml(g.fullName)}</legend>
+        <legend>${escapeHtml(g.name)}</legend>
         <label class="rsvp-radio"><input type="radio" name="attend-${g.id}" value="yes" /> Joyfully accepts</label>
         <label class="rsvp-radio"><input type="radio" name="attend-${g.id}" value="no" /> Regretfully declines</label>
         <div class="rsvp-guest-extra" data-guest-extra="${g.id}" hidden>
           <label>Song request (optional)<input type="text" data-field="song" data-guest="${g.id}" /></label>
         </div>
-      </fieldset>`
-      )
+      </fieldset>`;
+
+        if (!g.has_plus_one) return mainField;
+
+        const state = responses.get(g.id);
+        const prefillName = state?.plusOne?.name ?? '';
+        const plusOneRow = `
+      <div class="rsvp-plusone-row" data-plusone-for="${g.id}">
+        <p class="rsvp-plusone-label">Plus one for ${escapeHtml(g.name)}</p>
+        <div data-plusone-controls="${g.id}">
+          <label class="rsvp-radio"><input type="radio" name="plusone-attend-${g.id}" value="yes" /> Joyfully accepts</label>
+          <label class="rsvp-radio"><input type="radio" name="plusone-attend-${g.id}" value="no" /> Regretfully declines</label>
+          <div class="rsvp-plusone-extra" data-plusone-extra="${g.id}" hidden>
+            <label>Plus one's full name<input type="text" data-plusone-fullname="${g.id}" value="${escapeHtml(prefillName)}" /></label>
+            <p class="rsvp-plusone-hint">Please provide their name so we can prepare their place setting.</p>
+          </div>
+        </div>
+        <p class="rsvp-plusone-declined-note" data-plusone-declined-note="${g.id}" hidden>Plus one seat also declined.</p>
+      </div>`;
+        return mainField + plusOneRow;
+      })
       .join('');
 
     const plusOneFields = plusOnes
@@ -360,7 +413,7 @@ function initRsvpForm(root: HTMLElement) {
       )
       .join('');
 
-    const alreadyRespondedBanner = household.alreadyResponded
+    const alreadyRespondedBanner = household.already_responded
       ? `<p class="rsvp-banner-note">You've already RSVP'd — submitting again updates your response.</p>`
       : '';
 
@@ -373,7 +426,7 @@ function initRsvpForm(root: HTMLElement) {
       <button type="button" class="btn-primary" data-action="review">Review your RSVP</button>
     `;
 
-    section.querySelectorAll<HTMLInputElement>('input[type="radio"]').forEach((radio) => {
+    section.querySelectorAll<HTMLInputElement>('input[type="radio"][name^="attend-"]').forEach((radio) => {
       radio.addEventListener('change', () => {
         const fieldset = radio.closest('fieldset');
         const guestId = Number(fieldset?.dataset.guestId);
@@ -382,6 +435,34 @@ function initRsvpForm(root: HTMLElement) {
         if (extra) extra.hidden = !attending;
         const state = responses.get(guestId);
         if (state) state.attending = attending;
+
+        if (state?.plusOne) {
+          const controls = section.querySelector<HTMLElement>(`[data-plusone-controls="${guestId}"]`);
+          const note = section.querySelector<HTMLElement>(`[data-plusone-declined-note="${guestId}"]`);
+          if (controls) controls.hidden = !attending;
+          if (note) note.hidden = attending;
+        }
+      });
+    });
+
+    section.querySelectorAll<HTMLInputElement>('input[type="radio"][name^="plusone-attend-"]').forEach((radio) => {
+      radio.addEventListener('change', () => {
+        const row = radio.closest<HTMLElement>('[data-plusone-for]');
+        const guestId = Number(row?.dataset.plusoneFor);
+        const state = responses.get(guestId);
+        if (!state?.plusOne) return;
+        const attending = radio.value === 'yes';
+        state.plusOne.attending = attending;
+        const extra = section.querySelector<HTMLElement>(`[data-plusone-extra="${guestId}"]`);
+        if (extra) extra.hidden = !attending;
+      });
+    });
+
+    section.querySelectorAll<HTMLInputElement>('input[data-plusone-fullname]').forEach((input) => {
+      input.addEventListener('input', () => {
+        const guestId = Number(input.dataset.plusoneFullname);
+        const state = responses.get(guestId);
+        if (state?.plusOne) state.plusOne.name = input.value;
       });
     });
 
@@ -403,7 +484,13 @@ function initRsvpForm(root: HTMLElement) {
 
     section.querySelector('[data-action="review"]')?.addEventListener('click', () => {
       const respondError = section.querySelector<HTMLElement>('#rsvpRespondError');
-      const unanswered = [...responses.values()].some((r) => r.attending === null);
+      const unanswered = [...responses.values()].some((r) => {
+        if (r.attending === null) return true;
+        // Only force a plus-one answer when their sponsor is actually attending —
+        // a declined sponsor auto-declines the seat, nothing left to ask.
+        if (r.attending && r.plusOne && r.plusOne.attending === null) return true;
+        return false;
+      });
       if (unanswered) {
         if (respondError) {
           respondError.hidden = false;
@@ -425,7 +512,16 @@ function initRsvpForm(root: HTMLElement) {
       const r = responses.get(g.id);
       const status = r?.attending ? 'Attending' : 'Not attending';
       const extras = r?.attending && r.songRequest ? `song: ${r.songRequest}` : '';
-      return `<li>${escapeHtml(g.fullName)} — ${status}${extras ? ` (${escapeHtml(extras)})` : ''}</li>`;
+      let line = `<li>${escapeHtml(g.name)} — ${status}${extras ? ` (${escapeHtml(extras)})` : ''}</li>`;
+
+      if (g.has_plus_one && r) {
+        const poAttending = effectivePlusOneAttending(r);
+        const poName = r.plusOne?.name.trim();
+        const poLabel = poName || 'Plus one';
+        const poStatus = poAttending ? 'Attending' : 'Not attending';
+        line += `<li class="rsvp-guest-preview-sub">${escapeHtml(poLabel)} — ${poStatus} <span class="rsvp-guest-preview-subnote">(plus one for ${escapeHtml(g.name)})</span></li>`;
+      }
+      return line;
     });
 
     const plusOneLines = plusOnes
@@ -478,11 +574,24 @@ function initRsvpForm(root: HTMLElement) {
     const payload = {
       turnstileToken,
       householdId: household.id,
-      responses: [...responses.entries()].map(([guestId, r]) => ({
-        guestId,
-        attending: !!r.attending,
-        songRequest: r.songRequest || undefined,
-      })),
+      responses: [...responses.entries()].map(([guestId, r]) => {
+        const entry: {
+          guestId: number;
+          attending: boolean;
+          songRequest?: string;
+          plusOne?: { attending: boolean; name?: string };
+        } = {
+          guestId,
+          attending: !!r.attending,
+          songRequest: r.songRequest || undefined,
+        };
+        if (r.plusOne) {
+          const attending = effectivePlusOneAttending(r);
+          const name = r.plusOne.name.trim();
+          entry.plusOne = { attending, name: attending && name ? name : undefined };
+        }
+        return entry;
+      }),
       plusOnes: plusOnes
         .filter((p) => p.name.trim())
         .map((p) => ({ name: p.name.trim(), attending: true as const })),
@@ -553,10 +662,20 @@ function initRsvpForm(root: HTMLElement) {
 
     const attendingNamed = household.guests.filter((g) => responses.get(g.id)?.attending === true);
     const decliningNamed = household.guests.filter((g) => responses.get(g.id)?.attending === false);
-    const attendingPlusOnes = plusOnes.filter((p) => p.name.trim());
 
-    const attendingNames = [...attendingNamed.map((g) => g.fullName), ...attendingPlusOnes.map((p) => p.name.trim())];
-    const decliningNames = decliningNamed.map((g) => g.fullName);
+    const attributedAttendingNames: string[] = [];
+    for (const g of household.guests) {
+      if (!g.has_plus_one) continue;
+      const r = responses.get(g.id);
+      if (r && effectivePlusOneAttending(r)) {
+        attributedAttendingNames.push(r.plusOne!.name.trim() || 'their plus one');
+      }
+    }
+    const genericAttendingPlusOnes = plusOnes.filter((p) => p.name.trim());
+    const allAttendingPlusOneNames = [...attributedAttendingNames, ...genericAttendingPlusOnes.map((p) => p.name.trim())];
+
+    const attendingNames = [...attendingNamed.map((g) => g.name), ...allAttendingPlusOneNames];
+    const decliningNames = decliningNamed.map((g) => g.name);
 
     const hasAttending = attendingNames.length > 0;
     const hasDeclining = decliningNames.length > 0;
@@ -580,11 +699,11 @@ function initRsvpForm(root: HTMLElement) {
       // named household guest sharing one surname (plus-ones usually only
       // give a first name, so they can't be verified against a family
       // surname) — otherwise fall back to a plain comma list.
-      const surnames = new Set(attendingNamed.map((g) => lastName(g.fullName)));
-      if (attendingPlusOnes.length === 0 && surnames.size === 1) {
+      const surnames = new Set(attendingNamed.map((g) => lastName(g.name)));
+      if (allAttendingPlusOneNames.length === 0 && surnames.size === 1) {
         return `We can't wait to celebrate with the ${escapeHtml([...surnames][0])} family!`;
       }
-      const displayNames = [...attendingNamed.map((g) => firstName(g.fullName)), ...attendingPlusOnes.map((p) => p.name.trim())];
+      const displayNames = [...attendingNamed.map((g) => firstName(g.name)), ...allAttendingPlusOneNames];
       return `We can't wait to celebrate with ${escapeHtml(joinWithAnd(displayNames))}!`;
     }
 

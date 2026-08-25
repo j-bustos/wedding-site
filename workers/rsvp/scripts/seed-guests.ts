@@ -5,6 +5,8 @@ interface CsvRow {
   householdLabel: string;
   maxParty: number;
   guestFullName: string;
+  /** Sponsor's full name if this row IS a plus-one seat; '' otherwise. */
+  plusOneOfGuestName: string;
 }
 
 function parseCsv(content: string): CsvRow[] {
@@ -22,12 +24,21 @@ function parseCsv(content: string): CsvRow[] {
       householdLabel: record.household_label,
       maxParty: Number(record.max_party),
       guestFullName: record.guest_full_name,
+      // Optional column — a sheet export that predates plus-one attribution
+      // simply won't have it, and every row parses as a regular named guest.
+      plusOneOfGuestName: record.plus_one_of_guest_name ?? '',
     };
   });
 }
 
 function sqlEscape(value: string): string {
   return value.replace(/'/g, "''");
+}
+
+interface HouseholdGroup {
+  maxParty: number;
+  primaryRows: CsvRow[];
+  plusOneRows: CsvRow[];
 }
 
 function main() {
@@ -49,41 +60,84 @@ function main() {
     process.exit(1);
   }
 
-  const households = new Map<string, { maxParty: number; guests: string[] }>();
+  const households = new Map<string, HouseholdGroup>();
   for (const row of rows) {
-    if (!row.householdLabel || Number.isNaN(row.maxParty) || !row.guestFullName) {
+    if (!row.householdLabel || Number.isNaN(row.maxParty)) {
+      console.error(`Skipping malformed row: ${JSON.stringify(row)}`);
+      continue;
+    }
+    // A plus-one row is allowed a blank guest_full_name (name not yet known);
+    // a regular named-guest row is not.
+    if (!row.plusOneOfGuestName && !row.guestFullName) {
       console.error(`Skipping malformed row: ${JSON.stringify(row)}`);
       continue;
     }
     const existing = households.get(row.householdLabel);
-    if (existing) {
-      existing.guests.push(row.guestFullName);
+    const bucket = existing ?? { maxParty: row.maxParty, primaryRows: [], plusOneRows: [] };
+    if (row.plusOneOfGuestName) {
+      bucket.plusOneRows.push(row);
     } else {
-      households.set(row.householdLabel, { maxParty: row.maxParty, guests: [row.guestFullName] });
+      bucket.primaryRows.push(row);
     }
+    if (!existing) households.set(row.householdLabel, bucket);
   }
 
   const statements: string[] = [];
   let householdId = 1;
   let guestId = 1;
 
-  for (const [label, { maxParty, guests }] of households) {
+  for (const [label, { maxParty, primaryRows, plusOneRows }] of households) {
     statements.push(
       `INSERT INTO households (id, label, max_party) VALUES (${householdId}, '${sqlEscape(label)}', ${maxParty});`
     );
 
-    for (const fullName of guests) {
-      const normalized = normalizeName(fullName);
+    // Pass 1: named guests, so plus-one rows below can resolve their sponsor
+    // by name regardless of CSV row order.
+    const nameToId = new Map<string, number>();
+    for (const row of primaryRows) {
+      const normalized = normalizeName(row.guestFullName);
       statements.push(
         `INSERT INTO guests (id, household_id, full_name, normalized_name, is_named_guest) VALUES ` +
-          `(${guestId}, ${householdId}, '${sqlEscape(fullName)}', '${sqlEscape(normalized)}', 1);`
+          `(${guestId}, ${householdId}, '${sqlEscape(row.guestFullName)}', '${sqlEscape(normalized)}', 1);`
       );
+      nameToId.set(normalized, guestId);
       guestId++;
     }
 
-    const openSeats = maxParty - guests.length;
+    // Pass 2: plus-one seats, attributed to their sponsor's just-assigned id.
+    let attributedCount = 0;
+    for (const row of plusOneRows) {
+      const sponsorId = nameToId.get(normalizeName(row.plusOneOfGuestName));
+      if (sponsorId === undefined) {
+        console.warn(
+          `Household "${label}": plus-one row references unknown sponsor "${row.plusOneOfGuestName}" — skipping this seat. ` +
+            `Check the sponsor's name matches their guest_full_name exactly.`
+        );
+        continue;
+      }
+      const isNamed = row.guestFullName ? 1 : 0;
+      const normalized = row.guestFullName ? normalizeName(row.guestFullName) : '';
+      statements.push(
+        `INSERT INTO guests (id, household_id, full_name, normalized_name, is_named_guest, plus_one_of) VALUES ` +
+          `(${guestId}, ${householdId}, '${sqlEscape(row.guestFullName)}', '${sqlEscape(normalized)}', ${isNamed}, ${sponsorId});`
+      );
+      guestId++;
+      attributedCount++;
+    }
+
+    // Reserved-seats accounting: named guests + attributed plus-ones should
+    // already equal max_party for households where every extra seat is
+    // attributed; any remainder becomes a generic, unattributed seat.
+    const openSeats = maxParty - primaryRows.length - attributedCount;
     if (openSeats < 0) {
-      console.warn(`Household "${label}" has more named guests (${guests.length}) than max_party (${maxParty})`);
+      console.warn(
+        `Household "${label}" has more named guests + plus-ones (${primaryRows.length + attributedCount}) than max_party (${maxParty})`
+      );
+    } else {
+      console.log(
+        `Household "${label}": ${primaryRows.length} named + ${attributedCount} plus-one` +
+          `${openSeats > 0 ? ` + ${openSeats} unattributed` : ''} = ${primaryRows.length + attributedCount + openSeats} seats (max_party ${maxParty})`
+      );
     }
     for (let i = 0; i < Math.max(0, openSeats); i++) {
       statements.push(

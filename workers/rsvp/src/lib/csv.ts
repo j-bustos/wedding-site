@@ -6,6 +6,7 @@ export interface ExportRow {
   attending: number | null;
   dietaryNotes: string | null;
   songRequest: string | null;
+  plusOneOfName: string | null;
 }
 
 function csvEscape(value: string): string {
@@ -23,6 +24,7 @@ export function buildExportCsv(rows: ExportRow[]): string {
     'attending',
     'dietary_notes',
     'song_request',
+    'plus_one_of',
   ];
   const lines = [header.join(',')];
 
@@ -36,6 +38,7 @@ export function buildExportCsv(rows: ExportRow[]): string {
         r.attending === null ? '' : String(r.attending),
         csvEscape(r.dietaryNotes ?? ''),
         csvEscape(r.songRequest ?? ''),
+        csvEscape(r.plusOneOfName ? `Plus one of: ${r.plusOneOfName}` : ''),
       ].join(',')
     );
   }

@@ -55,14 +55,29 @@ Format (one row per **named** guest; repeat the household row for each
 member):
 
 ```csv
-household_label,max_party,guest_full_name
-The Garza Family,4,Jose Garza
-The Garza Family,4,Maria Garza
+household_label,max_party,guest_full_name,plus_one_of_guest_name
+The Garza Family,4,Jose Garza,
+The Garza Family,4,Maria Garza,
 ```
 
-`max_party` is the total seats for the household including named guests —
-any excess becomes an unnamed plus-one seat, filled in later when that
-household RSVPs.
+`max_party` is the total seats for the household including named guests and
+plus-ones — any excess becomes a generic, unattributed plus-one seat, filled
+in later when that household RSVPs.
+
+`plus_one_of_guest_name` is optional and only set on a row that IS a
+plus-one seat (leave `guest_full_name` blank if that person's plus-one name
+isn't known yet, or fill it in if it is). It must exactly match another
+row's `guest_full_name` in the same household — that's who the seat is
+attributed to:
+
+```csv
+household_label,max_party,guest_full_name,plus_one_of_guest_name
+The Mata Family,7,Ryan Mata,
+The Mata Family,7,,Ryan Mata
+```
+
+See `guest-list.example.csv` for a fuller worked example (a plus-one with an
+already-known name, and one still unknown).
 
 ```bash
 cp guest-list.example.csv guest-list.csv   # then replace with the real list

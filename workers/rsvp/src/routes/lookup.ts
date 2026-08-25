@@ -45,9 +45,11 @@ export async function handleLookup(request: Request, env: Env, corsHeadersOut: R
     return jsonResponse({ status: 'not_found' }, 200, corsHeadersOut);
   }
 
+  // A guest row that is itself someone else's plus-one (plus_one_of NOT NULL)
+  // isn't independently findable by name search — only the primary invitee is.
   const guestRows = await env.DB.prepare(
     `SELECT id as guestId, household_id as householdId, full_name as fullName, normalized_name as normalizedName
-     FROM guests WHERE is_named_guest = 1`
+     FROM guests WHERE is_named_guest = 1 AND plus_one_of IS NULL`
   ).all<{ guestId: number; householdId: number; fullName: string; normalizedName: string }>();
 
   const candidates: GuestCandidate[] = (guestRows.results ?? []).map((r) => ({
@@ -84,14 +86,33 @@ export async function handleLookup(request: Request, env: Env, corsHeadersOut: R
   }
 
   const allHouseholdGuests = await env.DB.prepare(
-    'SELECT id, full_name as fullName, is_named_guest as isNamedGuest FROM guests WHERE household_id = ?'
+    'SELECT id, full_name as fullName, is_named_guest as isNamedGuest, plus_one_of as plusOneOf FROM guests WHERE household_id = ?'
   )
     .bind(householdId)
-    .all<{ id: number; fullName: string; isNamedGuest: number }>();
+    .all<{ id: number; fullName: string; isNamedGuest: number; plusOneOf: number | null }>();
 
   const rows = allHouseholdGuests.results ?? [];
-  const namedGuests = rows.filter((g) => g.isNamedGuest === 1).map((g) => ({ id: g.id, fullName: g.fullName }));
-  const openPlusOneSeats = rows.filter((g) => g.isNamedGuest === 0).length;
+
+  // A plus-one row (attributed via plus_one_of) is nested under its sponsor,
+  // not listed as its own top-level guest — whether or not a name is known
+  // for it yet.
+  const plusOneBySponsor = new Map(rows.filter((g) => g.plusOneOf !== null).map((g) => [g.plusOneOf as number, g]));
+
+  const namedGuests = rows
+    .filter((g) => g.isNamedGuest === 1 && g.plusOneOf === null)
+    .map((g) => {
+      const plusOne = plusOneBySponsor.get(g.id);
+      return {
+        id: g.id,
+        name: g.fullName,
+        is_named: true,
+        has_plus_one: !!plusOne,
+        ...(plusOne ? { plus_one: { id: plusOne.id, name: plusOne.fullName, is_named: plusOne.isNamedGuest === 1 } } : {}),
+      };
+    });
+
+  // Generic seats: unnamed and not attributed to any specific guest.
+  const openPlusOneSeats = rows.filter((g) => g.isNamedGuest === 0 && g.plusOneOf === null).length;
 
   return jsonResponse(
     {
@@ -99,9 +120,10 @@ export async function handleLookup(request: Request, env: Env, corsHeadersOut: R
       household: {
         id: household.id,
         label: household.label,
+        max_party: household.maxParty,
+        already_responded: household.respondedAt !== null,
         guests: namedGuests,
-        openPlusOneSeats,
-        alreadyResponded: household.respondedAt !== null,
+        open_plus_one_seats: openPlusOneSeats,
       },
     },
     200,

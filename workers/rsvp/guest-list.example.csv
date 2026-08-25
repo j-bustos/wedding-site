@@ -1,7 +1,15 @@
-household_label,max_party,guest_full_name
-The Garza Family,4,Jose Garza
-The Garza Family,4,Maria Garza
-The Salinas Family,2,Beto Salinas
-The Cantu Household,3,Lupita Cantu
-The Cantu Household,3,Ray Cantu
-The Cantu Household,3,Sofia Cantu
+household_label,max_party,guest_full_name,plus_one_of_guest_name
+The Garza Family,4,Jose Garza,
+The Garza Family,4,Maria Garza,
+The Salinas Family,2,Beto Salinas,
+The Salinas Family,2,,Beto Salinas
+The Cantu Household,3,Lupita Cantu,
+The Cantu Household,3,Ray Cantu,
+The Cantu Household,3,Sofia Cantu,
+The Mata Family,7,Michael Mata,
+The Mata Family,7,Adriana Mata,
+The Mata Family,7,Dustin Mata,
+The Mata Family,7,Dezarae Mata,
+The Mata Family,7,Mikey Mata,
+The Mata Family,7,Ryan Mata,
+The Mata Family,7,,Ryan Mata
