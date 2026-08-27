@@ -53,18 +53,22 @@
 #faq                      { padding-top: 80px;  padding-bottom: 80px; }
 #gifts                    { padding-top: 60px;  padding-bottom: 100px; }
 
-/* Full-bleed photo divider */
+/* Full-bleed photo divider. Sized to the photo's own aspect ratio (rather
+   than a flat vh-based height) so the full image always shows — a fixed vh
+   height cropped the top of the church facade on wide viewports, where the
+   band becomes much shorter relative to its width than the photo actually
+   is. Overridden back to a fixed height + cover-crop on mobile below, where
+   that crop already reads correctly. */
 .party-photo-divider {
   position: relative;
-  height: 40vh;
+  aspect-ratio: 1400 / 1020;
   overflow: hidden;
   line-height: 0;
 }
 .party-photo-divider img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: center 30%;
+  object-fit: contain;
   display: block;
 }
 .party-photo-divider::after {
@@ -1652,9 +1656,10 @@
   /* Hero countdown gap */
   .hero-countdown { gap: 1.5rem; }
 
-  /* Photo divider */
-  .party-photo-divider { height: 30vh; }
-  .party-photo-divider img { object-position: center center; }
+  /* Photo divider: mobile already cropped this correctly — restore the
+     fixed-height cover-crop behavior instead of the desktop aspect-ratio fit. */
+  .party-photo-divider { height: 30vh; aspect-ratio: auto; }
+  .party-photo-divider img { object-fit: cover; object-position: center center; }
 
   /* Christmas */
   .christmas-accent img { width: 300px; min-width: 300px; }
