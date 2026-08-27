@@ -394,7 +394,6 @@ function initRsvpForm(root: HTMLElement) {
           <label class="rsvp-radio"><input type="radio" name="plusone-attend-${g.id}" value="no" /> Regretfully declines</label>
           <div class="rsvp-plusone-extra" data-plusone-extra="${g.id}" hidden>
             <label>Plus one's full name<input type="text" data-plusone-fullname="${g.id}" value="${escapeHtml(prefillName)}" /></label>
-            <p class="rsvp-plusone-hint">Please provide their name so we can prepare their place setting.</p>
           </div>
         </div>
         <p class="rsvp-plusone-declined-note" data-plusone-declined-note="${g.id}" hidden>Plus one seat also declined.</p>

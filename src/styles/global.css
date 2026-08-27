@@ -1325,12 +1325,6 @@
   font-size: 0.85rem;
   color: rgba(240, 230, 200, 0.8);
 }
-.rsvp-plusone-hint {
-  font-family: var(--font-sans);
-  font-size: 0.78rem;
-  font-style: italic;
-  color: rgba(240, 230, 200, 0.6);
-}
 .rsvp-plusone-declined-note {
   font-family: var(--font-sans);
   font-size: 0.85rem;
