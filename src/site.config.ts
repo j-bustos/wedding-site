@@ -53,6 +53,14 @@ export const PHOTO_SHARE_URL: string | null = null;
 export const REGISTRY_URL = 'https://cash.app/$JamalAndGabbie';
 export const REGISTRY_HANDLE = '$JamalAndGabbie';
 
+// Same underlying message, two renderings: the FAQ answer names the handle
+// inline (no button/handle display nearby to point to), while the Gifts
+// section body leaves it out since the handle already displays on its own
+// beneath the CashApp button right below this text.
+export const GIFT_COPY_WITH_HANDLE = `The greatest gift is having you there with us. If you'd still like to give something, we've set up a CashApp at ${REGISTRY_HANDLE} to help fund our honeymoon.`;
+export const GIFT_COPY_NO_HANDLE =
+  "The greatest gift is having you there with us. If you'd still like to give something, we've set up a CashApp to help fund our honeymoon.";
+
 export const RSVP_API_BASE = 'https://thebustos-rsvp.house-gpjb.workers.dev';
 
 // Turnstile site key (public/safe to commit — the secret key lives only as

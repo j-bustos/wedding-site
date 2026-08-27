@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import RsvpForm from '../components/RsvpForm.astro';
 import { HOTELS } from '../data/hotels';
 import ScheduleMap from '../components/ScheduleMap.astro';
-import { PHOTO_SHARE_URL, CEREMONY, RECEPTION, REGISTRY_HANDLE } from '../site.config';
+import { PHOTO_SHARE_URL, CEREMONY, RECEPTION, GIFT_COPY_WITH_HANDLE, GIFT_COPY_NO_HANDLE } from '../site.config';
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 const heroSlides = [
@@ -700,7 +700,7 @@ const galleryImages = [
             <span class="faq-icon" aria-hidden="true">+</span>
           </button>
           <div class="faq-answer" aria-hidden="true">
-            <p class="faq-a">The greatest gift is having you there with us. If you'd still like to give something, we've set up a CashApp at {REGISTRY_HANDLE} to help fund our honeymoon.</p>
+            <p class="faq-a">{GIFT_COPY_WITH_HANDLE}</p>
           </div>
         </div>
 
@@ -716,10 +716,7 @@ const galleryImages = [
     <div class="gifts-inner">
       <h2 class="section-heading">Gifts</h2>
       <div class="section-ornament"><span>✦</span></div>
-      <p class="gifts-body">
-        Your presence is what matters most to us.<br />
-        If you wish to give a gift, you can do so via CashApp.
-      </p>
+      <p class="gifts-body">{GIFT_COPY_NO_HANDLE}</p>
       <a
         class="cashapp-btn"
         href="https://cash.app/$JamalAndGabbie"

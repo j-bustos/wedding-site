@@ -775,7 +775,12 @@
    ════════════════════════════════════════ */
 .travel-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  /* Only 2 cards exist. Sizing each column as a third of the wide container
+     (the same width the old 3-column 1fr grid produced) keeps the cards
+     their current width, while grid-column-align centers the pair instead
+     of leaving the unused third 1fr track as dead space on the right. */
+  grid-template-columns: repeat(2, calc((var(--max-w-wide) - 2 * 1.75rem) / 3));
+  justify-content: center;
   gap: 1.75rem;
   max-width: var(--max-w-wide);
   margin: 0 auto;
