@@ -94,20 +94,6 @@ const ogImageUrl = `https://thebustos2026.com/og/${ogImage}.png`;
   <meta name="twitter:description" content="Join us as we celebrate our wedding. Holy Spirit Catholic Church & Los Encinos Event Center · McAllen, TX" />
   <meta name="twitter:image" content={ogImageUrl} />
 
-  <!-- TEMP: dev password gate — remove before launch -->
-  <script is:inline>
-    (function () {
-      if (localStorage.getItem('bustos_access') === 'true') return;
-      var pw = prompt('Enter password to continue:');
-      if (pw === 'dev2026') {
-        localStorage.setItem('bustos_access', 'true');
-      } else {
-        document.documentElement.innerHTML = '';
-        window.location.replace('about:blank');
-      }
-    })();
-  </script>
-
   <ViewTransitions />
   <slot name="head" />
 </head>
