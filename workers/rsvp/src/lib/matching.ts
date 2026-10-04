@@ -65,8 +65,32 @@ function firstInitialLastNameMatch(inputNormalized: string, candidateNormalized:
   return inputLast === candLast && inputFirst[0] === candFirst[0];
 }
 
+const SUFFIXES = new Set(['jr', 'sr', 'ii', 'iii', 'iv']);
+
+/** Splits a normalized name into given-name tokens and a last name, ignoring a trailing generational suffix. */
+function splitName(normalized: string): { given: string[]; last: string } | null {
+  const tokens = normalized.split(' ').filter(Boolean);
+  while (tokens.length > 1 && SUFFIXES.has(tokens[tokens.length - 1])) tokens.pop();
+  if (tokens.length < 2) return null;
+  return { given: tokens.slice(0, -1), last: tokens[tokens.length - 1] };
+}
+
+/**
+ * Same last name, and every given name typed appears among the candidate's
+ * given names. Lets "Conrado Alvarado" find "Conrado Alvarado Jr." and
+ * "Elliot Guajardo" find "John Elliot Guajardo".
+ */
+function givenNameMatch(inputNormalized: string, candidateNormalized: string): boolean {
+  const input = splitName(inputNormalized);
+  const cand = splitName(candidateNormalized);
+  if (!input || !cand) return false;
+  if (input.last !== cand.last) return false;
+  return input.given.every((g) => cand.given.includes(g));
+}
+
 /**
  * Match order: exact normalized match -> nickname expansion (retry exact) ->
+ * given-name match (suffix-insensitive, any given name + last name) ->
  * fuzzy (Levenshtein <=2 on the full normalized string, or first-initial +
  * exact last name). Stops at the first stage that produces any match.
  */
@@ -84,6 +108,9 @@ export function findMatches(
     const nicknameMatches = candidates.filter((c) => c.normalizedName === alt);
     if (nicknameMatches.length > 0) return nicknameMatches;
   }
+
+  const givenMatches = candidates.filter((c) => givenNameMatch(inputNormalized, c.normalizedName));
+  if (givenMatches.length > 0) return givenMatches;
 
   return candidates.filter(
     (c) =>

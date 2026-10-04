@@ -19,6 +19,10 @@ describe('normalizeName', () => {
     expect(normalizeName('  Jose   Garcia! ')).toBe('jose garcia');
     expect(normalizeName('José García')).toBe(normalizeName('Jose Garcia'));
   });
+
+  it('drops a leading honorific', () => {
+    expect(normalizeName('Dr. Kelsey Medina')).toBe('kelsey medina');
+  });
 });
 
 describe('findMatches', () => {
@@ -67,6 +71,39 @@ describe('findMatches', () => {
     const candidates = [candidate(1, 1, 'Jose Garcia'), candidate(2, 2, 'Maria Lopez')];
     const matches = findMatches(normalizeName('Jose Garcia'), candidates, nicknamePairs);
     expect(matches.every((m) => m.householdId === 1)).toBe(true);
+  });
+
+  it('strips an honorific from the input before matching against an unrelated namesake in another household', () => {
+    const candidates = [candidate(66, 1, 'Kelsey Medina'), candidate(70, 2, 'Diego Medina')];
+    const matches = findMatches(normalizeName('Dr. Kelsey Medina'), candidates, nicknamePairs);
+    const grouped = groupByHousehold(matches);
+    expect([...grouped.keys()]).toEqual([66]);
+  });
+
+  it('matches input without a generational suffix against a candidate invited with one', () => {
+    const candidates = [candidate(37, 1, 'Conrado Alvarado Jr.')];
+    const matches = findMatches(normalizeName('Conrado Alvarado'), candidates, nicknamePairs);
+    expect(matches).toHaveLength(1);
+    expect(matches[0].householdId).toBe(37);
+  });
+
+  it('matches a middle given name against a candidate invited under a different given name plus that middle name', () => {
+    const candidates = [candidate(26, 1, 'John Elliot Guajardo')];
+    const matches = findMatches(normalizeName('Elliot Guajardo'), candidates, nicknamePairs);
+    expect(matches).toHaveLength(1);
+    expect(matches[0].householdId).toBe(26);
+  });
+
+  it('keeps a generational suffix distinguishing two otherwise identical names in separate households', () => {
+    const candidates = [candidate(18, 1, 'Raul Sanchez'), candidate(100, 2, 'Raul Sanchez Jr.')];
+
+    const plainMatches = findMatches(normalizeName('Raul Sanchez'), candidates, nicknamePairs);
+    expect(plainMatches).toHaveLength(1);
+    expect(plainMatches[0].householdId).toBe(18);
+
+    const suffixedMatches = findMatches(normalizeName('Raul Sanchez Jr.'), candidates, nicknamePairs);
+    expect(suffixedMatches).toHaveLength(1);
+    expect(suffixedMatches[0].householdId).toBe(100);
   });
 });
 

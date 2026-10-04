@@ -29,7 +29,7 @@ export async function handleLookup(request: Request, env: Env, corsHeadersOut: R
   const allowed = await checkRateLimit(env.DB, ipHash);
   if (!allowed) {
     return jsonResponse(
-      { status: 'rate_limited', message: "You've tried this a lot in the last few minutes — please wait a bit and try again." },
+      { status: 'rate_limited', message: 'Too many attempts. Please wait a few minutes and try again.' },
       429,
       corsHeadersOut
     );

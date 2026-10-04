@@ -170,6 +170,8 @@ function initRsvpForm(root: HTMLElement) {
     if (findBtnEl) findBtnEl.disabled = !enabled;
     const submitBtnEl = root.querySelector<HTMLButtonElement>('#rsvpSubmitBtn');
     if (submitBtnEl && !submitting) submitBtnEl.disabled = !enabled;
+    const verifyHintEl = root.querySelector<HTMLElement>('#rsvpVerifyHint');
+    if (verifyHintEl) verifyHintEl.hidden = enabled;
   }
 
   // Turnstile tokens are single-use — Cloudflare invalidates a token the
@@ -259,7 +261,7 @@ function initRsvpForm(root: HTMLElement) {
       const data = await res.json();
 
       if (res.status === 429) {
-        throw new Error(data.message || 'Too many attempts — please wait a few minutes and try again.');
+        throw new Error(data.message || 'Too many attempts. Please wait a few minutes and try again.');
       }
       if (data.status === 'error') {
         throw new Error(data.message || `We could not reach the server. Please try again, or ${contactFallbackText()}`);
@@ -282,7 +284,7 @@ function initRsvpForm(root: HTMLElement) {
         showStep('confirm', `Found ${household.label}.`);
       } else if (data.status === 'ambiguous') {
         renderAmbiguousStep(data.guests as string[]);
-        showStep('ambiguous', 'More than one guest matches that name. Please select yours.');
+        showStep('ambiguous', 'More than one guest matches that name. Please enter your full name as shown.');
       } else {
         renderNotFoundStep();
         showStep('not-found', 'We could not find that name.');
@@ -314,13 +316,13 @@ function initRsvpForm(root: HTMLElement) {
     const section = steps.get('confirm');
     if (!section || !household) return;
     const alreadyRespondedBanner = household.already_responded
-      ? `<p class="rsvp-banner-note">You've already RSVP'd — submitting again updates your response.</p>`
+      ? `<p class="rsvp-banner-note">You have already replied. Submitting again will update your response.</p>`
       : '';
     section.innerHTML = `
       <h3 data-step-heading>${escapeHtml(household.label)}</h3>
       ${alreadyRespondedBanner}
       <ul class="rsvp-guest-preview">
-        ${household.guests.map((g) => `<li>${escapeHtml(g.name)}${g.has_plus_one ? ' <span class="rsvp-guest-preview-tag">+1</span>' : ''}</li>`).join('')}
+        ${household.guests.map((g) => `<li>${escapeHtml(g.name)}${g.has_plus_one ? ` <span class="rsvp-guest-preview-tag">${g.plus_one?.is_named && g.plus_one.name ? `+ ${escapeHtml(g.plus_one.name)}` : '+1'}</span>` : ''}</li>`).join('')}
       </ul>
       <button type="button" class="btn-primary" data-action="continue-to-respond">Continue</button>
     `;
@@ -337,8 +339,8 @@ function initRsvpForm(root: HTMLElement) {
     const section = steps.get('ambiguous');
     if (!section) return;
     section.innerHTML = `
-      <h3 data-step-heading>Which one is you?</h3>
-      <p class="rsvp-hint">A few guests on our list share that name. Enter your full name exactly as invited, including any middle name or initial, and try again.</p>
+      <h3 data-step-heading>Please confirm your name</h3>
+      <p class="rsvp-hint">More than one guest matches that name. Please enter your full name as it appears below and try again.</p>
       <ul class="rsvp-guest-preview">${guestNames.map((n) => `<li>${escapeHtml(n)}</li>`).join('')}</ul>
       <button type="button" class="btn-secondary" data-action="retry">Try again</button>
     `;
@@ -411,7 +413,7 @@ function initRsvpForm(root: HTMLElement) {
       .join('');
 
     const alreadyRespondedBanner = household.already_responded
-      ? `<p class="rsvp-banner-note">You've already RSVP'd — submitting again updates your response.</p>`
+      ? `<p class="rsvp-banner-note">You have already replied. Submitting again will update your response.</p>`
       : '';
 
     section.innerHTML = `
@@ -495,6 +497,7 @@ function initRsvpForm(root: HTMLElement) {
         }
         return;
       }
+      if (respondError) { respondError.hidden = true; respondError.textContent = ''; }
       renderReviewStep();
       showStep('review', 'Review your RSVP before submitting.');
     });
@@ -509,27 +512,28 @@ function initRsvpForm(root: HTMLElement) {
       const r = responses.get(g.id);
       const status = r?.attending ? 'Attending' : 'Not attending';
       const extras = r?.attending && r.songRequest ? `song: ${r.songRequest}` : '';
-      let line = `<li>${escapeHtml(g.name)} — ${status}${extras ? ` (${escapeHtml(extras)})` : ''}</li>`;
+      let line = `<li>${escapeHtml(g.name)}: ${status}${extras ? ` (${escapeHtml(extras)})` : ''}</li>`;
 
       if (g.has_plus_one && r) {
         const poAttending = effectivePlusOneAttending(r);
         const poName = r.plusOne?.name.trim();
         const poLabel = poName || 'Plus one';
         const poStatus = poAttending ? 'Attending' : 'Not attending';
-        line += `<li class="rsvp-guest-preview-sub">${escapeHtml(poLabel)} — ${poStatus} <span class="rsvp-guest-preview-subnote">(plus one for ${escapeHtml(g.name)})</span></li>`;
+        line += `<li class="rsvp-guest-preview-sub">${escapeHtml(poLabel)}: ${poStatus} <span class="rsvp-guest-preview-subnote">(plus one for ${escapeHtml(g.name)})</span></li>`;
       }
       return line;
     });
 
     const plusOneLines = plusOnes
       .filter((p) => p.name.trim())
-      .map((p) => `<li>${escapeHtml(p.name.trim())} — Attending</li>`);
+      .map((p) => `<li>${escapeHtml(p.name.trim())}: Attending</li>`);
 
     section.innerHTML = `
       <h3 data-step-heading>Review your RSVP</h3>
       <ul class="rsvp-guest-preview">${[...guestLines, ...plusOneLines].join('')}</ul>
       <button type="button" class="btn-secondary" data-action="back">Back</button>
       <button type="button" class="btn-primary" id="rsvpSubmitBtn">Submit RSVP</button>
+      <p class="rsvp-hint" id="rsvpVerifyHint" hidden>Verifying. If a checkbox appears below, please tick it to continue.</p>
       <p class="rsvp-error" id="rsvpSubmitError" hidden></p>
     `;
 
@@ -539,6 +543,8 @@ function initRsvpForm(root: HTMLElement) {
 
     const initialSubmitBtn = section.querySelector<HTMLButtonElement>('#rsvpSubmitBtn');
     if (initialSubmitBtn) initialSubmitBtn.disabled = !turnstileToken;
+    const verifyHint = section.querySelector<HTMLElement>('#rsvpVerifyHint');
+    if (verifyHint) verifyHint.hidden = !!turnstileToken;
     section.querySelector('#rsvpSubmitBtn')?.addEventListener('click', handleSubmit);
   }
 
@@ -553,7 +559,7 @@ function initRsvpForm(root: HTMLElement) {
     if (!turnstileToken) {
       if (submitError) {
         submitError.hidden = false;
-        submitError.textContent = "Still verifying you're human — please try again in a moment.";
+        submitError.textContent = 'Still verifying. Please try again in a moment.';
       }
       return;
     }
@@ -611,7 +617,7 @@ function initRsvpForm(root: HTMLElement) {
       }
 
       renderSuccessStep();
-      showStep('success', "You're all set — thank you!");
+      showStep('success', 'Your reply has been received. Thank you.');
     } catch (err) {
       if (submitError) {
         submitError.hidden = false;
@@ -678,19 +684,19 @@ function initRsvpForm(root: HTMLElement) {
     const hasDeclining = decliningNames.length > 0;
 
     if (hasAttending && hasDeclining) {
-      return `We can't wait to celebrate with ${escapeHtml(joinWithAnd(attendingNames))}. We'll miss ${escapeHtml(joinWithAnd(decliningNames))}.`;
+      return `We cannot wait to celebrate with ${escapeHtml(joinWithAnd(attendingNames))}. We will miss ${escapeHtml(joinWithAnd(decliningNames))}.`;
     }
 
     if (!hasAttending && hasDeclining) {
-      return `Thank you for letting us know, ${escapeHtml(joinWithAnd(decliningNames))}. You'll be missed.`;
+      return `Thank you for letting us know, ${escapeHtml(joinWithAnd(decliningNames))}. You will be missed.`;
     }
 
     if (hasAttending) {
       if (attendingNames.length === 1) {
-        return `We can't wait to celebrate with you, ${escapeHtml(attendingNames[0])}!`;
+        return `We cannot wait to celebrate with you, ${escapeHtml(attendingNames[0])}!`;
       }
       if (attendingNames.length === 2) {
-        return `We can't wait to celebrate with ${escapeHtml(joinWithAnd(attendingNames))}!`;
+        return `We cannot wait to celebrate with ${escapeHtml(joinWithAnd(attendingNames))}!`;
       }
       // 3+ attending: use "the [Surname] family" when every attendee is a
       // named household guest sharing one surname (plus-ones usually only
@@ -698,10 +704,10 @@ function initRsvpForm(root: HTMLElement) {
       // surname) — otherwise fall back to a plain comma list.
       const surnames = new Set(attendingNamed.map((g) => lastName(g.name)));
       if (allAttendingPlusOneNames.length === 0 && surnames.size === 1) {
-        return `We can't wait to celebrate with the ${escapeHtml([...surnames][0])} family!`;
+        return `We cannot wait to celebrate with the ${escapeHtml([...surnames][0])} family!`;
       }
       const displayNames = [...attendingNamed.map((g) => firstName(g.name)), ...allAttendingPlusOneNames];
-      return `We can't wait to celebrate with ${escapeHtml(joinWithAnd(displayNames))}!`;
+      return `We cannot wait to celebrate with ${escapeHtml(joinWithAnd(displayNames))}!`;
     }
 
     return "Thank you for letting us know.";
@@ -712,9 +718,9 @@ function initRsvpForm(root: HTMLElement) {
     if (!section || !household) return;
 
     section.innerHTML = `
-      <h3 data-step-heading>You're all set!</h3>
+      <h3 data-step-heading>Thank you</h3>
       <p>${buildSuccessMessage()}</p>
-      <p class="rsvp-recap">${formatEventDateTime()} — Holy Spirit Catholic Church, McAllen &amp; Los Encinos Event Center, Donna, TX.</p>
+      <p class="rsvp-recap">${formatEventDateTime()}<br />Holy Spirit Catholic Church, McAllen &amp; Los Encinos Event Center, Donna, TX</p>
     `;
   }
 

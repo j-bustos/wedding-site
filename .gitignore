@@ -14,3 +14,8 @@ workers/rsvp/.dev.vars
 workers/rsvp/.dev.vars.*
 !workers/rsvp/.dev.vars.example
 workers/rsvp/.wrangler/
+workers/rsvp/rsvp-debug.csv
+
+# Local backups (not part of the deployed site)
+backups/
+wedding-site-backup/
