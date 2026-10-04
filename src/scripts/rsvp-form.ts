@@ -134,9 +134,7 @@ function initRsvpForm(root: HTMLElement) {
   }
 
   function contactFallbackText(): string {
-    if (contactPhone) return `Text us at ${contactPhone} and we'll sort it out.`;
-    if (contactEmail) return `Email us at ${contactEmail} and we'll sort it out.`;
-    return "Reach out to us and we'll sort it out.";
+    return 'contact us and we will be glad to help.';
   }
 
   // ---- Turnstile: loaded lazily, only once the RSVP form nears the viewport ----
@@ -264,7 +262,7 @@ function initRsvpForm(root: HTMLElement) {
         throw new Error(data.message || 'Too many attempts — please wait a few minutes and try again.');
       }
       if (data.status === 'error') {
-        throw new Error(data.message || `We couldn't reach the server. Please try again, or ${contactFallbackText()}`);
+        throw new Error(data.message || `We could not reach the server. Please try again, or ${contactFallbackText()}`);
       }
 
       if (data.status === 'found') {
@@ -284,10 +282,10 @@ function initRsvpForm(root: HTMLElement) {
         showStep('confirm', `Found ${household.label}.`);
       } else if (data.status === 'ambiguous') {
         renderAmbiguousStep(data.guests as string[]);
-        showStep('ambiguous', 'A few guests share that name — please pick which one is you.');
+        showStep('ambiguous', 'More than one guest matches that name. Please select yours.');
       } else {
         renderNotFoundStep();
-        showStep('not-found', "We couldn't find that name.");
+        showStep('not-found', 'We could not find that name.');
       }
     } catch (err) {
       if (findError) {
@@ -295,7 +293,7 @@ function initRsvpForm(root: HTMLElement) {
         findError.textContent =
           err instanceof Error
             ? err.message
-            : `We couldn't reach the server. Please try again, or ${contactFallbackText()}`;
+            : `We could not reach the server. Please try again, or ${contactFallbackText()}`;
       }
     } finally {
       if (findBtn) findBtn.textContent = 'Find my invitation';
@@ -355,9 +353,9 @@ function initRsvpForm(root: HTMLElement) {
     const section = steps.get('not-found');
     if (!section) return;
     section.innerHTML = `
-      <h3 data-step-heading>We couldn't find that name</h3>
-      <p>Can't find your name? ${escapeHtml(contactFallbackText())}</p>
-      <button type="button" class="btn-secondary" data-action="retry">Try a different name</button>
+      <h3 data-step-heading>We could not find that name</h3>
+      <p class="rsvp-hint">Please try the name you go by, or the name of another guest in your party. If we still cannot find you, please ${contactEmail ? `<a href="mailto:${escapeHtml(contactEmail)}">contact us</a>` : 'contact us'} and we will be glad to help.</p>
+      <button type="button" class="btn-secondary" data-action="retry">Try another name</button>
     `;
     section.querySelector('[data-action="retry"]')?.addEventListener('click', () => {
       showStep('find');
@@ -620,7 +618,7 @@ function initRsvpForm(root: HTMLElement) {
         submitError.textContent =
           err instanceof Error
             ? `${err.message} Please try again, or ${contactFallbackText()}`
-            : `We couldn't reach the server. Please try again, or ${contactFallbackText()}`;
+            : `We could not reach the server. Please try again, or ${contactFallbackText()}`;
       }
       if (submitBtn) {
         submitBtn.disabled = false;

@@ -1237,6 +1237,13 @@
   color: rgba(240, 230, 200, 0.85);
   text-align: center;
 }
+
+.rsvp-form a,
+.rsvp-closed-card a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
 .rsvp-name-input,
 .rsvp-guest-fieldset input[type='text'] {
   width: 100%;
