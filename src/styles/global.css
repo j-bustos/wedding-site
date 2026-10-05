@@ -9,19 +9,20 @@
   scroll-margin-top: var(--nav-h);
 }
 
-/* Light sections — default white background (both classes identical) */
+/* Light sections — warm linen texture (both classes identical) */
 .section-cream,
 .section-white {
-  background-color: var(--white);
+  background-color: #e8e0d0;
+  background-image: var(--linen-texture);
+  background-repeat: repeat;
+  background-size: 300px 300px;
 }
 
-/* Dark sections — Juniper with radial depth + grain (reserved for at most
-   two sections per page, chosen for rhythm/contrast — see quote-section
-   and #rsvp) */
+/* Dark sections — deep green with radial depth + grain */
 .section-dark {
   background-color: var(--green-deep);
   background-image:
-    radial-gradient(ellipse at 50% 40%, rgba(255, 255, 255, 0.06) 0%, transparent 68%),
+    radial-gradient(ellipse at 50% 40%, #243f34 0%, transparent 68%),
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
   background-repeat: no-repeat, repeat;
   background-size: 100% 100%, 200px 200px;
@@ -138,6 +139,9 @@
   margin: 0 auto;
   line-height: 1.75;
 }
+.section-dark.welcome-strip .welcome-text {
+  color: var(--cream);
+}
 
 /* ════════════════════════════════════════
    QUOTE SECTION — polaroid centerpiece
@@ -145,7 +149,7 @@
 .quote-section {
   background-color: var(--green-deep);
   background-image:
-    radial-gradient(ellipse at 50% 50%, rgba(255, 255, 255, 0.06) 0%, transparent 70%),
+    radial-gradient(ellipse at 50% 50%, #243f34 0%, transparent 70%),
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
   background-repeat: no-repeat, repeat;
   background-size: 100% 100%, 200px 200px;
@@ -184,7 +188,7 @@
   transform: translateX(-50%) rotate(-2deg);
   width: 64px;
   height: 18px;
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(240, 230, 200, 0.5);
   z-index: 3;
 }
 
@@ -269,7 +273,7 @@
   flex-direction: column;
   background-color: #ffffff;
   background-image: none;
-  border: 1px solid var(--eucalyptus);
+  border: 1px solid rgba(30, 58, 47, 0.15);
   box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 8px rgba(0,0,0,0.04), 0 12px 24px rgba(0,0,0,0.06);
   border-radius: 8px;
   overflow: hidden;
@@ -414,7 +418,7 @@
 .wp-couple-rule {
   width: min(120px, 40%);
   height: 1px;
-  background: var(--eucalyptus);
+  background: rgba(30, 58, 47, 0.2);
   margin: 0.75rem auto;
 }
 
@@ -427,7 +431,7 @@
 }
 .wp-divider {
   width: 1px;
-  background: var(--eucalyptus);
+  background: rgba(30, 58, 47, 0.2);
   align-self: stretch;
   min-height: 200px;
 }
@@ -449,7 +453,7 @@
   color: #4a4035;
   opacity: 1;
   padding-bottom: 0.75rem;
-  border-bottom: 1px solid var(--eucalyptus);
+  border-bottom: 1px solid rgba(30, 58, 47, 0.12);
 }
 
 /* Role labels */
@@ -493,15 +497,13 @@
 .wp-rb-rule {
   width: 100%;
   height: 1px;
-  background: var(--eucalyptus);
+  background: rgba(30, 58, 47, 0.12);
   margin-bottom: 2rem;
 }
 
-/* Padrinos — light card, defined by border + shadow rather than a dark fill */
+/* Padrinos */
 .wp-padrinos {
-  background: var(--white);
-  border: 1px solid var(--eucalyptus);
-  box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 8px rgba(0,0,0,0.04), 0 12px 24px rgba(0,0,0,0.06);
+  background: #1e3a2f;
   border-radius: 6px;
   padding: 2.5rem 2rem;
   margin-top: 2.5rem;
@@ -511,7 +513,7 @@
   font-family: var(--font-serif);
   font-size: 2.7rem; /* 36px × 1.2 = 43px for Tangerine */
   font-weight: 700;
-  color: var(--green-deep);
+  color: #f0e6c8;
   margin-bottom: 0.5rem;
 }
 .wp-padrinos-ornament {
@@ -521,15 +523,15 @@
   gap: 0.75rem;
   margin: 0.5rem auto 1.5rem;
   width: min(160px, 55%);
-  color: var(--green-deep);
-  opacity: 0.45;
+  color: rgba(240, 230, 200, 0.3);
+  opacity: 1;
 }
 .wp-padrinos-ornament::before,
 .wp-padrinos-ornament::after {
   content: '';
   flex: 1;
   height: 1px;
-  background: var(--green-deep);
+  background: rgba(240, 230, 200, 0.3);
 }
 .wp-padrinos-ornament span { font-size: 0.5rem; }
 .wp-padrinos-grid {
@@ -540,6 +542,8 @@
   margin: 0 auto;
 }
 .wp-padrino { text-align: center; }
+.wp-padrinos .wp-name { color: #f0e6c8; }
+.wp-padrinos .wp-role { color: rgba(240, 230, 200, 0.6); }
 
 /* Mobile collapse below 400px */
 @media (max-width: 400px) {
@@ -660,8 +664,8 @@
   width: 1px;
   background: linear-gradient(to bottom,
     transparent,
-    var(--eucalyptus) 8%,
-    var(--eucalyptus) 92%,
+    rgba(30, 58, 47, 0.3) 8%,
+    rgba(30, 58, 47, 0.3) 92%,
     transparent);
 }
 .timeline-item {
@@ -677,7 +681,7 @@
   top: 0;
   left: 20px; right: 0;
   height: 1px;
-  background: rgba(197, 209, 197, 0.5);
+  background: rgba(30, 58, 47, 0.08);
 }
 .timeline-dot-wrap {
   position: absolute;
@@ -690,8 +694,8 @@
   width: 7px; height: 7px;
   border-radius: 50%;
   background: var(--green-deep);
-  border: 1.5px solid var(--white);
-  box-shadow: 0 0 0 3px rgba(58, 90, 82, 0.15);
+  border: 1.5px solid var(--linen);
+  box-shadow: 0 0 0 3px rgba(30, 58, 47, 0.15);
 }
 .timeline-time {
   font-family: var(--font-accent);
@@ -724,12 +728,40 @@
   line-height: 1.6;
   margin-top: 0.15rem;
 }
-.timeline-link {
-  color: var(--green-deep);
+
+/* ── Timeline dark-green section overrides ── */
+#timeline .section-ornament {
+  color: rgba(240, 230, 200, 0.3);
+  opacity: 1;
+}
+#timeline .section-ornament::before,
+#timeline .section-ornament::after {
+  background: rgba(240, 230, 200, 0.3);
+}
+#timeline .timeline::before {
+  background: linear-gradient(to bottom,
+    transparent,
+    rgba(240, 230, 200, 0.3) 8%,
+    rgba(240, 230, 200, 0.3) 92%,
+    transparent);
+}
+#timeline .timeline-item + .timeline-item::before {
+  background: rgba(240, 230, 200, 0.15);
+}
+#timeline .timeline-dot {
+  background: #f0e6c8;
+  border-color: rgba(240, 230, 200, 0.35);
+  box-shadow: 0 0 0 3px rgba(240, 230, 200, 0.12);
+}
+#timeline .timeline-time  { color: #f0e6c8; }
+#timeline .timeline-event { color: #f0e6c8; }
+#timeline .timeline-desc  { color: rgba(240, 230, 200, 0.75); }
+#timeline .timeline-link {
+  color: #f0e6c8;
   text-decoration: underline;
   text-underline-offset: 2px;
 }
-.timeline-link:hover { opacity: 0.7; }
+#timeline .timeline-link:hover { opacity: 0.8; }
 
 /* Travel note row between ceremony and reception — no time, dimmer dot */
 .timeline-item--note { padding: 0.6rem 0; }
@@ -759,44 +791,50 @@
 }
 
 .travel-card {
-  background-color: var(--white);
-  border: 1px solid var(--eucalyptus);
-  box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 8px rgba(0,0,0,0.04), 0 12px 24px rgba(0,0,0,0.06);
+  background-color: var(--green-deep);
+  background-image: radial-gradient(ellipse at 50% 30%, #243f34 0%, transparent 70%);
+  border: none;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.22), 0 12px 32px rgba(0, 0, 0, 0.14);
   border-radius: 8px;
   padding: 2rem 1.75rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  color: var(--ink);
+  color: var(--cream);
 }
 
 .travel-icon { margin-bottom: 1rem; flex-shrink: 0; }
+.travel-card .travel-icon [fill="#1e3a2f"] { fill: var(--cream); }
+.travel-card .travel-icon [stroke="#1e3a2f"] { stroke: var(--cream); }
 
 .travel-card-heading {
   font-family: var(--font-sans);
   font-size: 0.72rem;
   font-variant-caps: small-caps;
   letter-spacing: 0.22em;
-  color: var(--green-deep);
+  color: var(--cream);
+  opacity: 0.9;
   margin-bottom: 1rem;
 }
 
 .travel-card-text {
   font-family: var(--font-sans);
   font-size: 1.125rem;
-  color: var(--ink-soft);
+  color: var(--cream);
+  opacity: 0.88;
   line-height: 1.75;
 }
 
 .travel-weather {
   font-family: var(--font-sans);
   font-size: 1.05rem;
-  color: var(--ink-soft);
+  color: var(--cream);
+  opacity: 0.8;
   line-height: 1.7;
   margin-top: 1.25rem;
   padding-top: 1rem;
-  border-top: 1px solid var(--eucalyptus);
+  border-top: 1px solid rgba(240, 230, 200, 0.2);
 }
 
 .travel-airports {
@@ -826,22 +864,21 @@
   font-family: var(--font-accent);
   font-style: italic;
   font-size: 1.125rem;
-  color: var(--ink);
+  color: #f0e6c8;
   line-height: 1.35;
   margin: 0;
 }
 
 .travel-airport-name--alt {
-  opacity: 0.7;
+  opacity: 0.85;
 }
 
-/* Cinnamon accent — reserved for this single purpose (the "Recommended" badge) */
 .travel-recommended-badge {
   font-family: var(--font-sans);
   font-size: 0.6875rem;
-  color: #ffffff;
-  background: var(--cinnamon);
-  border: 1px solid var(--cinnamon);
+  color: #f0e6c8;
+  background: rgba(240, 230, 200, 0.15);
+  border: 1px solid rgba(240, 230, 200, 0.4);
   border-radius: 10px;
   padding: 2px 8px;
   white-space: nowrap;
@@ -862,14 +899,14 @@
 .travel-airport-details li {
   font-family: var(--font-sans);
   font-size: 1.05rem;
-  color: var(--ink-soft);
+  color: rgba(240, 230, 200, 0.75);
   line-height: 1.5;
   background: none;
   background-color: transparent;
 }
 
 .travel-detail--caution {
-  color: rgba(26, 26, 26, 0.55);
+  color: rgba(240, 230, 200, 0.5);
   background: none;
   background-color: transparent;
 }
@@ -877,7 +914,7 @@
 .travel-airport-divider {
   width: 100%;
   height: 1px;
-  background: var(--eucalyptus);
+  background: rgba(240, 230, 200, 0.2);
   margin: 1rem 0;
 }
 
@@ -934,7 +971,7 @@
 .schedule-map-pin:hover .schedule-map-dot,
 .schedule-map-pin:focus-visible .schedule-map-dot {
   r: 13;
-  fill: #23362f;
+  fill: #0f2019;
 }
 
 /* Mobile: the map was rendering at ~60% of viewport width with viewBox-unit
@@ -975,8 +1012,8 @@
   max-width: 640px;
   margin: 1.5rem auto 0;
   padding: 1.1rem 1.5rem;
-  background: rgba(197, 209, 197, 0.25);
-  border: 1px solid var(--eucalyptus);
+  background: rgba(30, 58, 47, 0.06);
+  border: 1px solid rgba(30, 58, 47, 0.15);
   border-radius: 8px;
   text-align: center;
 }
@@ -994,22 +1031,22 @@
   margin: 2.5rem auto 0;
 }
 .hotel-card {
-  background-color: var(--white);
-  border: 1px solid var(--eucalyptus);
+  background-color: var(--green-deep);
+  background-image: radial-gradient(ellipse at 50% 30%, #243f34 0%, transparent 70%);
   border-radius: 8px;
   padding: 1.75rem 1.5rem;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
   text-align: left;
-  color: var(--ink);
-  box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 8px rgba(0,0,0,0.04), 0 12px 24px rgba(0,0,0,0.06);
+  color: var(--cream);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.22), 0 12px 32px rgba(0, 0, 0, 0.14);
 }
 .hotel-card-name {
   font-family: var(--font-accent);
   font-style: italic;
   font-size: 1.15rem;
-  color: var(--green-deep);
+  color: var(--cream);
   line-height: 1.3;
 }
 .hotel-card-city {
@@ -1017,26 +1054,24 @@
   font-size: 0.6875rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--ink-soft);
-  opacity: 0.7;
+  color: rgba(240, 230, 200, 0.6);
 }
 .hotel-card-drive {
   font-family: var(--font-sans);
   font-size: 1.02rem;
-  color: var(--ink-soft);
+  color: rgba(240, 230, 200, 0.85);
   margin-top: 0.25rem;
 }
 .hotel-card-block-note {
   font-family: var(--font-sans);
   font-size: 0.975rem;
   font-style: italic;
-  color: var(--ink-soft);
-  opacity: 0.8;
+  color: rgba(240, 230, 200, 0.65);
 }
 .hotel-card-phone {
   font-family: var(--font-sans);
   font-size: 1.02rem;
-  color: var(--ink-soft);
+  color: rgba(240, 230, 200, 0.85);
 }
 .hotel-card-phone a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
 .hotel-card-link {
@@ -1045,8 +1080,8 @@
   font-family: var(--font-sans);
   font-size: 0.8125rem;
   letter-spacing: 0.06em;
-  color: var(--white);
-  background: var(--green-deep);
+  color: var(--green-deep);
+  background: var(--cream);
   border-radius: 20px;
   padding: 8px 20px;
   align-self: flex-start;
@@ -1055,7 +1090,7 @@
   align-items: center;
   transition: filter 0.2s var(--ease);
 }
-.hotel-card-link:hover { filter: brightness(1.2); }
+.hotel-card-link:hover { filter: brightness(0.95); }
 
 /* ════════════════════════════════════════
    GALLERY + LIGHTBOX
@@ -1064,7 +1099,7 @@
   font-family: var(--font-accent);
   font-style: italic;
   font-size: 1.125rem; /* 18px */
-  color: #3a5a52;
+  color: #1e3a2f;
   text-align: center;
   margin-bottom: 1.5rem; /* 24px */
 }
@@ -1078,7 +1113,7 @@
   aspect-ratio: 1/1;
   overflow: hidden;
   cursor: pointer;
-  background: rgba(197, 209, 197, 0.25);
+  background: rgba(30, 58, 47, 0.04);
   position: relative;
 }
 .gallery-item img {
@@ -1179,7 +1214,7 @@
   background: transparent;
   color: var(--cream);
 }
-.btn-secondary:hover { background: rgba(255, 255, 255, 0.1); }
+.btn-secondary:hover { background: rgba(240, 230, 200, 0.1); }
 
 .rsvp-form {
   max-width: 560px;
@@ -1199,7 +1234,7 @@
   font-family: var(--font-accent);
   font-style: italic;
   font-size: 1rem;
-  color: rgba(255, 255, 255, 0.85);
+  color: rgba(240, 230, 200, 0.85);
   text-align: center;
 }
 .rsvp-form [hidden] { display: none !important; }
@@ -1218,7 +1253,7 @@
   padding: 0.75rem 1rem;
   font-family: var(--font-sans);
   font-size: 1rem;
-  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  border: 1.5px solid rgba(240, 230, 200, 0.4);
   border-radius: 4px;
   background: rgba(255, 255, 255, 0.95);
   color: var(--ink);
@@ -1232,8 +1267,8 @@
   font-size: 0.9rem;
 }
 .rsvp-banner-note {
-  background: rgba(255, 255, 255, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(240, 230, 200, 0.12);
+  border: 1px solid rgba(240, 230, 200, 0.3);
   border-radius: 4px;
   padding: 0.75rem 1rem;
   font-family: var(--font-sans);
@@ -1251,11 +1286,11 @@
   font-style: italic;
   font-size: 1.05rem;
   color: var(--cream);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  border-bottom: 1px solid rgba(240, 230, 200, 0.15);
   padding-bottom: 0.4rem;
 }
 .rsvp-guest-fieldset {
-  border: 1px solid rgba(255, 255, 255, 0.25);
+  border: 1px solid rgba(240, 230, 200, 0.25);
   border-radius: 6px;
   padding: 1rem 1.25rem;
   display: flex;
@@ -1291,7 +1326,7 @@
   gap: 0.35rem;
   font-family: var(--font-sans);
   font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(240, 230, 200, 0.8);
 }
 
 /* Attributed plus-one: an indented child row directly under its sponsor's
@@ -1301,7 +1336,7 @@
 .rsvp-plusone-row {
   margin: -0.3rem 0 0 1.75rem;
   padding-left: 1rem;
-  border-left: 2px solid rgba(255, 255, 255, 0.22);
+  border-left: 2px solid rgba(240, 230, 200, 0.22);
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -1311,7 +1346,7 @@
   font-family: var(--font-accent);
   font-style: italic;
   font-size: 0.95rem;
-  color: rgba(255, 255, 255, 0.85);
+  color: rgba(240, 230, 200, 0.85);
 }
 .rsvp-plusone-row [data-plusone-controls] {
   display: flex;
@@ -1330,20 +1365,20 @@
   gap: 0.35rem;
   font-family: var(--font-sans);
   font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(240, 230, 200, 0.8);
 }
 .rsvp-plusone-declined-note {
   font-family: var(--font-sans);
   font-size: 0.85rem;
   font-style: italic;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(240, 230, 200, 0.6);
 }
 
 .rsvp-guest-preview-tag {
   font-family: var(--font-sans);
   font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: rgba(240, 230, 200, 0.6);
+  border: 1px solid rgba(240, 230, 200, 0.3);
   border-radius: 3px;
   padding: 0.05rem 0.3rem;
   vertical-align: middle;
@@ -1363,7 +1398,7 @@
 .rsvp-recap {
   font-family: var(--font-sans);
   font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(240, 230, 200, 0.8);
   text-align: center;
 }
 .rsvp-closed-card {
@@ -1381,7 +1416,7 @@
 }
 
 /* ════════════════════════════════════════
-   FAQ
+   FAQ — dark card treatment
    ════════════════════════════════════════ */
 .faq-list {
   display: flex;
@@ -1395,9 +1430,9 @@
   grid-template-columns: 2rem 1fr;
   gap: 0 0.75rem;
   padding: 1.75rem 0;
-  border-bottom: 1px solid var(--eucalyptus);
+  border-bottom: 1px solid rgba(30, 58, 47, 0.1);
 }
-.faq-item:first-child { border-top: 1px solid var(--eucalyptus); }
+.faq-item:first-child { border-top: 1px solid rgba(30, 58, 47, 0.1); }
 .faq-number {
   font-family: var(--font-accent);
   font-style: italic;
@@ -1421,6 +1456,35 @@
   font-weight: 300;
   color: var(--ink-soft);
   line-height: 1.8;
+}
+
+/* Dark section FAQ overrides — card style */
+.section-dark .faq-list {
+  gap: 0.65rem;
+  display: flex;
+  flex-direction: column;
+}
+.section-dark .faq-item {
+  background: #243d31;
+  border: 1px solid #2e5040 !important;
+  border-radius: 3px;
+  padding: 1.5rem 1.75rem;
+  margin-bottom: 0;
+}
+.section-dark .faq-item:first-child { border-top: 1px solid #2e5040 !important; }
+.section-dark .faq-number {
+  color: rgba(240, 230, 200, 0.85);
+  opacity: 1;
+}
+.section-dark .faq-q {
+  color: var(--cream);
+  font-variant-caps: small-caps;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+.section-dark .faq-a {
+  color: rgba(240, 230, 200, 0.82);
+  font-weight: 300;
 }
 
 /* ════════════════════════════════════════
@@ -1772,9 +1836,17 @@
   cursor: pointer;
   text-align: left;
   align-items: center;
-  border-bottom: 1px solid var(--eucalyptus);
+  border-bottom: 1px solid rgba(30, 58, 47, 0.1);
 }
-.faq-item:first-child .faq-trigger { border-top: 1px solid var(--eucalyptus); }
+.faq-item:first-child .faq-trigger { border-top: 1px solid rgba(30, 58, 47, 0.1); }
+.section-dark .faq-trigger {
+  background: #243d31;
+  border: 1px solid #2e5040 !important;
+  border-radius: 3px;
+  padding: 1.5rem 1.75rem;
+  margin-bottom: 0.5rem;
+}
+.section-dark .faq-item:first-child .faq-trigger { border-top: 1px solid #2e5040 !important; }
 .faq-q {
   font-family: var(--font-accent);
   font-style: italic;
@@ -1784,9 +1856,15 @@
   line-height: 1.45;
   margin: 0;
 }
+.section-dark .faq-q {
+  color: var(--cream);
+  font-variant-caps: small-caps;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
 .faq-icon {
   font-size: 1.4rem;
-  color: var(--green-deep);
+  color: var(--cream);
   opacity: 0.7;
   line-height: 1;
   flex-shrink: 0;
@@ -1801,6 +1879,7 @@
   transition: max-height 0.35s ease, padding 0.35s ease;
   padding: 0 0 0 calc(2rem + 0.75rem);
 }
+.section-dark .faq-answer { padding-left: calc(2rem + 0.75rem + 1.75rem); }
 .faq-answer.open { max-height: 300px; }
 .faq-answer p { padding-bottom: 1.25rem; }
 .faq-a {
@@ -1810,9 +1889,13 @@
   color: var(--ink-soft);
   line-height: 1.8;
 }
+.section-dark .faq-a { color: rgba(240, 230, 200, 0.82); }
+.section-dark .faq-a a { color: rgba(240, 230, 200, 0.9); text-decoration: underline; text-underline-offset: 3px; }
+.section-dark .faq-a a:hover { color: var(--cream); }
 
 /* Restore .faq-item as container — must be block so trigger spans full width */
 .faq-item { display: block !important; border: none !important; padding: 0 !important; background: none !important; }
+.section-dark .faq-item { display: block !important; background: none !important; border: none !important; margin-bottom: 0 !important; }
 
 /* ════════════════════════════════════════
    RSVP DAYS REMAINING
@@ -1821,7 +1904,7 @@
   font-family: var(--font-accent);
   font-style: italic;
   font-size: 2rem; /* 32px */
-  color: #3a5a52;
+  color: #1e3a2f;
   margin-top: 0.25rem;
   margin-bottom: 2rem;
   opacity: 1;
