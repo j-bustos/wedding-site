@@ -7,6 +7,8 @@ export interface ExportRow {
   dietaryNotes: string | null;
   songRequest: string | null;
   plusOneOfName: string | null;
+  householdId: number;
+  sheetGuestId: string | null;
 }
 
 function csvEscape(value: string): string {
@@ -25,6 +27,9 @@ export function buildExportCsv(rows: ExportRow[]): string {
     'dietary_notes',
     'song_request',
     'plus_one_of',
+    // Appended only: the sheet reads A:H by position.
+    'household_id',
+    'sheet_guest_id',
   ];
   const lines = [header.join(',')];
 
@@ -39,6 +44,8 @@ export function buildExportCsv(rows: ExportRow[]): string {
         csvEscape(r.dietaryNotes ?? ''),
         csvEscape(r.songRequest ?? ''),
         csvEscape(r.plusOneOfName ? `Plus one of: ${r.plusOneOfName}` : ''),
+        `HH${String(r.householdId).padStart(3, '0')}`,
+        csvEscape(r.sheetGuestId ?? ''),
       ].join(',')
     );
   }

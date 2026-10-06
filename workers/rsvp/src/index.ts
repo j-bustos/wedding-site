@@ -4,6 +4,7 @@ import { jsonError } from './lib/errors';
 import { handleLookup } from './routes/lookup';
 import { handleRsvp } from './routes/rsvp';
 import { handleAdminExport } from './routes/admin-export';
+import { handleSyncGuests } from './routes/sync-guests';
 
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
@@ -24,6 +25,9 @@ export default {
       }
       if (url.pathname === '/api/admin/export' && request.method === 'GET') {
         return await handleAdminExport(request, env);
+      }
+      if (url.pathname === '/api/admin/sync-guests' && request.method === 'POST') {
+        return await handleSyncGuests(request, env);
       }
       return jsonError(404, 'Not found', 'NOT_FOUND', cors);
     } catch (err) {

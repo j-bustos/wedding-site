@@ -12,9 +12,12 @@ function timingSafeEqual(a: string, b: string): boolean {
   return result === 0;
 }
 
+export function isAdmin(request: Request, env: Env): boolean {
+  return timingSafeEqual(request.headers.get('Authorization') ?? '', `Bearer ${env.ADMIN_TOKEN}`);
+}
+
 export async function handleAdminExport(request: Request, env: Env): Promise<Response> {
-  const auth = request.headers.get('Authorization') ?? '';
-  if (!timingSafeEqual(auth, `Bearer ${env.ADMIN_TOKEN}`)) {
+  if (!isAdmin(request, env)) {
     return jsonError(401, 'Unauthorized');
   }
 
@@ -22,7 +25,7 @@ export async function handleAdminExport(request: Request, env: Env): Promise<Res
     `SELECT h.label as householdLabel, h.max_party as maxParty, g.full_name as fullName,
             g.is_named_guest as isNamedGuest, g.attending as attending,
             g.dietary_notes as dietaryNotes, g.song_request as songRequest,
-            sponsor.full_name as plusOneOfName
+            sponsor.full_name as plusOneOfName, h.id as householdId, g.sheet_guest_id as sheetGuestId
      FROM guests g
      JOIN households h ON h.id = g.household_id
      LEFT JOIN guests sponsor ON sponsor.id = g.plus_one_of
