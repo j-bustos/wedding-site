@@ -393,7 +393,7 @@ function initRsvpForm(root: HTMLElement) {
           <label class="rsvp-radio"><input type="radio" name="plusone-attend-${g.id}" value="yes" /> Joyfully accepts</label>
           <label class="rsvp-radio"><input type="radio" name="plusone-attend-${g.id}" value="no" /> Regretfully declines</label>
           <div class="rsvp-plusone-extra" data-plusone-extra="${g.id}" hidden>
-            <label>Plus one's full name<input type="text" data-plusone-fullname="${g.id}" value="${escapeHtml(prefillName)}" /></label>
+            <label>Guest's full name (required)<input type="text" data-plusone-fullname="${g.id}" value="${escapeHtml(prefillName)}" required autocomplete="off" /></label>
           </div>
         </div>
         <p class="rsvp-plusone-declined-note" data-plusone-declined-note="${g.id}" hidden>Plus one seat also declined.</p>
@@ -462,6 +462,7 @@ function initRsvpForm(root: HTMLElement) {
         const guestId = Number(input.dataset.plusoneFullname);
         const state = responses.get(guestId);
         if (state?.plusOne) state.plusOne.name = input.value;
+        input.removeAttribute('aria-invalid');
       });
     });
 
@@ -494,6 +495,25 @@ function initRsvpForm(root: HTMLElement) {
         if (respondError) {
           respondError.hidden = false;
           respondError.textContent = 'Please respond for everyone in your party before continuing.';
+        }
+        return;
+      }
+      const missingName = [...responses.entries()].find(([, r]) =>
+        r.attending === true &&
+        r.plusOne &&
+        r.plusOne.attending === true &&
+        !/\S+\s+\S+/.test((r.plusOne.name ?? '').trim())
+      );
+      if (missingName) {
+        const [guestId] = missingName;
+        if (respondError) {
+          respondError.hidden = false;
+          respondError.textContent = "Please enter your guest's first and last name.";
+        }
+        const nameInput = section.querySelector<HTMLInputElement>(`input[data-plusone-fullname="${guestId}"]`);
+        if (nameInput) {
+          nameInput.setAttribute('aria-invalid', 'true');
+          nameInput.focus();
         }
         return;
       }

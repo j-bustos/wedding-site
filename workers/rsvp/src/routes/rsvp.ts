@@ -36,10 +36,10 @@ export async function handleRsvp(request: Request, env: Env, corsHeadersOut: Rec
   }
 
   const guestRows = await env.DB.prepare(
-    'SELECT id, is_named_guest as isNamedGuest, plus_one_of as plusOneOf FROM guests WHERE household_id = ?'
+    'SELECT id, is_named_guest as isNamedGuest, plus_one_of as plusOneOf, full_name as fullName FROM guests WHERE household_id = ?'
   )
     .bind(householdId)
-    .all<{ id: number; isNamedGuest: number; plusOneOf: number | null }>();
+    .all<{ id: number; isNamedGuest: number; plusOneOf: number | null; fullName: string }>();
   const householdGuests = guestRows.results ?? [];
   const validGuestIds = new Set(householdGuests.map((g) => g.id));
   // Only a top-level guest (not itself someone's plus-one) can be the subject
@@ -56,6 +56,18 @@ export async function handleRsvp(request: Request, env: Env, corsHeadersOut: Rec
     }
     if (!topLevelGuestIds.has(r.guestId)) {
       return jsonError(400, `Guest ${r.guestId} is a plus-one seat and cannot be responded to directly`, 'INVALID_GUEST', corsHeadersOut);
+    }
+  }
+
+  for (const r of responses) {
+    const seat = plusOneSeatBySponsor.get(r.guestId);
+    if (!seat || !r.plusOne) continue;
+    const effectiveAttending = r.attending && r.plusOne.attending === true;
+    if (!effectiveAttending) continue;
+    const submitted = (r.plusOne.name ?? '').trim();
+    const existing = ((seat as { fullName?: string }).fullName ?? '').trim();
+    if (!submitted && !existing) {
+      return jsonError(400, "Please enter your guest's full name.", 'PLUS_ONE_NAME_REQUIRED', corsHeadersOut);
     }
   }
 

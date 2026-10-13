@@ -1238,6 +1238,7 @@
   text-align: center;
 }
 .rsvp-form [hidden] { display: none !important; }
+.rsvp-form input[aria-invalid="true"] { border-color: #e8a0a0; box-shadow: 0 0 0 2px rgba(232, 160, 160, 0.35); }
 .rsvp-step [data-step-heading]:focus { outline: none; }
 
 .rsvp-form a,
